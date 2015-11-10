@@ -1,7 +1,7 @@
 {
   "name": "EmptyCoffeeCups/LibraryInformationSystem",
   "description": "A sad library management system",
-  "minimum-stability": "highly_unstable",
+  "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
@@ -28,5 +28,8 @@
       "name": "Tyler Williamson",
       "email": "tww0003@auburn.edu"
     }
-  ]
+  ],
+  "require": {
+    "aura/sql": "2.4.3"
+  }
 }
