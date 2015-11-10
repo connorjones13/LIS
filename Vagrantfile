@@ -44,7 +44,7 @@ Vagrant.configure(2) do |config|
   # Example for VirtualBox:
   #
   config.vm.provider "virtualbox" do |v|
-      v.name = "SitePoint Test Vagrant"
+      v.name = "LIS"
       v.customize ["modifyvm", :id, "--memory", "1024"]
   end
 
@@ -88,7 +88,7 @@ Vagrant.configure(2) do |config|
     sudo apt-get install php5 -y > /dev/null 2>&1
 
     echo "Installing PHP extensions"
-    sudo apt-get install curl php5-curl php5-gd php5-mcrypt php5-mysql -y > /dev/null 2>&1
+    sudo apt-get install curl php5-curl php5-gd php5-mcrypt php5-mysql php5-xdebug -y > /dev/null 2>&1
     
     echo "Enabling Apache Modules"
     sudo a2enmod rewrite > /dev/null 2>&1
