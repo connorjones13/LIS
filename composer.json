@@ -1,0 +1,32 @@
+{
+  "name": "EmptyCoffeeCups/LibraryInformationSystem",
+  "description": "A sad library management system",
+  "minimum-stability": "highly_unstable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "John Desverreaux",
+      "email": "jnd0011@auburn.due"
+    },
+    {
+      "name": "Bethany Edgar",
+      "email": "bke0002@auburn.due"
+    },
+    {
+      "name": "Steven Imle",
+      "email": "ski0005@auburn.edu"
+    },
+    {
+      "name": "Connor Jones",
+      "email": "caj0006@auburn.edu"
+    },
+    {
+      "name": "Hudson LaFayette",
+      "email": "hll0003@auburn.edu"
+    },
+    {
+      "name": "Tyler Williamson",
+      "email": "tww0003@auburn.edu"
+    }
+  ]
+}

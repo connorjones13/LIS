@@ -1,2 +1,4 @@
+composer.phar
 .vagrant
-.idea
+.idea/workspace.xml
+.idea/tasks.xml
