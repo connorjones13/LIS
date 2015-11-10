@@ -62,33 +62,51 @@ Vagrant.configure(2) do |config|
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get update
+    sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile
+  
+    export DEBIAN_FRONTEND=noninteractive
+    export LANGUAGE=en_US.UTF-8
+    export LANG=en_US.UTF-8
+    export LC_ALL=en_US.UTF-8
+    locale-gen en_US.UTF-8
+    dpkg-reconfigure locales
+  
+    
+    echo "Running Updates"
+    sudo apt-get update > /dev/null 2>&1
     
     echo "Installing Git"
-    sudo apt-get install git -y > /dev/null
+    sudo apt-get install git -y > /dev/null 2>&1
     
     echo "Updating PHP repository"
-    sudo apt-get install python-software-properties build-essential -y > /dev/null
-    sudo add-apt-repository ppa:ondrej/php5-5.6 -y > /dev/null
-    sudo apt-get update > /dev/null
-    
+    sudo add-apt-repository ppa:ondrej/php5-5.6 -y > /dev/null 2>&1
+    sudo apt-get update > /dev/null 2>&1
+    sudo apt-get install python-software-properties -y > /dev/null 2>&1
+    sudo apt-get update > /dev/null 2>&1
+
     echo "Installing PHP"
-    sudo apt-get install php5-common php5-dev php5-cli php5-fpm -y > /dev/null
-    
+    sudo apt-get install php5 -y > /dev/null 2>&1
+
     echo "Installing PHP extensions"
-    sudo apt-get install curl php5-curl php5-gd php5-mcrypt php5-mysql -y > /dev/null
+    sudo apt-get install curl php5-curl php5-gd php5-mcrypt php5-mysql -y > /dev/null 2>&1
     
-    sudo apt-get install debconf-utils -y > /dev/null
+    echo "Enabling Apache Modules"
+    sudo a2enmod rewrite > /dev/null 2>&1
     
-    sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password needmorecoffee"
-    sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password needmorecoffee"
+    echo "Installing MySQL"
+    sudo apt-get install debconf-utils -y > /dev/null 2>&1
+
+    sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password needmorecoffee" > /dev/null 2>&1
+    sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password needmorecoffee" > /dev/null 2>&1
+   
+    sudo apt-get install mysql-server -y > /dev/null 2>&1
     
-    sudo apt-get install mysql-server -y > /dev/null
+    echo "Enabling Site"
+    sudo rm -rf /etc/apache2/sites-enabled/* > /dev/null 2>&1
+    sudo cp /var/www/lis.conf /etc/apache2/sites-available/lis.conf > /dev/null 2>&1
     
-    sudo rm -rf /etc/apache2/sites-enabled/*
-    sudo cp /var/www/lis.conf /etc/apache2/sites-available/lis.conf
-    
-    sudo a2ensite lis
-    sudo service apache2 restart
+    sudo a2ensite lis > /dev/null 2>&1
+    sudo service apache2 restart > /dev/null 2>&1
+    echo "Finished"
   SHELL
 end
