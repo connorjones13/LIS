@@ -24,7 +24,8 @@
 
 		protected $id, $active, $privilege_level, $name_first, $name_last, $email, $phone, $date_signed_up, $gender,
 				$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city, $address_state,
-				$address_country_code, $password_hash, $reset_token, $reset_token_expiry;
+				$address_country_code, $password_hash, $reset_token, $reset_token_expiry, $library_card,
+				$library_card_date_issued;
 
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
@@ -39,6 +40,16 @@
 
 			if (!empty($data_arr))
 				$this->parse($data_arr);
+		}
+
+		/**
+		 * Keeps unwanted data out of var_dump functions.
+		 */
+		function __debugInfo() {
+			$user_object = get_object_vars($this);
+			unset($user_object["_pdo"]);
+
+			return $user_object;
 		}
 
 		/** @return int */
@@ -151,6 +162,16 @@
 			return $this->address_country_code;
 		}
 
+		/** @return string */
+		public function getLibraryCardNumber() {
+			return $this->library_card;
+		}
+
+		/** @return DateTime */
+		public function getLibraryCardDateIssued() {
+			return Utility::getDateTimeFromMySQLDate($this->library_card_date_issued);
+		}
+
 		/**
 		 * This function returns the user's full address.
 		 * @param bool|true $html - Is text for html or text-area/email?
@@ -214,7 +235,7 @@
 
 
 			$args = array("val" => $value, "pl" => $privilege_level);
-			return $_pdo->fetchOne("SELECT * FROM `user` WHERE `$column` = :val AND privilege_level >= :pl", $args);
+			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val AND privilege_level >= :pl", $args);
 		}
 
 		/**

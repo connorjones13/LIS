@@ -31,6 +31,6 @@
 		 * @return DateTime
 		 */
 		public static function getDateTimeFromMySQLDate($date_string) {
-			return DateTime::createFromFormat("Y-m-d H:i:s", $date_string);
+			return DateTime::createFromFormat("Y-m-d", $date_string);
 		}
 	}

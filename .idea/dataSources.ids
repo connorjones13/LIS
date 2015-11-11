@@ -22,457 +22,554 @@
       <view id="13" parent="1" name="ri_book"/>
       <view id="14" parent="1" name="ri_dvd"/>
       <view id="15" parent="1" name="ri_magazine"/>
-      <column id="16" parent="2" name="id">
+      <view id="16" parent="1" name="user_view"/>
+      <column id="17" parent="2" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="17" parent="2" name="name_full">
+      <column id="18" parent="2" name="name_full">
         <comment>google only provides this</comment>
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <key id="18" parent="2" name="PRIMARY">
+      <key id="19" parent="2" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="19" parent="3" name="id">
+      <column id="20" parent="3" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="20" parent="3" name="subject">
+      <column id="21" parent="3" name="subject">
         <data-type>varchar(255)</data-type>
       </column>
-      <index id="21" parent="3" name="catagory_subject">
+      <index id="22" parent="3" name="catagory_subject">
         <columns>subject</columns>
         <unique>1</unique>
       </index>
-      <key id="22" parent="3" name="catagory_subject">
+      <key id="23" parent="3" name="catagory_subject">
         <columns>subject</columns>
         <underlying-index>catagory_subject</underlying-index>
       </key>
-      <key id="23" parent="3" name="PRIMARY">
+      <key id="24" parent="3" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="24" parent="4" name="id">
+      <column id="25" parent="4" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="25" parent="4" name="checkout_employee">
+      <column id="26" parent="4" name="checkout_employee">
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="26" parent="4" name="checkin_employee">
+      <column id="27" parent="4" name="checkin_employee">
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="27" parent="4" name="user">
+      <column id="28" parent="4" name="user">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="28" parent="4" name="rental_item">
+      <column id="29" parent="4" name="rental_item">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="29" parent="4" name="date_due">
+      <column id="30" parent="4" name="date_due">
         <mandatory>1</mandatory>
         <data-type>date</data-type>
       </column>
-      <column id="30" parent="4" name="date_returned">
+      <column id="31" parent="4" name="date_returned">
         <data-type>date</data-type>
       </column>
-      <key id="31" parent="4" name="PRIMARY">
+      <key id="32" parent="4" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="32" parent="4" name="checkout_rental_item_id">
+      <foreign-key id="33" parent="4" name="checkout_rental_item_id">
         <columns>rental_item</columns>
         <ref-key>rental_item.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="33" parent="4" name="checkout_user_id">
+      <foreign-key id="34" parent="4" name="checkout_user_id">
         <columns>user</columns>
         <ref-key>user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="34" parent="5" name="id">
+      <column id="35" parent="5" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="35" parent="5" name="checkout">
+      <column id="36" parent="5" name="checkout">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="36" parent="5" name="fee">
+      <column id="37" parent="5" name="fee">
         <mandatory>1</mandatory>
         <data-type>decimal(12,2)</data-type>
       </column>
-      <column id="37" parent="5" name="date_paid">
+      <column id="38" parent="5" name="date_paid">
         <data-type>timestamp</data-type>
       </column>
-      <key id="38" parent="5" name="PRIMARY">
+      <key id="39" parent="5" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="39" parent="5" name="late_fee_ibfk_1">
+      <foreign-key id="40" parent="5" name="late_fee_ibfk_1">
         <columns>checkout</columns>
         <ref-key>checkout.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="40" parent="6" name="id">
+      <column id="41" parent="6" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="41" parent="6" name="user">
+      <column id="42" parent="6" name="user">
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="42" parent="6" name="number">
+      <column id="43" parent="6" name="number">
         <mandatory>1</mandatory>
         <data-type>varchar(16)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="43" parent="6" name="date_issued">
+      <column id="44" parent="6" name="date_issued">
         <mandatory>1</mandatory>
         <data-type>date</data-type>
       </column>
-      <column id="44" parent="6" name="status">
+      <column id="45" parent="6" name="status">
         <comment>active = 1 | inactive = 0 | lost = 2</comment>
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
         <default-expression>&apos;1&apos;</default-expression>
       </column>
-      <index id="45" parent="6" name="card_number">
+      <index id="46" parent="6" name="card_number">
         <columns>number</columns>
         <unique>1</unique>
       </index>
-      <key id="46" parent="6" name="card_number">
+      <key id="47" parent="6" name="card_number">
         <columns>number</columns>
         <underlying-index>card_number</underlying-index>
       </key>
-      <key id="47" parent="6" name="PRIMARY">
+      <key id="48" parent="6" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="48" parent="6" name="library_card_user">
+      <foreign-key id="49" parent="6" name="library_card_user">
         <columns>user</columns>
         <ref-key>user.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="49" parent="7" name="id">
+      <column id="50" parent="7" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="50" parent="7" name="book">
+      <column id="51" parent="7" name="book">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="51" parent="7" name="author">
+      <column id="52" parent="7" name="author">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <key id="52" parent="7" name="PRIMARY">
+      <key id="53" parent="7" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="53" parent="7" name="rel_author_id">
+      <foreign-key id="54" parent="7" name="rel_author_id">
         <columns>author</columns>
         <ref-key>author.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <foreign-key id="54" parent="7" name="rel_rental_item_book_author_ibfk_1">
+      <foreign-key id="55" parent="7" name="rel_rental_item_book_author_ibfk_1">
         <columns>book</columns>
         <ref-key>rental_item_book.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="55" parent="8" name="id">
+      <column id="56" parent="8" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="56" parent="8" name="title">
+      <column id="57" parent="8" name="title">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="57" parent="8" name="summary">
+      <column id="58" parent="8" name="summary">
         <mandatory>1</mandatory>
         <data-type>varchar(6143)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="58" parent="8" name="category">
+      <column id="59" parent="8" name="category">
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="59" parent="8" name="date_published">
+      <column id="60" parent="8" name="date_published">
         <data-type>date</data-type>
       </column>
-      <column id="60" parent="8" name="date_added">
+      <column id="61" parent="8" name="date_added">
         <data-type>date</data-type>
       </column>
-      <column id="61" parent="8" name="status">
+      <column id="62" parent="8" name="status">
         <comment>0 = nominal | 1 = lost | 2 = damaged</comment>
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <key id="62" parent="8" name="PRIMARY">
+      <key id="63" parent="8" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="63" parent="9" name="id">
+      <column id="64" parent="9" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="64" parent="9" name="google_id">
+      <column id="65" parent="9" name="google_id">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="65" parent="9" name="isbn10">
+      <column id="66" parent="9" name="isbn10">
         <data-type>varchar(13)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="66" parent="9" name="isbn13">
+      <column id="67" parent="9" name="isbn13">
         <data-type>varchar(13)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <key id="67" parent="9" name="PRIMARY">
+      <key id="68" parent="9" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="68" parent="9" name="rental_item_book_ibfk_2">
+      <foreign-key id="69" parent="9" name="rental_item_book_ibfk_2">
         <columns>id</columns>
         <ref-key>rental_item.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="69" parent="10" name="id">
+      <column id="70" parent="10" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="70" parent="10" name="director">
+      <column id="71" parent="10" name="director">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <key id="71" parent="10" name="PRIMARY">
+      <key id="72" parent="10" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="72" parent="10" name="rental_item_dvd_ibfk_2">
+      <foreign-key id="73" parent="10" name="rental_item_dvd_ibfk_2">
         <columns>id</columns>
         <ref-key>rental_item.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="73" parent="11" name="id">
+      <column id="74" parent="11" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="74" parent="11" name="publication">
+      <column id="75" parent="11" name="publication">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="75" parent="11" name="issue_number">
+      <column id="76" parent="11" name="issue_number">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
       </column>
-      <key id="76" parent="11" name="PRIMARY">
+      <key id="77" parent="11" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <foreign-key id="77" parent="11" name="rental_item_magazine_ibfk_2">
+      <foreign-key id="78" parent="11" name="rental_item_magazine_ibfk_2">
         <columns>id</columns>
         <ref-key>rental_item.PRIMARY</ref-key>
         <cascade-update-rule>restrict</cascade-update-rule>
         <cascade-delete-rule>restrict</cascade-delete-rule>
       </foreign-key>
-      <column id="78" parent="12" name="id">
+      <column id="79" parent="12" name="id">
         <mandatory>1</mandatory>
         <data-type>int(11) unsigned</data-type>
       </column>
-      <column id="79" parent="12" name="active">
+      <column id="80" parent="12" name="active">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
         <default-expression>&apos;1&apos;</default-expression>
       </column>
-      <column id="80" parent="12" name="privilege_level">
+      <column id="81" parent="12" name="privilege_level">
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="81" parent="12" name="name_first">
+      <column id="82" parent="12" name="name_first">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="82" parent="12" name="name_last">
+      <column id="83" parent="12" name="name_last">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="83" parent="12" name="email">
+      <column id="84" parent="12" name="email">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="84" parent="12" name="phone">
+      <column id="85" parent="12" name="phone">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="85" parent="12" name="date_signed_up">
+      <column id="86" parent="12" name="date_signed_up">
         <mandatory>1</mandatory>
         <data-type>date</data-type>
       </column>
-      <column id="86" parent="12" name="gender">
+      <column id="87" parent="12" name="gender">
         <comment>0 = not_specified | 1 = male | 2 = female | 3 = other |</comment>
         <mandatory>1</mandatory>
         <data-type>tinyint(1)</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="87" parent="12" name="date_of_birth">
+      <column id="88" parent="12" name="date_of_birth">
         <comment>0 = not_specified</comment>
         <data-type>date</data-type>
       </column>
-      <column id="88" parent="12" name="address_line_1">
+      <column id="89" parent="12" name="address_line_1">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="89" parent="12" name="address_line_2">
+      <column id="90" parent="12" name="address_line_2">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="90" parent="12" name="address_zip">
+      <column id="91" parent="12" name="address_zip">
         <mandatory>1</mandatory>
         <data-type>varchar(10)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="91" parent="12" name="address_city">
+      <column id="92" parent="12" name="address_city">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="92" parent="12" name="address_state">
+      <column id="93" parent="12" name="address_state">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="93" parent="12" name="address_country_code">
+      <column id="94" parent="12" name="address_country_code">
         <mandatory>1</mandatory>
         <data-type>varchar(3)</data-type>
         <default-expression>&apos;USA&apos;</default-expression>
       </column>
-      <column id="94" parent="12" name="password_hash">
+      <column id="95" parent="12" name="password_hash">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="95" parent="12" name="reset_token">
+      <column id="96" parent="12" name="reset_token">
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="96" parent="12" name="reset_token_expiry">
+      <column id="97" parent="12" name="reset_token_expiry">
         <data-type>int(11) unsigned</data-type>
       </column>
-      <key id="97" parent="12" name="PRIMARY">
+      <key id="98" parent="12" name="PRIMARY">
         <columns>id</columns>
         <primary>1</primary>
       </key>
-      <column id="98" parent="13" name="id">
+      <column id="99" parent="13" name="id">
         <data-type>int(11) unsigned</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="99" parent="13" name="title">
+      <column id="100" parent="13" name="title">
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="100" parent="13" name="summary">
+      <column id="101" parent="13" name="summary">
         <data-type>varchar(6143)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="101" parent="13" name="category">
+      <column id="102" parent="13" name="category">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="102" parent="13" name="date_published">
+      <column id="103" parent="13" name="date_published">
         <data-type>date</data-type>
       </column>
-      <column id="103" parent="13" name="date_added">
+      <column id="104" parent="13" name="date_added">
         <data-type>date</data-type>
       </column>
-      <column id="104" parent="13" name="google_id">
+      <column id="105" parent="13" name="google_id">
         <mandatory>1</mandatory>
         <data-type>varchar(20)</data-type>
       </column>
-      <column id="105" parent="13" name="authors">
+      <column id="106" parent="13" name="authors">
         <data-type>text</data-type>
       </column>
-      <column id="106" parent="13" name="isbn10">
+      <column id="107" parent="13" name="isbn10">
         <data-type>varchar(13)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="107" parent="13" name="isbn13">
+      <column id="108" parent="13" name="isbn13">
         <data-type>varchar(13)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="108" parent="14" name="id">
+      <column id="109" parent="14" name="id">
         <data-type>int(11) unsigned</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="109" parent="14" name="title">
+      <column id="110" parent="14" name="title">
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="110" parent="14" name="summary">
+      <column id="111" parent="14" name="summary">
         <data-type>varchar(6143)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="111" parent="14" name="category">
+      <column id="112" parent="14" name="category">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="112" parent="14" name="date_published">
+      <column id="113" parent="14" name="date_published">
         <data-type>date</data-type>
       </column>
-      <column id="113" parent="14" name="date_added">
+      <column id="114" parent="14" name="date_added">
         <data-type>date</data-type>
       </column>
-      <column id="114" parent="14" name="director">
+      <column id="115" parent="14" name="director">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="115" parent="15" name="id">
+      <column id="116" parent="15" name="id">
         <data-type>int(11) unsigned</data-type>
         <default-expression>&apos;0&apos;</default-expression>
       </column>
-      <column id="116" parent="15" name="title">
+      <column id="117" parent="15" name="title">
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="117" parent="15" name="summary">
+      <column id="118" parent="15" name="summary">
         <data-type>varchar(6143)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="118" parent="15" name="category">
+      <column id="119" parent="15" name="category">
         <data-type>varchar(255)</data-type>
       </column>
-      <column id="119" parent="15" name="date_published">
+      <column id="120" parent="15" name="date_published">
         <data-type>date</data-type>
       </column>
-      <column id="120" parent="15" name="date_added">
+      <column id="121" parent="15" name="date_added">
         <data-type>date</data-type>
       </column>
-      <column id="121" parent="15" name="publication">
+      <column id="122" parent="15" name="publication">
         <mandatory>1</mandatory>
         <data-type>varchar(255)</data-type>
         <default-expression>&apos;&apos;</default-expression>
       </column>
-      <column id="122" parent="15" name="issue_number">
+      <column id="123" parent="15" name="issue_number">
         <mandatory>1</mandatory>
         <data-type>int(11)</data-type>
+      </column>
+      <column id="124" parent="16" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11) unsigned</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="125" parent="16" name="active">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+        <default-expression>&apos;1&apos;</default-expression>
+      </column>
+      <column id="126" parent="16" name="privilege_level">
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="127" parent="16" name="name_first">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="128" parent="16" name="name_last">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="129" parent="16" name="email">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="130" parent="16" name="phone">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="131" parent="16" name="date_signed_up">
+        <mandatory>1</mandatory>
+        <data-type>date</data-type>
+      </column>
+      <column id="132" parent="16" name="gender">
+        <comment>0 = not_specified | 1 = male | 2 = female | 3 = other |</comment>
+        <mandatory>1</mandatory>
+        <data-type>tinyint(1)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="133" parent="16" name="date_of_birth">
+        <comment>0 = not_specified</comment>
+        <data-type>date</data-type>
+      </column>
+      <column id="134" parent="16" name="address_line_1">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="135" parent="16" name="address_line_2">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="136" parent="16" name="address_zip">
+        <mandatory>1</mandatory>
+        <data-type>varchar(10)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="137" parent="16" name="address_city">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="138" parent="16" name="address_state">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+      </column>
+      <column id="139" parent="16" name="address_country_code">
+        <mandatory>1</mandatory>
+        <data-type>varchar(3)</data-type>
+        <default-expression>&apos;USA&apos;</default-expression>
+      </column>
+      <column id="140" parent="16" name="password_hash">
+        <mandatory>1</mandatory>
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="141" parent="16" name="reset_token">
+        <data-type>varchar(255)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="142" parent="16" name="reset_token_expiry">
+        <data-type>int(11) unsigned</data-type>
+      </column>
+      <column id="143" parent="16" name="library_card">
+        <data-type>varchar(16)</data-type>
+        <default-expression>&apos;&apos;</default-expression>
+      </column>
+      <column id="144" parent="16" name="library_card_date_issued">
+        <data-type>date</data-type>
       </column>
     </database-model>
   </data-source>

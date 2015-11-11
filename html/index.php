@@ -15,7 +15,14 @@
 			<?php require_once(__DIR__ . "/../includes/html_templates/header.php"); ?>
 		</header>
 		<div class="content">
-			<?php var_dump(\LIS\User\User::find($pdo, 1)); ?>
+			<?php var_dump($user = \LIS\User\User::find($pdo, 1)); ?>
+			<?= $user->getId(); ?><br><br>
+			<?= $user->getNameFull(); ?><br><br>
+			<?= $user->getAddressFull(); ?><br><br>
+			<?= $user->getDateOfBirth()->format("m-d-Y"); ?><br><br>
+			<?= $user->getDateSignedUp()->format("m-d-Y"); ?><br><br>
+			<?= $user->getLibraryCardNumber(); ?><br><br>
+			<?= $user->getLibraryCardDateIssued()->format("m-d-Y"); ?><br><br>
 		</div>
 		<footer>
 			<?php require_once(__DIR__ . "/../includes/html_templates/footer.php"); ?>
