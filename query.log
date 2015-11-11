@@ -1,0 +1,26 @@
+-- 11-11-2015
+
+CREATE OR REPLACE VIEW `user_view`
+AS SELECT
+   `u`.`id` AS `id`,
+   `u`.`active` AS `active`,
+   `u`.`privilege_level` AS `privilege_level`,
+   `u`.`name_first` AS `name_first`,
+   `u`.`name_last` AS `name_last`,
+   `u`.`email` AS `email`,
+   `u`.`phone` AS `phone`,
+   `u`.`date_signed_up` AS `date_signed_up`,
+   `u`.`gender` AS `gender`,
+   `u`.`date_of_birth` AS `date_of_birth`,
+   `u`.`address_line_1` AS `address_line_1`,
+   `u`.`address_line_2` AS `address_line_2`,
+   `u`.`address_zip` AS `address_zip`,
+   `u`.`address_city` AS `address_city`,
+   `u`.`address_state` AS `address_state`,
+   `u`.`address_country_code` AS `address_country_code`,
+   `u`.`password_hash` AS `password_hash`,
+   `u`.`reset_token` AS `reset_token`,
+   `u`.`reset_token_expiry` AS `reset_token_expiry`,
+   `lc`.`number` AS `library_card`,
+   `lc`.`date_issued` AS `library_card_date_issued`
+FROM (`user` `u` left join `library_card` `lc` on(((`u`.`id` = `lc`.`user`) and (`lc`.`status` = 1))));
