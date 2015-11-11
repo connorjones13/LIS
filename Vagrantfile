@@ -100,6 +100,8 @@ Vagrant.configure(2) do |config|
     sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password needmorecoffee" > /dev/null 2>&1
    
     sudo apt-get install mysql-server -y > /dev/null 2>&1
+
+    sudo mysql -u root -pneedmorecoffee COMP3700_ECC < initial_database.sql > /dev/null 2>&1
     
     echo "Enabling Site"
     sudo rm -rf /etc/apache2/sites-enabled/* > /dev/null 2>&1
