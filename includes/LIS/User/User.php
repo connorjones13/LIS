@@ -280,7 +280,7 @@
 			$tag = $html ? "<br>" : "\n";
 
 			return $this->address_line_1
-				. $tag . $this->address_line_2
+				. ($this->address_line_2 ? $tag . $this->address_line_2 : "")
 				. $tag . $this->address_city . " " . $this->address_state . ", " . $this->address_zip
 				. ($country ? $tag . $this->address_country_code : "");
 		}

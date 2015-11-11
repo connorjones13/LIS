@@ -21,13 +21,22 @@
 						DateTime::createFromFormat("m-d-Y", "11-10-1993"), "2 Test Rd", "", "12345", "Testin", "TE",
 						"USA", "test_hash");
 			?>
+			ID:<br>
 			<?= $user->getId(); ?><br><br>
+			Full Name:<br>
 			<?= $user->getNameFull(); ?><br><br>
+			Email:<br>
+			<?= $user->getEmail(); ?><br><br>
+			Address:<br>
 			<?= $user->getAddressFull(); ?><br><br>
+			DOB:<br>
 			<?= $user->getDateOfBirth()->format("m-d-Y"); ?><br><br>
+			DSU:<br>
 			<?= $user->getDateSignedUp()->format("m-d-Y"); ?><br><br>
+			Library Card:<br>
 			<?= $user->getLibraryCardNumber(); ?><br><br>
-			<?= $user->getLibraryCardDateIssued()->format("m-d-Y"); ?><br><br>
+			Card Issue Date:<br>
+			<?= $user->getLibraryCardDateIssued()->format("m-d-Y"); ?>
 		</div>
 		<footer>
 			<?php require_once(__DIR__ . "/../includes/html_templates/footer.php"); ?>
