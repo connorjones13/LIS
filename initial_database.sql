@@ -405,7 +405,7 @@ AS SELECT
    `u`.`reset_token_expiry` AS `reset_token_expiry`,
    `lc`.`number` AS `library_card`,
    `lc`.`date_issued` AS `library_card_date_issued`
-FROM (`user` `u` left join `library_card` `lc` on((`u`.`id` = `lc`.`user`)));
+FROM (`user` `u` left join `library_card` `lc` on(((`u`.`id` = `lc`.`user`) and (`lc`.`status` = 1))));
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

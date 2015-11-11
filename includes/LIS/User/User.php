@@ -115,14 +115,43 @@
 				"ads" => $address_state, "acc" => $address_country_code, "pa" => $password_hash,
 				"pl" => $privilege_level
 			];
+			$query = "INSERT INTO user (name_first, name_last, email, phone, date_signed_up, gender, date_of_birth,
+					  address_line_1, address_line_2, address_zip, address_city, address_state, address_country_code,
+					  password_hash, privilege_level) VALUES (:nf, :nl, :em, :ph, :dsu, :ge, :dob, :al1, :al2, :az,
+					  :ac, :ads, :acc, :pa, :pl)";
 
-			$_pdo->perform("INSERT INTO user (name_first, name_last, email, phone, date_signed_up, gender,
-									date_of_birth, address_line_1, address_line_2, address_zip, address_city,
-									address_state, address_country_code, password_hash, privilege_level)
-									VALUES (:nf, :nl, :em, :ph, :dsu, :ge, :dob, :al1, :al2, :az, :ac, :ads, :acc,
-									:pa, :pl)", $arguments);
+			$_pdo->perform($query, $arguments);
 
 			$id = $_pdo->lastInsertId();
+
+			self::issueLibraryCard($_pdo, $id);
+
+			return $id;
+		}
+
+		/**
+		 * Non-static version of issueLibraryCard which will deactivate the old card
+		 * and then assign a new card to the user using the static function.
+		 */
+		public function issueNewLibraryCard() {
+			if ($this->library_card)
+				$this->_pdo->perform("UPDATE library_card SET status = 0");
+
+			self::issueLibraryCard($this->_pdo, $this->id);
+
+			$args = ["id" => $this->id];
+			$query = "SELECT number as library_card, date_issued as library_card_date_issued
+					  FROM library_card WHERE user = :uid";
+			$this->parse($this->_pdo->fetchOne($query, $args));
+		}
+
+		/**
+		 * This function was created to allow for use in the static
+		 * @param PDO_MySQL $_pdo
+		 * @param $id
+		 */
+		public static function issueLibraryCard(PDO_MySQL $_pdo, $id) {
+			$time = Utility::getDateTimeForMySQLDate();
 
 			/**
 			 * This while loop will usually only ever only run once. It will perform
@@ -133,21 +162,15 @@
 			 */
 			while (true) {
 				try {
-					$arguments = [
-						"uid" => $id,
-						"ti" => $time,
-						"lc" => Utility::getRandomString(16, true, false, true)
-					];
-					$_pdo->perform("INSERT INTO library_card (user, date_issued, number) VALUES (:uid, :ti, :lc)",
-							$arguments);
+					$arguments = ["uid" => $id, "ti" => $time, "lc" => Utility::getRandomString(16, true, false, true)];
+					$query = "INSERT INTO library_card (user, date_issued, number) VALUES (:uid, :ti, :lc)";
+					$_pdo->perform($query, $arguments);
 					break;
 				} catch (\PDOException $er) {
 					if (!PDO_MySQL::isDuplicateKeyError($er))
 						throw $er;
 				}
 			};
-
-			return $id;
 		}
 
 		/** @return int */

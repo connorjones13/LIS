@@ -15,11 +15,16 @@
 			<?php require_once(__DIR__ . "/../includes/html_templates/header.php"); ?>
 		</header>
 		<div class="content">
-			<?php $user = new \LIS\User\Admin($pdo); ?>
 			<?php
-				$user->create("Testy", "McTesterson", "test@example.com", "1235554321", 1,
-						DateTime::createFromFormat("m-d-Y", "11-10-1993"), "2 Test Rd", "", "12345", "Testin", "TE",
-						"USA", "test_hash");
+				$user = \LIS\User\User::find($pdo, 1);
+
+				//Example code to create a new Admin
+				if (false) {
+					$user = new \LIS\User\Admin($pdo);
+					$user->create("Testy", "McTesterson", "test@example.com", "1235554321", 1,
+							DateTime::createFromFormat("m-d-Y", "11-10-1993"), "2 Test Rd", "", "12345", "Testin",
+							"TE", "USA", "test_hash");
+				}
 			?>
 			ID:<br>
 			<?= $user->getId(); ?><br><br>
