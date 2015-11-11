@@ -61,10 +61,93 @@
 			return $user_object;
 		}
 
-		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1,
-		                       $address_line_2, $address_zip, $address_city, $address_state, $address_country_code,
-		                       $password_hash, $privilege_level = self::PRIVILEGE_USER) {
-			//TODO
+		/**
+		 * @param string $name_first
+		 * @param string $name_last
+		 * @param string $email
+		 * @param string $phone
+		 * @param int $gender
+		 * @param DateTime $date_of_birth
+		 * @param string $address_line_1
+		 * @param string $address_line_2
+		 * @param string $address_zip
+		 * @param string $address_city
+		 * @param string $address_state
+		 * @param string $address_country_code
+		 * @param string $password_hash
+		 */
+		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
+		                       $address_line_1, $address_line_2, $address_zip, $address_city,
+		                       $address_state, $address_country_code, $password_hash) {
+			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
+					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
+					$address_state, $address_country_code, $password_hash, self::PRIVILEGE_USER);
+
+			$this->parse(self::findRowBy($this->_pdo, "id", $id, self::PRIVILEGE_USER));
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param string $name_first
+		 * @param string $name_last
+		 * @param string $email
+		 * @param string $phone
+		 * @param int $gender
+		 * @param DateTime $date_of_birth
+		 * @param string $address_line_1
+		 * @param string $address_line_2
+		 * @param string $address_zip
+		 * @param string $address_city
+		 * @param string $address_state
+		 * @param string $address_country_code
+		 * @param string $password_hash
+		 * @param int $privilege_level
+		 * @return int
+		 */
+		protected static function createNew(PDO_MySQL $_pdo, $name_first, $name_last, $email, $phone, $gender,
+		                                  $date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
+		                                  $address_state, $address_country_code, $password_hash, $privilege_level) {
+			$time = Utility::getDateTimeForMySQLDate();
+
+			$arguments = ["nf" => $name_first, "nl" => $name_last, "em" => $email, "ph" => $phone, "dsu" => $time,
+				"ge" => $gender, "dob" => Utility::getDateTimeForMySQLDate($date_of_birth),
+				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
+				"ads" => $address_state, "acc" => $address_country_code, "pa" => $password_hash,
+				"pl" => $privilege_level
+			];
+
+			$_pdo->perform("INSERT INTO user (name_first, name_last, email, phone, date_signed_up, gender,
+									date_of_birth, address_line_1, address_line_2, address_zip, address_city,
+									address_state, address_country_code, password_hash, privilege_level)
+									VALUES (:nf, :nl, :em, :ph, :dsu, :ge, :dob, :al1, :al2, :az, :ac, :ads, :acc,
+									:pa, :pl)", $arguments);
+
+			$id = $_pdo->lastInsertId();
+
+			/**
+			 * This while loop will usually only ever only run once. It will perform
+			 * the query until it finds an unused card number and then break. I have
+			 * surrounded it in a try catch to check the error code of the Exception
+			 * which was thrown. If it is any other kind of exception, it will throw
+			 * the exception again without catching it so we may see the error.
+			 */
+			while (true) {
+				try {
+					$arguments = [
+						"uid" => $id,
+						"ti" => $time,
+						"lc" => Utility::getRandomString(16, true, false, true)
+					];
+					$_pdo->perform("INSERT INTO library_card (user, date_issued, number) VALUES (:uid, :ti, :lc)",
+							$arguments);
+					break;
+				} catch (\PDOException $er) {
+					if (!PDO_MySQL::isDuplicateKeyError($er))
+						throw $er;
+				}
+			};
+
+			return $id;
 		}
 
 		/** @return int */
@@ -226,7 +309,7 @@
 		 * the value of the row in the database.
 		 * @param array $data_arr
 		 */
-		private function parse(array $data_arr) {
+		protected function parse(array $data_arr) {
 			foreach ($data_arr as $key => $value) {
 				$this->{$key} = $value;
 			}
@@ -249,7 +332,7 @@
 				throw new \InvalidArgumentException("Invalid privilege level.");
 
 
-			$args = array("val" => $value, "pl" => $privilege_level);
+			$args = ["val" => $value, "pl" => $privilege_level];
 			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val AND privilege_level >= :pl", $args);
 		}
 

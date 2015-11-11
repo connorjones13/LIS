@@ -11,12 +11,14 @@
 	use LIS\Database\PDO_MySQL;
 
 	class Employee extends User {
-		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1,
-		                       $address_line_2, $address_zip, $address_city, $address_state, $address_country_code,
-		                       $password_hash, $privilege_level = self::PRIVILEGE_EMPLOYEE) {
-			parent::create($name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1,
-					$address_line_2, $address_zip, $address_city, $address_state, $address_country_code,
-					$password_hash, $privilege_level);
+		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
+		                       $address_line_1, $address_line_2, $address_zip, $address_city,
+		                       $address_state, $address_country_code, $password_hash) {
+			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
+					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
+					$address_state, $address_country_code, $password_hash, self::PRIVILEGE_EMPLOYEE);
+
+			$this->parse(self::findRowBy($this->_pdo, "id", $id, self::PRIVILEGE_EMPLOYEE));
 		}
 
 		public static function find(PDO_MySQL $_pdo, $id) {

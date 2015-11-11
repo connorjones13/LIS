@@ -9,8 +9,11 @@
 	namespace LIS\Database;
 
 	use Aura\Sql\ExtendedPdo;
+	use PDOException;
 
 	class PDO_MySQL extends ExtendedPdo {
+		const DUPLICATE_KEY_ERROR = 1062;
+
 		protected static $HOSTNAME = "127.0.0.1";
 		protected static $DATABASE = "COMP3700_ECC";
 		protected static $USERNAME = "comp3700_ecc";
@@ -19,5 +22,9 @@
 		public function __construct(array $options = array(), array $attributes = array()) {
 			$dsn = "mysql:host=" . self::$HOSTNAME . ";dbname=" . self::$DATABASE;
 			parent::__construct($dsn, self::$USERNAME, self::$PASSWORD, $options, $attributes);
+		}
+
+		public static function isDuplicateKeyError(PDOException $er) {
+			return $er->errorInfo[1] === self::DUPLICATE_KEY_ERROR;
 		}
 	}
