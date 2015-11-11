@@ -5,3 +5,4 @@ composer.lock
 .idea/tasks.xml
 vagrant.xml
 /vendor
+jsLibraryMappings.xml
