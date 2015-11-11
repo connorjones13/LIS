@@ -28,10 +28,11 @@
 				$library_card_date_issued;
 
 		/* @var PDO_MySQL $_pdo */
-		protected $_pdo;
+		protected $_pdo; //Since this is an internal dependency, I mark it with an _
 
 		/**
-		 * User constructor.
+		 * User constructor. Takes a database object as a dependency and an optional
+		 * array parameter to initialize the User object with data.
 		 * @param PDO_MySQL $_pdo
 		 * @param array $data_arr
 		 */
@@ -43,13 +44,27 @@
 		}
 
 		/**
-		 * Keeps unwanted data out of var_dump functions.
+		 * The above constructor and the below debugInfo methods are special methods
+		 * called Magic Methods. All PHPs magic methods start with __ and are run as
+		 * specific events occur.
+		 */
+
+		/**
+		 * Keeps unwanted data out of var_dump functions. Here we are hiding the pdo
+		 * variable from printing out since it contains our connection data and also
+		 * happens to be unnecessary for debugging the User object.
 		 */
 		function __debugInfo() {
 			$user_object = get_object_vars($this);
 			unset($user_object["_pdo"]);
 
 			return $user_object;
+		}
+
+		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1,
+		                       $address_line_2, $address_zip, $address_city, $address_state, $address_country_code,
+		                       $password_hash, $privilege_level = self::PRIVILEGE_USER) {
+			//TODO
 		}
 
 		/** @return int */
