@@ -1,8 +1,9 @@
 composer.phar
 composer.lock
 .vagrant
-.idea/workspace.xml
-.idea/tasks.xml
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/dictionaries
 vagrant.xml
 /vendor
 jsLibraryMappings.xml
