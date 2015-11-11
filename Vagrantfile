@@ -75,9 +75,6 @@ Vagrant.configure(2) do |config|
     echo "Running Updates"
     sudo apt-get update > /dev/null 2>&1
     
-    echo "Installing Git"
-    sudo apt-get install git -y > /dev/null 2>&1
-    
     echo "Updating PHP repository"
     sudo add-apt-repository ppa:ondrej/php5-5.6 -y > /dev/null 2>&1
     sudo apt-get update > /dev/null 2>&1
@@ -101,7 +98,9 @@ Vagrant.configure(2) do |config|
    
     sudo apt-get install mysql-server -y > /dev/null 2>&1
 
-    sudo mysql -u root -pneedmorecoffee COMP3700_ECC < initial_database.sql > /dev/null 2>&1
+    echo "Setting Up Database"
+	sudo /var/www/db_setup.sh > /dev/null 2>&1
+    sudo mysql -u root -pneedmorecoffee COMP3700_ECC < /var/www/initial_database.sql > /dev/null 2>&1
     
     echo "Enabling Site"
     sudo rm -rf /etc/apache2/sites-enabled/* > /dev/null 2>&1
