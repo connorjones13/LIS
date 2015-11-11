@@ -1,4 +1,4 @@
-<title>LIS App - <?= $page_title; ?></title>
+<title><?= $page_title; ?> | LIS App</title>
 
 <!-- Meta Tags -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
