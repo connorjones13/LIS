@@ -8,6 +8,7 @@
 
 	namespace LIS\User;
 
+	use DateInterval;
 	use LIS\Database\PDO_MySQL;
 	use DateTime;
 	use LIS\Utility;
@@ -36,7 +37,7 @@
 		 * @param PDO_MySQL $_pdo
 		 * @param array $data_arr
 		 */
-		public function __construct(PDO_MySQL $_pdo, array $data_arr = array()) {
+		public function __construct(PDO_MySQL $_pdo, array $data_arr = []) {
 			$this->_pdo = $_pdo;
 
 			if (!empty($data_arr))
@@ -112,13 +113,13 @@
 			$arguments = ["nf" => $name_first, "nl" => $name_last, "em" => $email, "ph" => $phone, "dsu" => $time,
 				"ge" => $gender, "dob" => Utility::getDateTimeForMySQLDate($date_of_birth),
 				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
-				"ads" => $address_state, "acc" => $address_country_code, "pa" => $password_hash,
+				"ast" => $address_state, "acc" => $address_country_code, "pa" => $password_hash,
 				"pl" => $privilege_level
 			];
 			$query = "INSERT INTO user (name_first, name_last, email, phone, date_signed_up, gender, date_of_birth,
 					  address_line_1, address_line_2, address_zip, address_city, address_state, address_country_code,
 					  password_hash, privilege_level) VALUES (:nf, :nl, :em, :ph, :dsu, :ge, :dob, :al1, :al2, :az,
-					  :ac, :ads, :acc, :pa, :pl)";
+					  :ac, :ast, :acc, :pa, :pl)";
 
 			$_pdo->perform($query, $arguments);
 
@@ -300,6 +301,11 @@
 		 * @return string
 		 */
 		public function getAddressFull($html = true, $country = false) {
+			/**
+			 * This is a ternary statement. In case you have not seen one, it simply
+			 * shortens an if statement to (if_statement ? true_value : false_value)
+			 * so that you can set a value based on a boolean.
+			 */
 			$tag = $html ? "<br>" : "\n";
 
 			return $this->address_line_1
@@ -321,6 +327,83 @@
 		/** @return DateTime */
 		public function getResetTokenExpiry() {
 			return Utility::getDateTimeFromMySQLDate($this->reset_token_expiry);
+		}
+
+		public function setActive() {
+			$this->active = 1;
+			$this->_pdo->perform("UPDATE user SET active = 1 WHERE id = :id", ["id" => $this->id]);
+		}
+
+		public function setInactive() {
+			$this->active = 0;
+			$this->_pdo->perform("UPDATE user SET active = 0 WHERE id = :id", ["id" => $this->id]);
+		}
+
+		/**
+		 * @param string $email
+		 */
+		public function updateEmail($email) {
+			$this->email = $email;
+
+			$args = ["em" => $this->email, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET email = :em WHERE id = :id", $args);
+		}
+
+		/**
+		 * @param string $phone
+		 */
+		public function updatePhoneNumber($phone) {
+			$this->phone = Utility::cleanPhoneString($phone);
+
+			$args = ["ph" => $this->phone, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET phone = :ph WHERE id = :id", $args);
+		}
+
+		/**
+		 * @param mixed $address_line_1
+		 * @param $address_line_2
+		 * @param $address_zip
+		 * @param $address_city
+		 * @param $address_state
+		 * @param $address_country_code
+		 */
+		public function updateAddress($address_line_1, $address_line_2, $address_zip, $address_city,
+		                                $address_state, $address_country_code) {
+			$this->address_line_1 = $address_line_1;
+			$this->address_line_2 = $address_line_2;
+			$this->address_zip = $address_zip;
+			$this->address_city = $address_city;
+			$this->address_state = $address_state;
+			$this->address_country_code = $address_country_code;
+
+			$query = "UPDATE user SET address_line_1 = :al1, address_line_2 = :al2, address_zip = :az,
+					  address_city = :ac, address_state = :ast, address_country_code = :acc WHERE id = :id";
+			$args = [
+				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
+				"ast" => $address_state, "acc" => $address_country_code, "id" => $this->id
+			];
+			$this->_pdo->perform($query, $args);
+		}
+
+		/**
+		 * @param string $password
+		 */
+		public function updatePassword($password) {
+			$this->password_hash = Utility::hashPassword($password);
+
+			$args = ["ph" => $this->password_hash, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET password_hash = :ph WHERE id = :id", $args);
+		}
+
+		public function initiatePasswordReset() {
+			$this->reset_token = Utility::getRandomString(32);
+			$this->reset_token_expiry = new DateTime();
+			$this->reset_token_expiry->add(DateInterval::createFromDateString("10 days"));
+			$this->reset_token_expiry = Utility::getDateTimeForMySQLDateTime($this->reset_token_expiry);
+
+			$args = ["rt" => $this->reset_token, "rte" => $this->reset_token_expiry, "id" => $this->id];
+			$query = "UPDATE user SET reset_token = :rt, reset_token_expiry = :rte WHERE id = :id";
+			$this->_pdo->perform($query, $args);
 		}
 
 		/**
@@ -349,10 +432,8 @@
 		 * @return array
 		 */
 		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value, $privilege_level) {
-			$allowed_privileges = array(self::PRIVILEGE_USER, self::PRIVILEGE_EMPLOYEE, self::PRIVILEGE_ADMIN);
-
-			if (!in_array($privilege_level, $allowed_privileges))
-				throw new \InvalidArgumentException("Invalid privilege level.");
+			if (!in_array($privilege_level, [self::PRIVILEGE_USER, self::PRIVILEGE_EMPLOYEE, self::PRIVILEGE_ADMIN]))
+				throw new \InvalidArgumentException("Privilege level is invalid.");
 
 
 			$args = ["val" => $value, "pl" => $privilege_level];
@@ -402,5 +483,11 @@
 			return array_map(function($row) use ($_pdo) {
 				return new User($_pdo, $row);
 			}, $rows);
+		}
+
+		public static function setToPrivilegeLevel(User $user) {
+			$user->privilege_level = self::PRIVILEGE_USER;
+			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => self::PRIVILEGE_USER]);
+			return new User($user->_pdo, get_object_vars($user));
 		}
 	}

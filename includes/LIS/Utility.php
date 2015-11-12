@@ -46,6 +46,51 @@
 		}
 
 		/**
+		 * @param string $date_string
+		 * @return DateTime
+		 */
+		public static function getDateTimeFromMySQLDateTime($date_string) {
+			return DateTime::createFromFormat("Y-m-d H:i:s", $date_string);
+		}
+
+		/**
+		 * @param DateTime $date
+		 * @return string
+		 */
+		public static function getDateTimeForMySQLDateTime($date = null) {
+			if ($date === null)
+				$date = new DateTime();
+
+			return $date->format("Y-m-d H:i:s");
+		}
+
+		/**
+		 * Remove unnecessary parts of phone number for storage.
+		 * @param string $phone
+		 * @return string
+		 */
+		public static function cleanPhoneString($phone) {
+			return preg_replace("/[^0-9]/", "", $phone);
+		}
+
+		/**
+		 * @param string $password
+		 * @return bool|string
+		 */
+		public static function hashPassword($password) {
+			return password_hash($password, PASSWORD_BCRYPT);
+		}
+
+		/**
+		 * @param string $password
+		 * @param string $password_hash
+		 * @return bool
+		 */
+		public static function verifyPassword($password, $password_hash) {
+			return password_verify($password, $password_hash);
+		}
+
+		/**
 		 * @param int $length - Desired length of string
 		 * @param bool|true $numbers - Use numbers
 		 * @param bool|true $lowercase - Use lowercase letters

@@ -35,10 +35,17 @@
 
 		public static function getAllActive(PDO_MySQL $_pdo) {
 			$args = array("pl" => self::PRIVILEGE_ADMIN);
-			$rows = $_pdo->fetchAssoc("SELECT * FROM `user_view` WHERE `active` = 1 AND privilege_level >= :pl", $args);
+			$query = "SELECT * FROM `user_view` WHERE `active` = 1 AND privilege_level >= :pl";
+			$rows = $_pdo->fetchAssoc($query, $args);
 
 			return array_map(function($row) use ($_pdo) {
 				return new Admin($_pdo, $row);
 			}, $rows);
+		}
+
+		public static function setToPrivilegeLevel(User $user) {
+			$user->privilege_level = self::PRIVILEGE_ADMIN;
+			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => self::PRIVILEGE_ADMIN]);
+			return new Admin($user->_pdo, get_object_vars($user));
 		}
 	}

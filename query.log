@@ -24,3 +24,5 @@ AS SELECT
    `lc`.`number` AS `library_card`,
    `lc`.`date_issued` AS `library_card_date_issued`
 FROM (`user` `u` left join `library_card` `lc` on(((`u`.`id` = `lc`.`user`) and (`lc`.`status` = 1))));
+
+ALTER TABLE `user` MODIFY COLUMN reset_token_expiry DATETIME DEFAULT NULL;

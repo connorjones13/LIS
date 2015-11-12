@@ -275,7 +275,7 @@ CREATE TABLE `user` (
   `address_country_code` varchar(3) NOT NULL DEFAULT 'USA',
   `password_hash` varchar(255) NOT NULL DEFAULT '',
   `reset_token` varchar(255) DEFAULT '',
-  `reset_token_expiry` int(11) unsigned DEFAULT NULL,
+  `reset_token_expiry` DATETIME DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
