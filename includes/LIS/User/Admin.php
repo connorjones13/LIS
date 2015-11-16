@@ -22,15 +22,18 @@
 		}
 
 		public static function find(PDO_MySQL $_pdo, $id) {
-			return new Admin($_pdo, self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_ADMIN));
+			$row = self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_ADMIN);
+			return $row ? new Admin($_pdo, $row) : null;
 		}
 
 		public static function findByEmail(PDO_MySQL $_pdo, $email) {
-			return new Admin($_pdo, self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_ADMIN));
+			$row = self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_ADMIN);
+			return $row ? new Admin($_pdo, $row) : null;
 		}
 
 		public static function findByPhone(PDO_MySQL $_pdo, $phone) {
-			return new Admin($_pdo, self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_ADMIN));
+			$row = self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_ADMIN);
+			return $row ? new Admin($_pdo, $row) : null;
 		}
 
 		public static function getAllActive(PDO_MySQL $_pdo) {

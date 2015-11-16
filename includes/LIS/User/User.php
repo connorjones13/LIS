@@ -446,7 +446,8 @@
 		 * @return User
 		 */
 		public static function find(PDO_MySQL $_pdo, $id) {
-			return new User($_pdo, self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_USER));
+			$row = self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_USER);
+			return $row ? new User($_pdo, $row) : null;
 		}
 
 		/**
@@ -455,7 +456,8 @@
 		 * @return User
 		 */
 		public static function findByEmail(PDO_MySQL $_pdo, $email) {
-			return new User($_pdo, self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_USER));
+			$row = self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_USER);
+			return $row ? new User($_pdo, $row) : null;
 		}
 
 		/**
@@ -464,7 +466,8 @@
 		 * @return User
 		 */
 		public static function findByPhone(PDO_MySQL $_pdo, $phone) {
-			return new User($_pdo, self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_USER));
+			$row = self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_USER);
+			return $row ? new User($_pdo, $row) : null;
 		}
 
 		/**
