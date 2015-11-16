@@ -8,7 +8,6 @@
 
 	class RentalItem {
 
-
 		protected $id, $summary, $title, $category, $date_published, $date_added, $status;
 
 		/* @var PDO_MySQL $_pdo */
@@ -78,7 +77,7 @@
 			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category, "dp" => $date_published,
 				"da" => $time, "st" => $status];
 
-			$query = "INSERT INTO rental_item ($summary, $title, $category, $date_published, $date_added, $status)
+			$query = "INSERT INTO rental_item (summary, title, category, date_published, date_added, status)
 						VALUES (:su, :ti, :ca, :dp, :da, :st)";
 
 			$_pdo->perform($query, $arguments);
@@ -98,56 +97,63 @@
 		/**
 		 * @return string
 		 */
-		public function getSummary()
-		{
+		public function getSummary() {
 			return $this->summary;
 		}
 
 		/**
 		 * @return string
 		 */
-		public function getTitle()
-		{
+		public function getTitle() {
 			return $this->title;
 		}
 
 		/**
 		 * @return int
 		 */
-		public function getCategory()
-		{
+		public function getCategory() {
 			return $this->category;
 		}
 
 		/**
 		 * @return DateTime
 		 */
-		public function getDatePublished()
-		{
+		public function getDatePublished() {
 			return $this->date_published;
+		}
+
+		public function getDateAdded() {
+			return $this->date_added;
 		}
 
 		/**
 		 * @return int
 		 */
-		public function getStatus()
-		{
+		public function getStatus() {
 			//todo: switch statement?
 
 			return $this->status;
 
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param $column
+		 * @param $value
+		 * @return array
+		 */
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
-			//todo: add status level check
 
 			$args = ["val" => $value];
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
-
 		}
 
 		public static function find(PDO_MySQL $_pdo, $id) {
 			return new RentalItem($_pdo, self::findRowBy($_pdo, "id", $id));
+		}
+
+		public static function findByTitle(PDO_MySQL $_pdo, $title) {
+
 		}
 
 		/**
