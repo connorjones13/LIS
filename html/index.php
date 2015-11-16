@@ -17,7 +17,7 @@
 		<div class="content">
 			<?php
 				$user = \LIS\User\User::find($pdo, 1);
-				$user->initiatePasswordReset();
+				$user->updatePassword("password");
 
 				//Example code to create a new Admin
 				if (false) {
