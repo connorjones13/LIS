@@ -74,6 +74,7 @@ Vagrant.configure(2) do |config|
     
     echo "Running Updates"
     sudo apt-get update > /dev/null 2>&1
+    sudo ntpdate ntp.ubuntu.com > /dev/null 2>&1
     
     echo "Updating PHP repository"
     sudo add-apt-repository ppa:ondrej/php5-5.6 -y > /dev/null 2>&1

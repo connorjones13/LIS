@@ -1,7 +1,7 @@
 <?php
 	require_once(__DIR__ . "/../includes/LIS/autoload.php");
 	$pdo = new \LIS\Database\PDO_MySQL();
-	$session = new \LIS\Controllers\BaseController($pdo);
+	$controller = new \LIS\Controllers\BaseController($pdo);
 
 	$page_title = "Test";
 ?>
@@ -17,6 +17,7 @@
 		<div class="content">
 			<?php
 				$user = \LIS\User\User::find($pdo, 1);
+				$user->updatePassword("password");
 
 				$rental_item = \LIS\RentalItem\RentalItem::find($pdo, 1);
 				//Example code to create a new Admin

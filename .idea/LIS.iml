@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/aura/sql" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/plates" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpmailer/phpmailer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -24,10 +25,14 @@
         <CLASSES>
           <root url="file://$MODULE_DIR$/vendor/aura/sql" />
           <root url="file://$MODULE_DIR$/vendor/composer" />
+          <root url="file://$MODULE_DIR$/vendor/league/plates" />
+          <root url="file://$MODULE_DIR$/vendor/phpmailer/phpmailer" />
         </CLASSES>
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/aura/sql" />
           <root url="file://$MODULE_DIR$/vendor/composer" />
+          <root url="file://$MODULE_DIR$/vendor/league/plates" />
+          <root url="file://$MODULE_DIR$/vendor/phpmailer/phpmailer" />
         </SOURCES>
       </library>
     </orderEntry>
