@@ -149,7 +149,15 @@ CREATE TABLE `rental_item` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `rental_item` WRITE;
+/*!40000 ALTER TABLE `rental_item` DISABLE KEYS */;
 
+INSERT INTO `rental_item` (`id`, `summary`, `title`, `category`, `date_published`, `date_added`, `status`)
+VALUES
+  (1, 'This is the summary of a rental item', 'Sample Rental Item 1', '5', '2015-04-10', '2015-11-16', 1);
+
+/*!40000 ALTER TABLE `rental_item` ENABLE KEYS */;
+UNLOCK TABLES;
 
 # Dump of table rental_item_book
 # ------------------------------------------------------------
@@ -193,7 +201,6 @@ CREATE TABLE `rental_item_magazine` (
   PRIMARY KEY (`id`),
   CONSTRAINT `rental_item_magazine_ibfk_2` FOREIGN KEY (`id`) REFERENCES `rental_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 
 # Dump of table ri_book
