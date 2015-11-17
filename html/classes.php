@@ -19,7 +19,10 @@ $page_title = "Test Classes";
 	$user = \LIS\User\User::find($pdo, 1);
 	$user->updatePassword("password");
 
-	$rental_item = \LIS\RentalItem\RentalItem::find($pdo, 1);
+//	$rental_item = \LIS\RentalItem\RentalItem::find($pdo, 1);
+	$rental_item = new \LIS\RentalItem\Magazine($pdo);
+	$rental_item->create("Magazine summary is this?", "My First Magazine", 5,
+			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "Maxim", 3);
 	//Example code to create a new Admin
 	if (false) {
 		$user = new \LIS\User\Admin($pdo);
@@ -49,7 +52,8 @@ $page_title = "Test Classes";
 		<h4>ID: <?= $rental_item->getId(); ?> | Title: <?= $rental_item->getTitle(); ?>
 			| Category: <?= $rental_item->getCategory(); ?></h4>
 		<p>Summary: <?= $rental_item->getSummary(); ?></p>
-		<p>Date Published: <?= $rental_item->getDatePublished(); ?></p>
+		<p>Date Published: <?= $rental_item->getDatePublished()->format("m-d-Y"); ?></p>
+		<p>Date Added: <?= $rental_item->getDateAdded()->format("m-d-Y"); ?></p>
 		<p>Status: <?= $rental_item->getStatus(); ?></p>
 	</div>
 </div>

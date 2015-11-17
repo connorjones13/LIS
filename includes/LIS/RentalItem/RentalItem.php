@@ -6,7 +6,7 @@
 	use DateTime;
 	use LIS\Utility;
 
-	class RentalItem {
+	abstract class RentalItem {
 
 		//todo: is $date_added still needed here?
 		protected $id, $summary, $title, $category, $date_published, $date_added, $status;
@@ -16,7 +16,7 @@
 
 		/**
 		 * RentalItem constructor. Takes a database object as a dependency and an optional
-		 * array parameter to initialize the User object with data.
+		 * array parameter to initialize the RentalItem object with data.
 		 * @param PDO_MySQL $_pdo
 		 * @param array $data_arr
 		 */
@@ -36,7 +36,7 @@
 		/**
 		 * Keeps unwanted data out of var_dump functions. Here we are hiding the pdo
 		 * variable from printing out since it contains our connection data and also
-		 * happens to be unnecessary for debugging the User object.
+		 * happens to be unnecessary for debugging the RentalItem object.
 		 */
 		function __debugInfo() {
 			$rental_object = get_object_vars($this);
@@ -70,7 +70,7 @@
 		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status) {
 			$time = Utility::getDateTimeForMySQLDate();
 
-			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category, "dp" => $date_published,
+			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category, "dp" => Utility::getDateTimeForMySQLDate($date_published),
 				"da" => $time, "st" => $status];
 
 			$query = "INSERT INTO rental_item (summary, title, category, date_published, date_added, status)
@@ -115,11 +115,11 @@
 		 * @return DateTime
 		 */
 		public function getDatePublished() {
-			return $this->date_published;
+			return Utility::getDateTimeFromMySQLDate($this->date_published);
 		}
 
 		public function getDateAdded() {
-			return $this->date_added;
+			return Utility::getDateTimeFromMySQLDate($this->date_added);
 		}
 
 		/**
@@ -195,7 +195,7 @@
 		}
 
 		public static function find(PDO_MySQL $_pdo, $id) {
-			return new RentalItem($_pdo, self::findRowBy($_pdo, "id", $id));
+			//return new RentalItem($_pdo, self::findRowBy($_pdo, "id", $id));
 		}
 
 		public static function findByTitle(PDO_MySQL $_pdo, $title) {
