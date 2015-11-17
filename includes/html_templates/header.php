@@ -34,6 +34,12 @@
 				</li>
 				<!-- todo: if not logged in: <li><a href="#">Log in</a></li> -->
 			</ul>
+			<form class="navbar-form navbar-right" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search">
+				</div>
+				<button type="submit" class="btn btn-default">Submit</button>
+			</form>
 		</div><!-- /.navbar-collapse -->
 	</div><!-- /.container-fluid -->
 </div>
