@@ -6,7 +6,7 @@ composer.lock
 .idea/vagrant.xml
 .idea/workspace.xml
 .idea/tasks.xml
-.idea/dataSources.*
+.idea/dataSources*
 .idea/dictionaries
 vendor
 jsLibraryMappings.xml
