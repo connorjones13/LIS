@@ -48,6 +48,8 @@ $page_title = "Test Classes";
 	Card Issue Date:<br>
 	<?= $user->getLibraryCardDateIssued()->format("m-d-Y"); ?>
 
+
+	<!-- testing magazine -->
 	<div class="well-lg">
 		<h4>ID: <?= $rental_item->getId(); ?> | Title: <?= $rental_item->getTitle(); ?>
 			| Category: <?= $rental_item->getCategory(); ?></h4>
@@ -56,6 +58,23 @@ $page_title = "Test Classes";
 		<p>Date Added: <?= $rental_item->getDateAdded()->format("m-d-Y"); ?></p>
 		<p>Status: <?= $rental_item->getStatus(); ?></p>
 	</div>
+
+	<?php
+	$rental_book = new \LIS\RentalItem\Book($pdo);
+	$rental_book->create("Book summary is this?", "My First Book", 5,
+			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", "", ["Jim", "Bob", "Billy"]);
+	?>
+	<!-- testing book -->
+	<div class="well-lg">
+		<h4>ID: <?= $rental_book->getId(); ?> | Title: <?= $rental_book->getTitle(); ?>
+			| Category: <?= $rental_book->getCategory(); ?></h4>
+		<p>Summary: <?= $rental_book->getSummary(); ?></p>
+		<p>Date Published: <?= $rental_book->getDatePublished()->format("m-d-Y"); ?></p>
+		<p>Date Added: <?= $rental_book->getDateAdded()->format("m-d-Y"); ?></p>
+		<p>Status: <?= $rental_book->getStatus(); ?></p>
+	</div>
+
+
 </div>
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../includes/html_templates/footer.php"); ?>
