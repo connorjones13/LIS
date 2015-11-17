@@ -105,17 +105,10 @@
 		 * @param int $privilege_level
 		 * @return int
 		 */
-		protected static function createNew(PDO_MySQL $_pdo, $name_first, $name_last, $email, $phone, $gender,
-		                                  $date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
-		                                  $address_state, $address_country_code, $password_hash, $privilege_level) {
+		protected static function createNew(PDO_MySQL $_pdo, $name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city, $address_state, $address_country_code, $password_hash, $privilege_level) {
 			$time = Utility::getDateTimeForMySQLDate();
 
-			$arguments = ["nf" => $name_first, "nl" => $name_last, "em" => $email, "ph" => $phone, "dsu" => $time,
-				"ge" => $gender, "dob" => Utility::getDateTimeForMySQLDate($date_of_birth),
-				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
-				"ast" => $address_state, "acc" => $address_country_code, "pa" => $password_hash,
-				"pl" => $privilege_level
-			];
+			$arguments = ["nf" => $name_first, "nl" => $name_last, "em" => $email, "ph" => $phone, "dsu" => $time, "ge" => $gender, "dob" => Utility::getDateTimeForMySQLDate($date_of_birth), "al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city, "ast" => $address_state, "acc" => $address_country_code, "pa" => $password_hash, "pl" => $privilege_level];
 			$query = "INSERT INTO user (name_first, name_last, email, phone, date_signed_up, gender, date_of_birth,
 					  address_line_1, address_line_2, address_zip, address_city, address_state, address_country_code,
 					  password_hash, privilege_level) VALUES (:nf, :nl, :em, :ph, :dsu, :ge, :dob, :al1, :al2, :az,
@@ -141,7 +134,7 @@
 			self::issueLibraryCard($this->_pdo, $this->id);
 
 			$args = ["id" => $this->id];
-			$query = "SELECT number as library_card, date_issued as library_card_date_issued
+			$query = "SELECT number AS library_card, date_issued AS library_card_date_issued
 					  FROM library_card WHERE user = :uid";
 			$this->parse($this->_pdo->fetchOne($query, $args));
 		}
@@ -378,10 +371,7 @@
 
 			$query = "UPDATE user SET address_line_1 = :al1, address_line_2 = :al2, address_zip = :az,
 					  address_city = :ac, address_state = :ast, address_country_code = :acc WHERE id = :id";
-			$args = [
-				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
-				"ast" => $address_state, "acc" => $address_country_code, "id" => $this->id
-			];
+			$args = ["al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city, "ast" => $address_state, "acc" => $address_country_code, "id" => $this->id];
 			$this->_pdo->perform($query, $args);
 		}
 
@@ -435,8 +425,8 @@
 			if (!in_array($privilege_level, [self::PRIVILEGE_USER, self::PRIVILEGE_EMPLOYEE, self::PRIVILEGE_ADMIN]))
 				throw new \InvalidArgumentException("Privilege level is invalid.");
 
-
 			$args = ["val" => $value, "pl" => $privilege_level];
+
 			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val AND privilege_level >= :pl", $args);
 		}
 
@@ -447,6 +437,7 @@
 		 */
 		public static function find(PDO_MySQL $_pdo, $id) {
 			$row = self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_USER);
+
 			return $row ? new User($_pdo, $row) : null;
 		}
 
@@ -457,6 +448,7 @@
 		 */
 		public static function findByEmail(PDO_MySQL $_pdo, $email) {
 			$row = self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_USER);
+
 			return $row ? new User($_pdo, $row) : null;
 		}
 
@@ -467,6 +459,7 @@
 		 */
 		public static function findByPhone(PDO_MySQL $_pdo, $phone) {
 			$row = self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_USER);
+
 			return $row ? new User($_pdo, $row) : null;
 		}
 
@@ -483,7 +476,7 @@
 			 * array of values. In this case each data row is being converted to the
 			 * User object type.
 			 */
-			return array_map(function($row) use ($_pdo) {
+			return array_map(function ($row) use ($_pdo) {
 				return new User($_pdo, $row);
 			}, $rows);
 		}
@@ -491,6 +484,7 @@
 		public static function setToPrivilegeLevel(User $user) {
 			$user->privilege_level = self::PRIVILEGE_USER;
 			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => self::PRIVILEGE_USER]);
+
 			return new User($user->_pdo, get_object_vars($user));
 		}
 	}
