@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="2225513104">
+  <component name="DataSourceManagerImpl" format="xml" hash="1451212984">
     <data-source source="LOCAL" name="MySQL - Vagrant" uuid="6b2af508-aca2-492e-9a7d-5ae4b8f506f0">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>

@@ -21,7 +21,7 @@ $page_title = "Test Classes";
 
 //	$rental_item = \LIS\RentalItem\RentalItem::find($pdo, 1);
 	$rental_item = new \LIS\RentalItem\Magazine($pdo);
-	$rental_item->create("Magazine summary is this?", "My First Magazine", 5,
+	$rental_item->create("Magazine summary is this?", "My First Magazine", "Sex",
 			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "Maxim", 3);
 	//Example code to create a new Admin
 	if (false) {
@@ -57,12 +57,13 @@ $page_title = "Test Classes";
 		<p>Date Published: <?= $rental_item->getDatePublished()->format("m-d-Y"); ?></p>
 		<p>Date Added: <?= $rental_item->getDateAdded()->format("m-d-Y"); ?></p>
 		<p>Status: <?= $rental_item->getStatus(); ?></p>
+		<p>Publisher: <?= $rental_item->getPublication(); ?></p>
 	</div>
 
 	<?php
 	$rental_book = new \LIS\RentalItem\Book($pdo);
-	$rental_book->create("Book summary is this?", "My First Book", 5,
-			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", "", ["Jim", "Bob", "Billy"]);
+	$rental_book->create("Book summary is this?", "My First Book", "Horror",
+			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
 	?>
 	<!-- testing book -->
 	<div class="well-lg">
@@ -72,6 +73,7 @@ $page_title = "Test Classes";
 		<p>Date Published: <?= $rental_book->getDatePublished()->format("m-d-Y"); ?></p>
 		<p>Date Added: <?= $rental_book->getDateAdded()->format("m-d-Y"); ?></p>
 		<p>Status: <?= $rental_book->getStatus(); ?></p>
+		<p>Authors: <?= implode(", ", $rental_book->getAuthors()); ?></p>
 	</div>
 
 

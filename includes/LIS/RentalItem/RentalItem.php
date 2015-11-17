@@ -212,6 +212,7 @@
 		 * @param array $data_arr
 		 */
 		protected function parse(array $data_arr) {
+			var_dump($data_arr);
 			foreach ($data_arr as $key => $value) {
 				$this->{$key} = $value;
 			}
