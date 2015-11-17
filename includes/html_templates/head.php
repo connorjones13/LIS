@@ -6,6 +6,7 @@
 <meta name="keywords" content="" /> <!-- TODO: Add keywords -->
 
 <!-- Base Style Sheets and Fonts -->
+<link rel='shortcut icon' type='image/x-icon' href='/assets/images/favicon.ico' />
 <link href="https://fonts.googleapis.com/css?family=Lato:700,400,300" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css" title="main" type="text/css" charset="utf-8">
 <link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css" title="main" type="text/css" charset="utf-8">
