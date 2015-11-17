@@ -16,6 +16,7 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/">Home</a></li>
+				<li><a href="classes.php">Test Classes</a></li>
 				<li><a href="#">Help</a></li>
 				<!-- if logged in: -->
 				<li class="dropdown">

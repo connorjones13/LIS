@@ -16,4 +16,4 @@ should be a Play Button. Click this to run the queries.
 #### Updating Composer
 In PHPStorm, there should be a _Terminal_ tab across the bottom of the screen. Open that tab and run
 the following command.
-- `php ./composer update`
+- `php ./composer.phar update`

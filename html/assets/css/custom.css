@@ -22,3 +22,29 @@ body {
     color: white;
     text-decoration: none;
 }
+
+/* Footer */
+footer {
+    margin-top: 45px;
+    padding-top: 5px;
+    border-top: 1px solid #b8b8b8;
+    color: gray;
+}
+footer a {
+    color: gray;
+}
+footer a:hover {
+     color: darkgray;
+ }
+
+footer small {
+    float: left;
+}
+footer ul {
+    float: right;
+    list-style: none;
+}
+footer ul li {
+    float: left;
+    margin-left: 15px;
+}
