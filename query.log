@@ -14,6 +14,7 @@ AS SELECT
    `ri`.`category` AS `category`,
    `ri`.`date_published` AS `date_published`,
    `ri`.`date_added` AS `date_added`,
+   `ri`.`status` AS `status`,
    `rib`.`google_id` AS `google_id`,group_concat(' ',`a`.`name_full` separator ',') AS `authors`,
    `rib`.`isbn10` AS `isbn10`,
    `rib`.`isbn13` AS `isbn13`
@@ -30,6 +31,7 @@ AS SELECT
    `ri`.`category` AS `category`,
    `ri`.`date_published` AS `date_published`,
    `ri`.`date_added` AS `date_added`,
+   `ri`.`status` AS `status`,
    `rid`.`director` AS `director`
 FROM (`rental_item_dvd` `rid`
 	left join `rental_item` `ri` on((`ri`.`id` = `rid`.`id`)));
@@ -42,6 +44,7 @@ AS SELECT
    `ri`.`category` AS `category`,
    `ri`.`date_published` AS `date_published`,
    `ri`.`date_added` AS `date_added`,
+   `ri`.`status` AS `status`,
    `rim`.`publication` AS `publication`,
    `rim`.`issue_number` AS `issue_number`
 FROM (`rental_item_magazine` `rim`
