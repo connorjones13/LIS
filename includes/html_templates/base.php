@@ -18,7 +18,7 @@
 		<div class="content">
 			<!-- CONTENT -->
 		</div>
-		<footer>
+		<footer class="footer">
 			<?php require_once(__DIR__ . "/footer.php"); ?>
 		</footer>
 	</body>

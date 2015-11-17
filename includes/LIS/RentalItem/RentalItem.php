@@ -137,6 +137,57 @@
 		}
 
 		/**
+		 * @param $title
+		 */
+		public function updateTitle($title) {
+			$this->title = $title;
+
+			$args = ["ti" => $this->title, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item SET title = :ti WHERE id = :id", $args);
+
+		}
+
+		/**
+		 * @param $summary
+		 */
+		public function updateSummary($summary){
+			$this->summary = $summary;
+
+			$args = ["su" => $this->summary, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item SET summary = :su WHERE id = :id", $args);
+		}
+
+		/**
+		 * @param $status
+		 */
+		public function updateStatus($status) {
+			$this->status = $status;
+
+			$args = ["st" => $this->status, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item SET status = :st WHERE id = :id", $args);
+		}
+
+		/**
+		 * @param $date_published
+		 */
+		public function updateDatePublished($date_published) {
+			$this->date_published = $date_published;
+
+			$args = ["dp" => $this->date_published, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item SET date_published = :dp WHERE id = :id", $args);
+		}
+
+		/**
+		 * @param $category
+		 */
+		public function updateCategory($category) {
+			$this->category = $category;
+
+			$args = ["ca" => $this->category, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item SET category = :ca WHERE id = :id", $args);
+		}
+
+		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param $column
 		 * @param $value
