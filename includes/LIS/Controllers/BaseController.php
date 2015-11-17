@@ -11,20 +11,19 @@
 
 	use LIS\Database\PDO_MySQL;
 	use LIS\User\User;
-	use LIS\Utility;
 
 	class BaseController {
 		const TIMEOUT = "to";
 		const LOGOUT = "logout_request";
 
-		private static $REQUEST_URI = "REQUEST_URI";
-		private static $LAST_ACTION = "la";
-		private static $SESSION_COOKIE = "s";
-		private static $VALID_LOGIN = "valid_login";
+		protected static $REQUEST_URI = "REQUEST_URI";
+		protected static $LAST_ACTION = "la";
+		protected static $SESSION_COOKIE = "s";
+		protected static $VALID_LOGIN = "valid_login";
 
-		private static $PAGE_LOGIN = "/login";
-		private static $PAGE_HOME = "/";
-		private static $PAGE_LOGOUT = "/logout";
+		protected static $PAGE_LOGIN = "/login";
+		protected static $PAGE_HOME = "/";
+		protected static $PAGE_LOGOUT = "/logout";
 
 		static $ERROR_CREDENTIALS_INVALID = 0;
 		static $ERROR_ACCOUNT_INACTIVE = 1;
@@ -36,8 +35,6 @@
 
 		/* @var $_user User */
 		protected $_user;
-
-		private $login_error = false;
 
 		/**
 		 * Session constructor. Basically the Login controller
@@ -65,42 +62,7 @@
 			}
 		}
 
-		public function checkCredentials($username, $password) {
-			if ($this->isLoggedIn())
-				self::displayPage(self::$PAGE_HOME);
-
-			if ($_SESSION[self::TIMEOUT] === true) {
-				unset($_SESSION[self::TIMEOUT]);
-				$this->setError(self::$ERROR_SESSION_TIMED_OUT);
-			}
-
-			if ($username == "" && $password == "")
-				return;
-
-			$this->_user = User::findByEmail($this->_pdo, $username);
-
-			if (!$this->_user || !$this->_user->getId()) {
-				$this->setError(self::$ERROR_USERNAME_NOT_FOUND);
-			}
-
-			else if (!$this->_user->isActive()) {
-				$this->setError(self::$ERROR_ACCOUNT_INACTIVE);
-			}
-
-			else if (!Utility::verifyPassword($password, $this->_user->getPasswordHash())) {
-				$this->setError(self::$ERROR_CREDENTIALS_INVALID);
-			}
-
-
-			if (!$this->hasError()) {
-				$_SESSION[self::$VALID_LOGIN] = true;
-				$_SESSION[self::$LAST_ACTION] = time();
-
-				self::displayPage($_SESSION[self::$REQUEST_URI]);
-			}
-		}
-
-		private function isLoggedIn() {
+		protected function isLoggedIn() {
 			return isset($_SESSION[self::$VALID_LOGIN]) && $_SESSION[self::$VALID_LOGIN] === true;
 		}
 
@@ -130,7 +92,7 @@
 			self::displayPage(self::$PAGE_LOGOUT);
 		}
 
-		private static function displayPage($page) {
+		protected static function displayPage($page) {
 			$allowed_pages = [self::$PAGE_LOGIN, self::$PAGE_HOME, self::$PAGE_LOGOUT, $_SESSION[self::$REQUEST_URI]];
 
 			if (!in_array($page, $allowed_pages))
@@ -149,17 +111,5 @@
 
 			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 			ini_set("display_errors", 1);
-		}
-
-		private function setError($error) {
-			$this->login_error = $error;
-		}
-
-		public function hasError() {
-			return $this->login_error !== false;
-		}
-
-		public function getError() {
-			return $this->login_error;
 		}
 	}

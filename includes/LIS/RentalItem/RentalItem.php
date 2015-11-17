@@ -44,17 +44,15 @@
 			return $rental_object;
 		}
 
-
 		/**
 		 * @param string $summary
 		 * @param string $title
 		 * @param int $category
 		 * @param DateTime $date_published
-		 * @param DateTime $date_added
 		 * @param int $status
 		 */
-		public function create($summary, $title, $category, $date_published, $date_added, $status){
-			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $date_added, $status);
+		public function create($summary, $title, $category, $date_published, $status) {
+			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status);
 
 			$this->parse(self::findRowBy($this->_pdo, "id", $id));
 		}
@@ -65,13 +63,10 @@
 		 * @param string $title
 		 * @param int $category
 		 * @param DateTime $date_published
-		 * @param DateTime $date_added
 		 * @param int $status
 		 * @return int
 		 */
-		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category,
-		                                    $date_published, $date_added, $status){
-
+		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status) {
 			$time = Utility::getDateTimeForMySQLDate();
 
 			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category, "dp" => $date_published,
@@ -133,7 +128,6 @@
 			//todo: switch statement?
 
 			return $this->status;
-
 		}
 
 		/**
@@ -194,8 +188,8 @@
 		 * @return array
 		 */
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
-
 			$args = ["val" => $value];
+
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
 		}
 
@@ -204,7 +198,7 @@
 		}
 
 		public static function findByTitle(PDO_MySQL $_pdo, $title) {
-
+			//todo
 		}
 
 		/**
