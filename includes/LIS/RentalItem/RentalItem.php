@@ -8,6 +8,7 @@
 
 	class RentalItem {
 
+		//todo: is $date_added still needed here?
 		protected $id, $summary, $title, $category, $date_published, $date_added, $status;
 
 		/* @var PDO_MySQL $_pdo */
