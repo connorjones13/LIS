@@ -2,6 +2,22 @@
  * 11-18-2015
  ---------------------------------------------------------------------------------------------------------------------*/
 
+CREATE OR REPLACE VIEW `ri_book`
+AS SELECT
+     `ri`.`id` AS `id`,
+     `ri`.`title` AS `title`,
+     `ri`.`summary` AS `summary`,
+     `ri`.`category` AS `category`,
+     `ri`.`date_published` AS `date_published`,
+     `ri`.`date_added` AS `date_added`,
+     `ri`.`status` AS `status`,
+     group_concat(`a`.`name_full` separator ', ') AS `authors`,
+     `rib`.`isbn10` AS `isbn10`,
+     `rib`.`isbn13` AS `isbn13`
+   FROM ((`rental_item_book` `rib`
+     left join `rental_item` `ri` on((`ri`.`id` = `rib`.`id`)))
+     left join `author` `a` on((`a`.`book` = `rib`.`id`))) group by `ri`.`id`;
+
 ALTER TABLE author ADD COLUMN book int(11) unsigned NULL DEFAULT NULL AFTER id;
 UPDATE author a
 LEFT JOIN rel_rental_item_book_author r
