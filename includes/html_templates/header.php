@@ -16,23 +16,25 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/">Home</a></li>
-				<li><a href="classes.php">Test Classes</a></li>
+				<li><a href="/classes.php">Test Classes</a></li>
 				<li><a href="#">Help</a></li>
-				<!-- if logged in: -->
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-						Account <b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Profile</a></li>
-						<li><a href="#">Settings</a></li>
-						<li class="divider"></li>
-						<li>
-							<a href="#">Log out</a>
-						</li>
-					</ul>
-				</li>
-				<!-- todo: if not logged in: <li><a href="#">Log in</a></li> -->
+				<?php if ($controller->isLoggedIn()) { ?>
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+							Account <b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Profile</a></li>
+							<li><a href="#">Settings</a></li>
+							<li class="divider"></li>
+							<li>
+								<a href="/logout">Log out</a>
+							</li>
+						</ul>
+					</li>
+				<?php } else { ?>
+					<li><a href="/login">Log in</a></li>
+				<?php } ?>
 			</ul>
 			<form class="navbar-form navbar-right" role="search">
 				<div class="form-group">

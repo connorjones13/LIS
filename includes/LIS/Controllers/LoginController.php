@@ -42,7 +42,7 @@
 
 
 			if (!$this->hasError()) {
-				$_SESSION[self::$VALID_LOGIN] = true;
+				$_SESSION[self::$VALID_LOGIN] = $this->_user->getEmail();
 				$_SESSION[self::$LAST_ACTION] = time();
 
 				self::displayPage($_SESSION[self::$REQUEST_URI]);

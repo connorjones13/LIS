@@ -62,8 +62,8 @@
 			}
 		}
 
-		protected function isLoggedIn() {
-			return isset($_SESSION[self::$VALID_LOGIN]) && $_SESSION[self::$VALID_LOGIN] === true;
+		public function isLoggedIn() {
+			return isset($_SESSION[self::$VALID_LOGIN]);
 		}
 
 		private function isTimedOut() {
@@ -79,17 +79,18 @@
 		}
 
 		public function getUser() {
+			if (!$this->_user && $this->isLoggedIn())
+				$this->_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
+
 			return $this->_user;
 		}
 
-		private function logout() {
+		public function logout() {
 			setcookie(self::$SESSION_COOKIE, "", -1, "/", "", true);
 			unset($_SESSION);
 
 			session_destroy();
 			session_start();
-
-			self::displayPage(self::$PAGE_LOGOUT);
 		}
 
 		protected static function displayPage($page) {
