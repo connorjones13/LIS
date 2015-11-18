@@ -9,7 +9,6 @@
 <link rel='shortcut icon' type='image/x-icon' href='/assets/images/favicon.ico' />
 <link href="https://fonts.googleapis.com/css?family=Lato:700,400,300" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="/assets/css/bootstrap.min.css" title="main" type="text/css" charset="utf-8">
-<link rel="stylesheet" href="/assets/css/bootstrap-theme.min.css" title="main" type="text/css" charset="utf-8">
 <link rel="stylesheet" href="/assets/css/bootstrap-overrides.css" title="main" type="text/css" charset="utf-8">
 <link rel="stylesheet" href="/assets/css/jquery-impromptu.min.css" type="text/css" media="screen" charset="utf-8">
 <link rel="stylesheet" href="/assets/css/custom.css" type="text/css">
