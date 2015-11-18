@@ -25,11 +25,6 @@
 		protected static $PAGE_HOME = "/";
 		protected static $PAGE_LOGOUT = "/logout";
 
-		static $ERROR_CREDENTIALS_INVALID = 0;
-		static $ERROR_ACCOUNT_INACTIVE = 1;
-		static $ERROR_SESSION_TIMED_OUT = 2;
-		static $ERROR_USERNAME_NOT_FOUND = 3;
-
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
@@ -37,8 +32,6 @@
 		protected $_user;
 
 		/**
-		 * Session constructor. Basically the Login controller
-		 * This class is going to be much larger
 		 * @param PDO_MySQL $_pdo
 		 */
 		public function __construct(PDO_MySQL $_pdo) {
