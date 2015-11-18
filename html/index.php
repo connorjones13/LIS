@@ -2,6 +2,7 @@
 	require_once(__DIR__ . "/../includes/LIS/autoload.php");
 	$pdo = new \LIS\Database\PDO_MySQL();
 	$controller = new \LIS\Controllers\BaseController($pdo);
+	$controller->validateLogin();
 
 	$page_title = "Test";
 ?>

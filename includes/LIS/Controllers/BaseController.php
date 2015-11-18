@@ -25,11 +25,6 @@
 		protected static $PAGE_HOME = "/";
 		protected static $PAGE_LOGOUT = "/logout";
 
-		static $ERROR_CREDENTIALS_INVALID = 0;
-		static $ERROR_ACCOUNT_INACTIVE = 1;
-		static $ERROR_SESSION_TIMED_OUT = 2;
-		static $ERROR_USERNAME_NOT_FOUND = 3;
-
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
@@ -37,17 +32,15 @@
 		protected $_user;
 
 		/**
-		 * Session constructor. Basically the Login controller
-		 * This class is going to be much larger
 		 * @param PDO_MySQL $_pdo
 		 */
-		public function __construct(PDO_MySQL $_pdo) {
+		final public function __construct(PDO_MySQL $_pdo) {
 			$this->_pdo = $_pdo;
 
 			$this->startSession();
 		}
 
-		public function validateLogin() {
+		final public function validateLogin() {
 			if ($this->isLoggedIn()) {
 				if ($this->isLogoutRequested())
 					$this->logout();
@@ -62,8 +55,8 @@
 			}
 		}
 
-		protected function isLoggedIn() {
-			return isset($_SESSION[self::$VALID_LOGIN]) && $_SESSION[self::$VALID_LOGIN] === true;
+		final public function isLoggedIn() {
+			return isset($_SESSION[self::$VALID_LOGIN]);
 		}
 
 		private function isTimedOut() {
@@ -78,21 +71,22 @@
 			return isset($_POST[self::LOGOUT]);
 		}
 
-		public function getUser() {
+		final public function getUser() {
+			if (!$this->_user && $this->isLoggedIn())
+				$this->_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
+
 			return $this->_user;
 		}
 
-		private function logout() {
+		final public function logout() {
 			setcookie(self::$SESSION_COOKIE, "", -1, "/", "", true);
 			unset($_SESSION);
 
 			session_destroy();
 			session_start();
-
-			self::displayPage(self::$PAGE_LOGOUT);
 		}
 
-		protected static function displayPage($page) {
+		final protected static function displayPage($page) {
 			$allowed_pages = [self::$PAGE_LOGIN, self::$PAGE_HOME, self::$PAGE_LOGOUT, $_SESSION[self::$REQUEST_URI]];
 
 			if (!in_array($page, $allowed_pages))

@@ -1,54 +1,61 @@
 /* Universal */
 
 body {
-    padding-top: 60px;
+	padding-top: 60px;
 }
-
 
 /* Header */
 
 #logo {
-    float: left;
-    margin-right: 10px;
-    font-size: 1.7em;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    padding-top: 9px;
-    font-weight: bold;
+	float: left;
+	margin-right: 10px;
+	font-size: 1.7em;
+	color: white;
+	text-transform: uppercase;
+	letter-spacing: -1px;
+	padding-top: 9px;
+	font-weight: bold;
 }
 
 #logo:hover {
-    color: white;
-    text-decoration: none;
+	color: white;
+	text-decoration: none;
 }
 
 /* Footer */
+body {
+	margin-bottom: 80px;
+}
+
 footer {
-    margin-top: 45px;
-    padding-top: 5px;
-    border-top: 1px solid #b8b8b8;
-    color: gray;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: #ffffff;
+	margin-top: 45px;
+	padding-top: 5px;
+	border-top: 1px solid #b8b8b8;
+	color: gray;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: #ffffff;
 }
+
 footer a {
-    color: gray;
+	color: gray;
 }
+
 footer a:hover {
-     color: darkgray;
- }
+	color: darkgray;
+}
 
 footer small {
-    float: left;
+	float: left;
 }
+
 footer ul {
-    float: right;
-    list-style: none;
+	float: right;
+	list-style: none;
 }
+
 footer ul li {
-    float: left;
-    margin-left: 15px;
+	float: left;
+	margin-left: 15px;
 }

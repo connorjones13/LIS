@@ -14,6 +14,11 @@
 	class LoginController extends BaseController {
 		private $login_error = false;
 
+		static $ERROR_CREDENTIALS_INVALID = 0;
+		static $ERROR_ACCOUNT_INACTIVE = 1;
+		static $ERROR_SESSION_TIMED_OUT = 2;
+		static $ERROR_USERNAME_NOT_FOUND = 3;
+
 		public function checkCredentials($username, $password) {
 			if ($this->isLoggedIn())
 				self::displayPage(self::$PAGE_HOME);
@@ -42,7 +47,7 @@
 
 
 			if (!$this->hasError()) {
-				$_SESSION[self::$VALID_LOGIN] = true;
+				$_SESSION[self::$VALID_LOGIN] = $this->_user->getEmail();
 				$_SESSION[self::$LAST_ACTION] = time();
 
 				self::displayPage($_SESSION[self::$REQUEST_URI]);

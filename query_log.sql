@@ -1,10 +1,51 @@
 /* ---------------------------------------------------------------------------------------------------------------------
+ * 11-18-2015
+ ---------------------------------------------------------------------------------------------------------------------*/
+
+ALTER TABLE author ADD COLUMN book int(11) unsigned NULL DEFAULT NULL AFTER id;
+UPDATE author a
+LEFT JOIN rel_rental_item_book_author r
+    ON r.author = a.id
+SET a.book = r.book;
+ALTER TABLE author MODIFY COLUMN book  int(11) unsigned NOT NULL;
+ALTER TABLE `author`
+ADD CONSTRAINT `author_book_id`
+FOREIGN KEY (`book`)
+REFERENCES `rental_item` (`id`);
+DROP TABLE IF EXISTS rel_rental_item_book_author;
+
+ALTER TABLE `checkout`
+ADD CONSTRAINT `checkout_employee_id`
+FOREIGN KEY (`checkout_employee`)
+REFERENCES `user` (`id`);
+
+ALTER TABLE `checkout`
+ADD CONSTRAINT `checkin_employee_id`
+FOREIGN KEY (`checkin_employee`)
+REFERENCES `user` (`id`);
+
+CREATE TABLE `reservation` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user` int(11) unsigned NOT NULL,
+  `rental_item` int(11) unsigned NOT NULL,
+  `date_created` date NOT NULL,
+  `date_pickup` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `reservation_user_id` (`user`),
+  KEY `reservation_rental_item_id` (`rental_item`),
+  CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`rental_item`) REFERENCES `rental_item` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`id`)
+    ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* ---------------------------------------------------------------------------------------------------------------------
  * 11-17-2015
  ---------------------------------------------------------------------------------------------------------------------*/
 
-ALTER TABLE COMP3700_ECC.rental_item_book DROP google_id;
+ALTER TABLE rental_item_book DROP google_id;
 ALTER TABLE rental_item DROP COLUMN category;
-DROP TABLE category;
+DROP TABLE IF EXISTS category;
 ALTER TABLE rental_item ADD COLUMN category VARCHAR(255) NOT NULL DEFAULT '' AFTER summary;
 
 CREATE OR REPLACE VIEW `ri_book`
