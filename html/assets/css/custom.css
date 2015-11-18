@@ -29,6 +29,10 @@ footer {
     padding-top: 5px;
     border-top: 1px solid #b8b8b8;
     color: gray;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ffffff;
 }
 footer a {
     color: gray;
