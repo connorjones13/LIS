@@ -20,9 +20,7 @@ $page_title = "Test Classes";
 	$user->updatePassword("password");
 
 //	$rental_item = \LIS\RentalItem\RentalItem::find($pdo, 1);
-	$rental_item = new \LIS\RentalItem\Magazine($pdo);
-	$rental_item->create("Magazine summary is this?", "My First Magazine", "Sex",
-			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "Maxim", 3);
+
 	//Example code to create a new Admin
 	if (false) {
 		$user = new \LIS\User\Admin($pdo);
@@ -50,22 +48,27 @@ $page_title = "Test Classes";
 
 
 	<!-- testing magazine -->
+	<?php
+	$rental_magazine = new \LIS\RentalItem\Magazine($pdo);
+	$rental_magazine->create("This is a magazine summary.", "My First Magazine", "Adult",
+			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "Maxim", 3);
+	?>
 	<div class="well-lg">
-		<h4>ID: <?= $rental_item->getId(); ?> | Title: <?= $rental_item->getTitle(); ?>
-			| Category: <?= $rental_item->getCategory(); ?></h4>
-		<p>Summary: <?= $rental_item->getSummary(); ?></p>
-		<p>Date Published: <?= $rental_item->getDatePublished()->format("m-d-Y"); ?></p>
-		<p>Date Added: <?= $rental_item->getDateAdded()->format("m-d-Y"); ?></p>
-		<p>Status: <?= $rental_item->getStatus(); ?></p>
-		<p>Publisher: <?= $rental_item->getPublication(); ?></p>
+		<h4>ID: <?= $rental_magazine->getId(); ?> | Title: <?= $rental_magazine->getTitle(); ?>
+			| Category: <?= $rental_magazine->getCategory(); ?></h4>
+		<p>Summary: <?= $rental_magazine->getSummary(); ?></p>
+		<p>Date Published: <?= $rental_magazine->getDatePublished()->format("m-d-Y"); ?></p>
+		<p>Date Added: <?= $rental_magazine->getDateAdded()->format("m-d-Y"); ?></p>
+		<p>Status: <?= $rental_magazine->getStatus(); ?></p>
+		<p>Publisher: <?= $rental_magazine->getPublication(); ?></p>
 	</div>
 
+	<!-- testing book -->
 	<?php
 	$rental_book = new \LIS\RentalItem\Book($pdo);
-	$rental_book->create("Book summary is this?", "My First Book", "Horror",
+	$rental_book->create("This is a book summary.", "My First Book", "Horror",
 			DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
 	?>
-	<!-- testing book -->
 	<div class="well-lg">
 		<h4>ID: <?= $rental_book->getId(); ?> | Title: <?= $rental_book->getTitle(); ?>
 			| Category: <?= $rental_book->getCategory(); ?></h4>
@@ -74,6 +77,22 @@ $page_title = "Test Classes";
 		<p>Date Added: <?= $rental_book->getDateAdded()->format("m-d-Y"); ?></p>
 		<p>Status: <?= $rental_book->getStatus(); ?></p>
 		<p>Authors: <?= implode(", ", $rental_book->getAuthors()); ?></p>
+	</div>
+
+	<!-- testing dvd -->
+	<?php
+	$rental_dvd = new \LIS\RentalItem\DVD($pdo);
+	$rental_dvd->create("This is a DVD summary.", "My First DVD", "Action",
+			DateTime::createFromFormat("m-d-Y", "05-15-2011"), 3, "Joseph Maxwell");
+	?>
+	<div class="well-lg">
+		<h4>ID: <?= $rental_dvd->getId(); ?> | Title: <?= $rental_dvd->getTitle(); ?>
+			| Category: <?= $rental_dvd->getCategory(); ?></h4>
+		<p>Summary: <?= $rental_dvd->getSummary(); ?></p>
+		<p>Date Published: <?= $rental_dvd->getDatePublished()->format("m-d-Y"); ?></p>
+		<p>Date Added: <?= $rental_dvd->getDateAdded()->format("m-d-Y"); ?></p>
+		<p>Status: <?= $rental_dvd->getStatus(); ?></p>
+		<p>Director: <?= $rental_dvd->getDirector() ?></p>
 	</div>
 
 
