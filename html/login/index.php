@@ -52,6 +52,7 @@
 						       placeholder="Password">
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
+					<span class="pull-right">Click <a href="/account/create">here</a> to create an account.</span>
 				</form>
 			</div>
 		</div>
