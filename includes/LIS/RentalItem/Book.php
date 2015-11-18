@@ -91,7 +91,6 @@
 		public function updateAuthors($authors){
 			$this->authors = $authors;
 
-
 			// todo: figure out logic to override authors (also account for removing an author or adding additional author)
 		}
 
