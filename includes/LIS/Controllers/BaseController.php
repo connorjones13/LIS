@@ -34,13 +34,13 @@
 		/**
 		 * @param PDO_MySQL $_pdo
 		 */
-		public function __construct(PDO_MySQL $_pdo) {
+		final public function __construct(PDO_MySQL $_pdo) {
 			$this->_pdo = $_pdo;
 
 			$this->startSession();
 		}
 
-		public function validateLogin() {
+		final public function validateLogin() {
 			if ($this->isLoggedIn()) {
 				if ($this->isLogoutRequested())
 					$this->logout();
@@ -55,7 +55,7 @@
 			}
 		}
 
-		public function isLoggedIn() {
+		final public function isLoggedIn() {
 			return isset($_SESSION[self::$VALID_LOGIN]);
 		}
 
@@ -71,14 +71,14 @@
 			return isset($_POST[self::LOGOUT]);
 		}
 
-		public function getUser() {
+		final public function getUser() {
 			if (!$this->_user && $this->isLoggedIn())
 				$this->_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
 
 			return $this->_user;
 		}
 
-		public function logout() {
+		final public function logout() {
 			setcookie(self::$SESSION_COOKIE, "", -1, "/", "", true);
 			unset($_SESSION);
 
@@ -86,7 +86,7 @@
 			session_start();
 		}
 
-		protected static function displayPage($page) {
+		final protected static function displayPage($page) {
 			$allowed_pages = [self::$PAGE_LOGIN, self::$PAGE_HOME, self::$PAGE_LOGOUT, $_SESSION[self::$REQUEST_URI]];
 
 			if (!in_array($page, $allowed_pages))
