@@ -62,6 +62,8 @@
 					$rental_book = new \LIS\RentalItem\Book($pdo);
 					$rental_book->create("This is a book summary.", "My First Book", "Horror",
 							DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
+					$authors = array("John", "Jacob", "Jacky");
+					$rental_book->updateAuthors($authors); // testing author update
 				?>
 				<div class="well-lg">
 					<h4>ID: <?= $rental_book->getId(); ?> | Title: <?= $rental_book->getTitle(); ?>

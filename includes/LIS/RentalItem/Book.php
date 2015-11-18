@@ -30,28 +30,16 @@
 
 			$book_id = $_pdo->lastInsertId();
 
-			$author_ids = array();
-
-			foreach ($authors as $author) {
-				$arguments = ["au" => $author];
-
-				$query = "INSERT INTO author (name_full) VALUES (:au)";
-
-				$_pdo->perform($query, $arguments);
-
-				$author_ids[] = $_pdo->lastInsertId();
-			}
-
-			$query = "INSERT INTO rel_rental_item_book_author (book, author)
+			$query = "INSERT INTO author (book, name_full)
 						VALUES ()";
 
 			$query = rtrim($query, '()');
 
 			$data = array();
 
-			foreach ($author_ids as $author_id) {
+			foreach ($authors as $author) {
 				$data[] = $book_id;
-				$data[] = $author_id;
+				$data[] = $author;
 
 				$query .= "(?,?),";
 			}
@@ -88,10 +76,29 @@
 			$this->_pdo->perform("UPDATE rental_item_book SET isbn13 = :isbn WHERE id = :id", $args);
 		}
 
-		public function updateAuthors($authors){
+		public function updateAuthors(array $authors){
 			$this->authors = $authors;
 
-			// todo: figure out logic to override authors (also account for removing an author or adding additional author)
+			$args = ["id" => $this->id];
+			$this->_pdo->perform("DELETE FROM author WHERE book = :id", $args);
+
+			$query = "INSERT INTO author (book, name_full)
+						VALUES ()";
+
+			$query = rtrim($query, '()');
+
+			$data = array();
+
+			foreach ($authors as $author) {
+				$data[] = $this->id;
+				$data[] = $author;
+
+				$query .= "(?,?),";
+			}
+			$query = rtrim($query, ',');
+
+			$this->_pdo->perform($query, $data);
+
 		}
 
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
