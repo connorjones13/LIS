@@ -45,5 +45,30 @@
 			return $_pdo->fetchOne("SELECT * FROM `ri_dvd` WHERE $column = :val", $args);
 		}
 
+
+		public static function find(PDO_MySQL $_pdo, $id) {
+			$row = self::findRowBy($_pdo, "id", $id);
+
+			return $row ? new DVD($_pdo, $row) : null;
+		}
+
+		public static function getAllByCategory(PDO_MySQL $_pdo, $category) {
+			$args = ["val" => $category];
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `ri_dvd` WHERE `category` = :val", $args);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new DVD($_pdo, $row);
+			}, $rows);
+		}
+
+		public static function getAllByStatus(PDO_MySQL $_pdo, $status) {
+			$args = ["val" => $status];
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `ri_dvd` WHERE `status` = :val", $args);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new DVD($_pdo, $row);
+			}, $rows);
+		}
+
 		//todo: add find functionality
 	}

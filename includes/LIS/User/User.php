@@ -468,7 +468,7 @@
 		 * @return User[]
 		 */
 		public static function getAllActive(PDO_MySQL $_pdo) {
-			$rows = $_pdo->fetchAssoc("SELECT * FROM `user` WHERE `active` = 1");
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `user_view` WHERE `active` = 1");
 
 			/**
 			 * The function array_map is used to run a single function on each array

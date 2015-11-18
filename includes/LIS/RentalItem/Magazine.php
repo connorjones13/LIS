@@ -68,6 +68,24 @@
 			return $row ? new Magazine($_pdo, $row) : null;
 		}
 
+		public static function getAllByCategory(PDO_MySQL $_pdo, $category) {
+			$args = ["val" => $category];
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `ri_magazine` WHERE `category` = :val", $args);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new Magazine($_pdo, $row);
+			}, $rows);
+		}
+
+		public static function getAllByStatus(PDO_MySQL $_pdo, $status) {
+			$args = ["val" => $status];
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `ri_magazine` WHERE `status` = :val", $args);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new Magazine($_pdo, $row);
+			}, $rows);
+		}
+
 
 
 		// TODO: find methods

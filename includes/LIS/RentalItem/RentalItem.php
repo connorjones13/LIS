@@ -8,6 +8,10 @@
 
 	abstract class RentalItem {
 
+		const STATUS_AVAILABLE = 0;
+		const STATUS_LOST = 1;
+		const STATUS_DAMAGED = 2;
+
 		//todo: is $date_added still needed here?
 		protected $id, $summary, $title, $category, $date_published, $date_added, $status;
 
@@ -194,11 +198,7 @@
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
 		}
 
-
-
-		public static function findByTitle(PDO_MySQL $_pdo, $title) {
-			//todo
-		}
+		// todo: isAvailable methods
 
 		/**
 		 * This function takes the data that a query returns and parses it into the
