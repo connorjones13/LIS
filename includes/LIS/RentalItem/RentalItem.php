@@ -194,9 +194,7 @@
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
 		}
 
-		public static function find(PDO_MySQL $_pdo, $id) {
-			//return new RentalItem($_pdo, self::findRowBy($_pdo, "id", $id));
-		}
+
 
 		public static function findByTitle(PDO_MySQL $_pdo, $title) {
 			//todo

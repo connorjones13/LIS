@@ -62,6 +62,14 @@
 			return $_pdo->fetchOne("SELECT * FROM `ri_magazine` WHERE $column = :val", $args);
 		}
 
+		public static function find(PDO_MySQL $_pdo, $id) {
+			$row = self::findRowBy($_pdo, "id", $id);
+
+			return $row ? new Magazine($_pdo, $row) : null;
+		}
+
+
+
 		// TODO: find methods
 
 	}
