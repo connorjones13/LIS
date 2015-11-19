@@ -7,15 +7,15 @@
 
 		protected $director;
 
-		public function create($summary, $title, $category, $date_published, $status, $director) {
+		public function create($summary, $title, $category, $date_published, $status, $director = "") {
 
 			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status, $director);
 
 			$this->parse(self::findRowBy($this->_pdo, "id", $id));
 		}
 
-		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status, $director) {
-
+		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category,
+		                                    $date_published, $status, $director) {
 
 			$id = parent::createNew($_pdo, $summary, $title, $category, $date_published, $status);
 
@@ -70,5 +70,4 @@
 			}, $rows);
 		}
 
-		//todo: add find functionality
 	}

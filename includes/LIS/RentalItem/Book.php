@@ -8,8 +8,8 @@
 
 		protected $isbn10, $isbn13, $authors;
 
-		public function create($summary, $title, $category, $date_published, $status, $isbn10,
-		                       $isbn13, array $authors) {
+		public function create($summary, $title, $category, $date_published, $status, $isbn10 = "",
+		                       $isbn13 = "", array $authors = []) {
 
 			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status,
 				$isbn10, $isbn13, $authors);

@@ -8,7 +8,7 @@
 
 		protected $publication, $issue_number;
 
-		public function create($summary, $title, $category, $date_published, $status, $publication, $issue_number) {
+		public function create($summary, $title, $category, $date_published, $status, $publication = "", $issue_number = 0) {
 
 			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status, $publication,
 				$issue_number);
@@ -34,6 +34,9 @@
 			return $id;
 		}
 
+		/**
+		 * @return string
+		 */
 		public function getPublication() {
 			return $this->publication;
 		}
@@ -86,8 +89,5 @@
 			}, $rows);
 		}
 
-
-
-		// TODO: find methods
 
 	}

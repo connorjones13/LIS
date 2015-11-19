@@ -11,6 +11,9 @@
 		const STATUS_AVAILABLE = 0;
 		const STATUS_LOST = 1;
 		const STATUS_DAMAGED = 2;
+		const STATUS_REMOVED = 3;
+		const STATUS_CHECKED_OUT = 4;
+		const STATUS_RESERVED = 5;
 
 		//todo: is $date_added still needed here?
 		protected $id, $summary, $title, $category, $date_published, $date_added, $status;
@@ -56,11 +59,11 @@
 		 * @param DateTime $date_published
 		 * @param int $status
 		 */
-		public function create($summary, $title, $category, $date_published, $status) {
-			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status);
+		abstract public function create($summary, $title, $category, $date_published, $status);
+//			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status);
+//
+//			$this->parse(self::findRowBy($this->_pdo, "id", $id));
 
-			$this->parse(self::findRowBy($this->_pdo, "id", $id));
-		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
@@ -199,6 +202,7 @@
 		}
 
 		// todo: isAvailable methods
+
 
 		/**
 		 * This function takes the data that a query returns and parses it into the
