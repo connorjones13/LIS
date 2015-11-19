@@ -2,6 +2,18 @@
  * 11-18-2015
  ---------------------------------------------------------------------------------------------------------------------*/
 
+ALTER TABLE reservation DROP date_pickup;
+ALTER TABLE reservation ADD checkout int(11) UNSIGNED NULL AFTER rental_item;
+ALTER TABLE reservation
+ADD CONSTRAINT reservation_checkout_id
+FOREIGN KEY (checkout)
+REFERENCES checkout (id);
+
+ALTER TABLE late_fee MODIFY date_paid DATETIME;
+ALTER TABLE checkout MODIFY date_returned DATETIME;
+ALTER TABLE checkout MODIFY date_checked_out DATETIME NOT NULL;
+ALTER TABLE reservation MODIFY date_created DATETIME NOT NULL;
+ALTER TABLE reservation ADD is_expired bool DEFAULT 0 NOT NULL;
 ALTER TABLE checkout ADD date_checked_out date NOT NULL AFTER rental_item;
 
 CREATE OR REPLACE VIEW `ri_book`
@@ -22,7 +34,7 @@ AS SELECT
      left join `rental_item` `ri` on((`ri`.`id` = `rib`.`id`)))
      left join `author` `a` on((`a`.`book` = `rib`.`id`)))
      left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`))))
-     left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`date_pickup`))))
+     left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`))))
    group by `ri`.`id`;
 
 CREATE OR REPLACE VIEW `ri_dvd`
@@ -40,7 +52,7 @@ AS SELECT
    FROM (((`rental_item_dvd` `rid`
      left join `rental_item` `ri` on((`ri`.`id` = `rid`.`id`)))
      left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`))))
-     left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`date_pickup`))));
+     left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`))));
 
 CREATE OR REPLACE VIEW `ri_magazine`
 AS SELECT
@@ -58,7 +70,7 @@ AS SELECT
    FROM (((`rental_item_magazine` `rim`
      left join `rental_item` `ri` on((`ri`.`id` = `rim`.`id`)))
      left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`))))
-     left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`date_pickup`))));
+     left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`))));
 
 ALTER TABLE COMP3700_ECC.user ADD account_confirm_token varchar(255) DEFAULT NULL NULL;
 CREATE UNIQUE INDEX user_account_confirm_token_uindex ON COMP3700_ECC.user (account_confirm_token);
