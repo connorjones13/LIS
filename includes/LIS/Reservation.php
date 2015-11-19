@@ -17,7 +17,7 @@ use LIS\User\User;
 
 class Reservation {
 
-	private $id, $user, $rental_item, $date_created, $date_pickup, $isExpired;
+	private $id, $user, $rental_item, $date_created, $is_expired;
 
 	/* @var PDO_MySQL $_pdo */
 	private $_pdo; //Since this is an internal dependency, I mark it with an _
@@ -46,6 +46,7 @@ class Reservation {
 
 		$this->user = $user->getId();
 		$this->rental_item = $rentalItem->getId();
+		$this->is_expired = 0;
 
 		// save objects
 		$this->_user = $user;
@@ -61,17 +62,25 @@ class Reservation {
 	}
 
 	public function setPickedUp() {
-		$this->date_pickup = Utility::getDateTimeForMySQLDateTime();
+		//$this->date_pickup = Utility::getDateTimeForMySQLDateTime();
 
-		$args = ["dp" => $this->date_pickup];
+//		$args = ["dp" => $this->date_pickup];
 
-		$query = "UPDATE reservation SET date_pickup = :dp";
+		// todo: update to work with checkout id
+//		$query = "UPDATE reservation SET date_pickup = :dp";
 
-		$this->_pdo->perform($query, $args);
+//		$this->_pdo->perform($query, $args);
 
 	}
 
 	public function setExpired() {
+		$this->is_expired = 1;
+
+		$args = ["exp" => $this->is_expired];
+
+		$query = "UPDATE reservation SET is_expired = :exp";
+
+		$this->_pdo->perform($query, $args);
 
 	}
 

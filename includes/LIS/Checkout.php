@@ -18,7 +18,8 @@
 	class Checkout {
 
 
-		private $id, $checkout_employee, $checkin_employee, $user, $rental_item, $date_due, $date_returned;
+		private $id, $checkout_employee, $checkin_employee, $user, $rental_item, $date_due,
+				$date_returned, $date_checked_out;
 
 		/* @var PDO_MySQL $_pdo */
 		private $_pdo; //Since this is an internal dependency, I mark it with an _
@@ -51,15 +52,18 @@
 		protected function create(Employee $checkout_employee, User $user,
 		                                 RentalItem $rental_item) {
 
-			//todo: add date_checked_out
 			$this->date_due = new DateTime();
 			$this->date_due->add(new DateInterval("7 days"));
 			$this->date_due = Utility::getDateTimeForMySQLDate($this->date_due);
+
+			$this->date_checked_out = Utility::getDateTimeForMySQLDateTime();
 
 			$this->checkout_employee = $checkout_employee->getId();
 			$this->user = $user->getId();
 			$this->rental_item = $rental_item->getId();
 
+			// todo: add a check to see if the item has been reserved. If so, update reservation table to reflect checkout
+			// todo: if reserved and user id does not match, need to return message stating item is reserved by someone else
 
 			// save objects
 			$this->_user = $user;
@@ -67,10 +71,10 @@
 			$this->_rental_item = $rental_item;
 
 			$args = ["co_emp" => $checkout_employee->getId(),
-				"usr" => $user->getId(), "ri" => $rental_item->getId(), "dd" => $this->date_due];
+				"usr" => $user->getId(), "ri" => $rental_item->getId(), "dd" => $this->date_due, "dco" => $this->date_checked_out];
 
-			$query = "INSERT INTO checkout (checkout_employee, user, rental_item, date_due)
-						VALUES (:co_emp, :usr, :ri, :dd)";
+			$query = "INSERT INTO checkout (checkout_employee, user, rental_item, date_due, date_checked_out)
+						VALUES (:co_emp, :usr, :ri, :dd, :dco)";
 
 			$this->_pdo->perform($query, $args);
 

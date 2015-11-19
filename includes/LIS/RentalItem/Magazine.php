@@ -59,6 +59,12 @@
 			$this->_pdo->perform("UPDATE rental_item_magazine SET issue_number = :inum WHERE id = :id", $args);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param $column
+		 * @param $value
+		 * @return array
+		 */
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
 			$args = ["val" => $value];
 
