@@ -29,7 +29,7 @@
 
 			$_pdo->perform($query, $arguments);
 
-			$id = $_pdo->lastInsertId();
+//			$id = $_pdo->lastInsertId();
 
 			return $id;
 		}

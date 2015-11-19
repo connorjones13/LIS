@@ -75,10 +75,10 @@
 		 * @return int
 		 */
 		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status) {
-			$time = Utility::getDateTimeForMySQLDate();
+			$time = Utility::getDateTimeForMySQLDateTime();
 
-			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category, "dp" => Utility::getDateTimeForMySQLDate($date_published),
-				"da" => $time, "st" => $status];
+			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category,
+					"dp" => Utility::getDateTimeForMySQLDate($date_published), "da" => $time, "st" => $status];
 
 			$query = "INSERT INTO rental_item (summary, title, category, date_published, date_added, status)
 						VALUES (:su, :ti, :ca, :dp, :da, :st)";
