@@ -438,7 +438,7 @@ CREATE TABLE `user_view` (
 
 DROP TABLE `ri_magazine`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`comp3700_ecc`@`127.0.0.1` SQL SECURITY DEFINER VIEW `ri_magazine`
+CREATE OR REPLACE VIEW `ri_magazine`
 AS SELECT
      `ri`.`id` AS `id`,
      `ri`.`title` AS `title`,
@@ -457,7 +457,7 @@ AS SELECT
 
 DROP TABLE `ri_book`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`comp3700_ecc`@`127.0.0.1` SQL SECURITY DEFINER VIEW `ri_book`
+CREATE OR REPLACE VIEW `ri_book`
 AS SELECT
      `ri`.`id` AS `id`,
      `ri`.`title` AS `title`,
@@ -476,7 +476,7 @@ AS SELECT
 
 DROP TABLE `ri_dvd`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`comp3700_ecc`@`127.0.0.1` SQL SECURITY DEFINER VIEW `ri_dvd`
+CREATE OR REPLACE VIEW `ri_dvd`
 AS SELECT
      `ri`.`id` AS `id`,
      `ri`.`title` AS `title`,
@@ -494,7 +494,7 @@ AS SELECT
 
 DROP TABLE `user_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`comp3700_ecc`@`127.0.0.1` SQL SECURITY DEFINER VIEW `user_view`
+CREATE OR REPLACE VIEW `user_view`
 AS SELECT
      `u`.`id` AS `id`,
      `u`.`active` AS `active`,
