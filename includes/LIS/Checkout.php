@@ -62,8 +62,6 @@
 			$this->user = $user->getId();
 			$this->rental_item = $rental_item->getId();
 
-			// todo: add a check to see if the item has been reserved. If so, update reservation table to reflect checkout
-			// todo: if reserved and user id does not match, need to return message stating item is reserved by someone else
 
 			// save objects
 			$this->_user = $user;

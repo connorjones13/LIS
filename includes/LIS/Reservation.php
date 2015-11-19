@@ -17,7 +17,7 @@ use LIS\User\User;
 
 class Reservation {
 
-	private $id, $user, $rental_item, $date_created, $is_expired;
+	private $id, $user, $rental_item, $date_created, $is_expired, $checkout;
 
 	/* @var PDO_MySQL $_pdo */
 	private $_pdo; //Since this is an internal dependency, I mark it with an _
@@ -61,15 +61,13 @@ class Reservation {
 		$this->id = $this->_pdo->lastInsertId();
 	}
 
-	public function setPickedUp() {
-		//$this->date_pickup = Utility::getDateTimeForMySQLDateTime();
+	public function setPickedUp(Checkout $checkout) {
+		$this->checkout = $checkout->getId();
+		$args = ["co" => $this->checkout];
 
-//		$args = ["dp" => $this->date_pickup];
+		$query = "UPDATE reservation SET checkout = :co";
 
-		// todo: update to work with checkout id
-//		$query = "UPDATE reservation SET date_pickup = :dp";
-
-//		$this->_pdo->perform($query, $args);
+		$this->_pdo->perform($query, $args);
 
 	}
 

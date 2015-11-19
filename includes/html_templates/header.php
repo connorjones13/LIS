@@ -37,6 +37,7 @@
 					</li>
 				<?php } else { ?>
 					<li><a href="/login">Log in</a></li>
+					<li><a href="account/create">Sign Up</a></li>
 				<?php } ?>
 			</ul>
 			<form class="navbar-form navbar-right" role="search">
