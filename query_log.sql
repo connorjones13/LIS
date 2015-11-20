@@ -1,8 +1,12 @@
 /* ---------------------------------------------------------------------------------------------------------------------
  * 11-19-2015
  ---------------------------------------------------------------------------------------------------------------------*/
+
+ALTER TABLE rental_item ADD type int DEFAULT 0 NOT NULL AFTER id;
+
 CREATE OR REPLACE VIEW `ri_magazine` AS SELECT
     `ri`.`id`             AS `id`,
+    `ri`.`type`           AS `type`,
     `ri`.`title`          AS `title`,
     `ri`.`summary`        AS `summary`,
     `ri`.`category`       AS `category`,
@@ -21,6 +25,7 @@ CREATE OR REPLACE VIEW `ri_magazine` AS SELECT
 
 CREATE OR REPLACE VIEW `ri_book` AS SELECT
     `ri`.`id`                                    AS `id`,
+    `ri`.`type`                                  AS `type`,
     `ri`.`title`                                 AS `title`,
     `ri`.`summary`                               AS `summary`,
     `ri`.`category`                              AS `category`,
@@ -41,6 +46,7 @@ CREATE OR REPLACE VIEW `ri_book` AS SELECT
 
 CREATE OR REPLACE VIEW `ri_dvd` AS SELECT
     `ri`.`id`             AS `id`,
+    `ri`.`type`           AS `type`,
     `ri`.`title`          AS `title`,
     `ri`.`summary`        AS `summary`,
     `ri`.`category`       AS `category`,
