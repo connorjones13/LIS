@@ -11,6 +11,7 @@
 	use DateInterval;
 	use LIS\Database\PDO_MySQL;
 	use DateTime;
+	use LIS\LibraryCard;
 	use LIS\Utility;
 
 	class User {
@@ -25,11 +26,13 @@
 
 		protected $id, $active, $privilege_level, $name_first, $name_last, $email, $phone, $date_signed_up, $gender,
 				$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city, $address_state,
-				$address_country_code, $password_hash, $reset_token, $reset_token_expiry, $account_confirm_token,
-				$library_card, $library_card_date_issued;
+				$address_country_code, $password_hash, $reset_token, $reset_token_expiry, $account_confirm_token;
 
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo; //Since this is an internal dependency, I mark it with an _
+
+		/* @var LibraryCard $_library_card */
+		protected $_library_card;
 
 		/**
 		 * User constructor. Takes a database object as a dependency and an optional
@@ -76,15 +79,19 @@
 		 * @param string $address_state
 		 * @param string $address_country_code
 		 * @param string $password
+		 * @param LibraryCard $_library_card
 		 */
-		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
-		                       $address_line_1, $address_line_2, $address_zip, $address_city,
-		                       $address_state, $address_country_code, $password) {
+		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1,
+		                       $address_line_2, $address_zip, $address_city, $address_state, $address_country_code,
+		                       $password, LibraryCard $_library_card) {
 			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
 					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
 					$address_state, $address_country_code, $password, self::PRIVILEGE_USER);
 
 			$this->parse(self::findRowBy($this->_pdo, "id", $id));
+
+			$this->_library_card = $_library_card;
+			$this->_library_card->create($this);
 		}
 
 		/**
@@ -127,55 +134,16 @@
 
 			$id = $_pdo->lastInsertId();
 
-			self::issueLibraryCard($_pdo, $id);
-
 			self::createAccountConfirmationToken($_pdo, $id);
 
 			return $id;
 		}
 
-		/**
-		 * Non-static version of issueLibraryCard which will deactivate the old card
-		 * and then assign a new card to the user using the static function.
-		 */
-		public function issueNewLibraryCard() {
-			if ($this->library_card)
-				$this->_pdo->perform("UPDATE library_card SET status = 0");
+		public function getLibraryCard() {
+			if (!$this->_library_card)
+				$this->_library_card = LibraryCard::findByUser($this->_pdo, $this);
 
-			self::issueLibraryCard($this->_pdo, $this->id);
-
-			$args = ["id" => $this->id];
-			$query = "SELECT number AS library_card, date_issued AS library_card_date_issued
-					  FROM library_card WHERE user = :uid";
-			$this->parse($this->_pdo->fetchOne($query, $args));
-		}
-
-		/**
-		 * This function was created to allow for use in the static
-		 * @param PDO_MySQL $_pdo
-		 * @param $id
-		 */
-		public static function issueLibraryCard(PDO_MySQL $_pdo, $id) {
-			$time = Utility::getDateTimeForMySQLDate();
-
-			/**
-			 * This while loop will usually only ever only run once. It will perform
-			 * the query until it finds an unused card number and then break. I have
-			 * surrounded it in a try catch to check the error code of the Exception
-			 * which was thrown. If it is any other kind of exception, it will throw
-			 * the exception again without catching it so we may see the error.
-			 */
-			for (;;) {
-				try {
-					$arguments = ["uid" => $id, "ti" => $time, "lc" => Utility::getRandomString(16, true, false, true)];
-					$query = "INSERT INTO library_card (user, date_issued, number) VALUES (:uid, :ti, :lc)";
-					$_pdo->perform($query, $arguments);
-					break;
-				} catch (\PDOException $er) {
-					if (!PDO_MySQL::isDuplicateKeyError($er))
-						throw $er;
-				}
-			};
+			return $this->_library_card;
 		}
 
 		/** @return int */
@@ -286,16 +254,6 @@
 		/** @return string */
 		public function getAddressCountryCode() {
 			return $this->address_country_code;
-		}
-
-		/** @return string */
-		public function getLibraryCardNumber() {
-			return $this->library_card;
-		}
-
-		/** @return DateTime */
-		public function getLibraryCardDateIssued() {
-			return Utility::getDateTimeFromMySQLDate($this->library_card_date_issued);
 		}
 
 		/**
@@ -547,5 +505,12 @@
 			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => self::PRIVILEGE_USER]);
 
 			return new User($user->_pdo, get_object_vars($user));
+		}
+
+		public function referenceLibraryCard(LibraryCard $library_card) {
+			if ($library_card->getUserId() != $this->id)
+				throw new \InvalidArgumentException("User does not own this card");
+
+			$this->_library_card = $library_card;
 		}
 	}

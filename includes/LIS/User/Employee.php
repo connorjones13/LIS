@@ -9,16 +9,20 @@
 	namespace LIS\User;
 
 	use LIS\Database\PDO_MySQL;
+	use LIS\LibraryCard;
 
 	class Employee extends User {
-		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
-		                       $address_line_1, $address_line_2, $address_zip, $address_city,
-		                       $address_state, $address_country_code, $password) {
+		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1,
+		                       $address_line_2, $address_zip, $address_city, $address_state, $address_country_code,
+		                       $password, LibraryCard $_library_card) {
 			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
 					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
 					$address_state, $address_country_code, $password, self::PRIVILEGE_EMPLOYEE);
 
 			$this->parse(self::findRowBy($this->_pdo, "id", $id));
+
+			$this->_library_card = $_library_card;
+			$this->_library_card->create($this);
 		}
 
 		public static function getAllActive(PDO_MySQL $_pdo) {
