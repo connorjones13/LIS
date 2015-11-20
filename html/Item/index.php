@@ -13,7 +13,7 @@ $authors = array("John", "Jacob", "Jacky");
 $page_title = $item->getTitle();
 
 ?>
-git
+
 <!doctype html>
 <html lang="en">
 <head>
