@@ -8,7 +8,7 @@
 
 		protected $publication, $issue_number;
 
-		public function create($summary, $title, $category, $date_published, $status, $publication, $issue_number) {
+		public function create($summary, $title, $category, $date_published, $status, $publication = "", $issue_number = 0) {
 
 			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status, $publication,
 				$issue_number);
@@ -29,11 +29,14 @@
 
 			$_pdo->perform($query, $arguments);
 
-			$id = $_pdo->lastInsertId();
+//			$id = $_pdo->lastInsertId();
 
 			return $id;
 		}
 
+		/**
+		 * @return string
+		 */
 		public function getPublication() {
 			return $this->publication;
 		}
@@ -56,6 +59,12 @@
 			$this->_pdo->perform("UPDATE rental_item_magazine SET issue_number = :inum WHERE id = :id", $args);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param $column
+		 * @param $value
+		 * @return array
+		 */
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
 			$args = ["val" => $value];
 
@@ -86,8 +95,5 @@
 			}, $rows);
 		}
 
-
-
-		// TODO: find methods
 
 	}

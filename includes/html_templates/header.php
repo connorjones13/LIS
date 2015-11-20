@@ -18,7 +18,10 @@
 				<li><a href="/">Home</a></li>
 				<li><a href="/classes.php">Test Classes</a></li>
 				<li><a href="#">Help</a></li>
-				<?php if ($controller->isLoggedIn()) { ?>
+				<?php if ($controller->isLoggedIn() && $controller->getUser()->getPrivilegeLevel() > 0) { ?>
+					<li><a href="#">Control Panel</a></li>
+				<?php } ?>
+				<?php if ($controller->getUser()) { ?>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 							Account <b class="caret"></b>
@@ -34,6 +37,7 @@
 					</li>
 				<?php } else { ?>
 					<li><a href="/login">Log in</a></li>
+					<li><a href="account/create">Sign Up</a></li>
 				<?php } ?>
 			</ul>
 			<form class="navbar-form navbar-right" role="search">
