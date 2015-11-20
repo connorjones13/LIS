@@ -1,13 +1,11 @@
 <?php
 	require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 	$pdo = new \LIS\Database\PDO_MySQL();
-	$controller = new \LIS\Controllers\LoginController($pdo);  //TODO: UserController will be here
-
-	if ($controller->hasError()) {
-		switch ($controller->getError()) {
-			//TODO: for any error, switch between the possible codes and give an error message.
-		}
-	}
+	$controller = new \LIS\Controllers\CreateUserController($pdo);
+	if (\LIS\Utility::requestHasPost())
+		$controller->createNewUser($_POST["name_first"], $_POST["name_last"], $_POST["username"], $_POST["phone"],
+			$_POST["gender"], $_POST["dob"], $_POST["address_line_1"], $_POST["address_line_2"], $_POST["address_zip"],
+			$_POST["address_city"], $_POST["address_state"], $_POST["password"], $_POST["password_confirm"]);
 
 	$page_title = "Login";
 ?>
@@ -24,9 +22,9 @@
 			<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 				<h2>Create New Account</h2>
 				<form action method="post">
-					<?php if (isset($error)) { ?>
+					<?php if ($controller->hasError()) { ?>
 						<p class="alert bg-danger">
-							<?= $error; ?>
+							<?= $controller->getErrorMessage(); ?>
 						</p>
 					<?php } ?>
 					<div class="form-group">
@@ -47,12 +45,12 @@
 					<div class="form-group">
 						<label for="password">Password</label>
 						<input type="password" class="form-control" id="password" name="password"
-						       placeholder="japple@example.com" value="<?= $_POST["password"] ?>">
+						       placeholder="password" value="<?= $_POST["password"] ?>">
 					</div>
 					<div class="form-group">
 						<label for="password_confirm">Password</label>
 						<input type="password" class="form-control" id="password_confirm" name="password_confirm"
-						       placeholder="japple@example.com" value="<?= $_POST["password_confirm"] ?>">
+						       placeholder="password" value="<?= $_POST["password_confirm"] ?>">
 					</div>
 					<div class="form-group">
 						<label for="phone">Phone</label>

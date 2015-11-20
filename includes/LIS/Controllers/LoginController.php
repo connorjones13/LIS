@@ -12,13 +12,15 @@
 	use LIS\Utility;
 
 	class LoginController extends BaseController {
-		private $login_error = false;
-
 		static $ERROR_CREDENTIALS_INVALID = 0;
 		static $ERROR_ACCOUNT_INACTIVE = 1;
 		static $ERROR_SESSION_TIMED_OUT = 2;
 		static $ERROR_USERNAME_NOT_FOUND = 3;
 
+		/**
+		 * @param $username
+		 * @param $password
+		 */
 		public function checkCredentials($username, $password) {
 			if ($this->isLoggedIn())
 				self::displayPage(self::$PAGE_HOME);
@@ -54,15 +56,21 @@
 			}
 		}
 
-		private function setError($error) {
-			$this->login_error = $error;
-		}
-
-		public function hasError() {
-			return $this->login_error !== false;
-		}
-
-		public function getError() {
-			return $this->login_error;
+		/**
+		 * @return bool|string
+		 */
+		public function getErrorMessage() {
+			switch ($this->getError()) {
+				case self::$ERROR_USERNAME_NOT_FOUND:
+					return "This username does not exist. Please create an account.";
+				case self::$ERROR_CREDENTIALS_INVALID:
+					return "Credentials invalid. Please try again.";
+				case self::$ERROR_ACCOUNT_INACTIVE:
+					return "This account has been made inactive. Please contact support.";
+				case self::$ERROR_SESSION_TIMED_OUT:
+					return "You were logged in for too long without action and have been logged out.";
+				default:
+					return false;
+			}
 		}
 	}

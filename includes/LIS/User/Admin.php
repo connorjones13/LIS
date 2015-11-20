@@ -13,10 +13,10 @@
 	class Admin extends Employee {
 		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
 		                       $address_line_1, $address_line_2, $address_zip, $address_city,
-		                       $address_state, $address_country_code, $password_hash) {
+		                       $address_state, $address_country_code, $password) {
 			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
 					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
-					$address_state, $address_country_code, $password_hash, self::PRIVILEGE_ADMIN);
+					$address_state, $address_country_code, $password, self::PRIVILEGE_ADMIN);
 
 			$this->parse(self::findRowBy($this->_pdo, "id", $id, self::PRIVILEGE_ADMIN));
 		}

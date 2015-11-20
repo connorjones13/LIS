@@ -4,23 +4,6 @@
 	$controller = new \LIS\Controllers\LoginController($pdo);
 	$controller->checkCredentials($_POST["username"], $_POST["password"]);
 
-	if ($controller->hasError()) {
-		switch ($controller->getError()) {
-			case \LIS\Controllers\LoginController::$ERROR_USERNAME_NOT_FOUND:
-				$error = "This username does not exist. Please create an account.";
-				break;
-			case \LIS\Controllers\LoginController::$ERROR_CREDENTIALS_INVALID:
-				$error = "Credentials invalid. Please try again.";
-				break;
-			case \LIS\Controllers\LoginController::$ERROR_ACCOUNT_INACTIVE:
-				$error = "This account has been made inactive. Please contact support.";
-				break;
-			case \LIS\Controllers\LoginController::$ERROR_SESSION_TIMED_OUT:
-				$error = "You were logged in for too long without action and have been logged out.";
-				break;
-		}
-	}
-
 	$page_title = "Login";
 ?>
 <!doctype html>
@@ -36,9 +19,9 @@
 			<div class="center col-lg-6 col-md-8 col-sm-10 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
 				<h2>Login</h2>
 				<form action method="post">
-					<?php if (isset($error)) { ?>
+					<?php if ($controller->hasError()) { ?>
 						<p class="alert bg-danger">
-							<?= $error; ?>
+							<?= $controller->getErrorMessage(); ?>
 						</p>
 					<?php } ?>
 					<div class="form-group">

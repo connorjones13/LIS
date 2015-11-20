@@ -33,7 +33,7 @@ CREATE OR REPLACE VIEW `ri_book` AS SELECT
     `rib`.`isbn10`                               AS `isbn10`,
     `rib`.`isbn13`                               AS `isbn13`
   FROM ((((`rental_item_book` `rib`
-    LEFT JOIN `rental_item` `ri` ON ((`ri`.`id` = `rib`.`id`)))
+    RIGHT JOIN `rental_item` `ri` ON ((`ri`.`id` = `rib`.`id`)))
     LEFT JOIN `author` `a` ON ((`a`.`book` = `rib`.`id`)))
     LEFT JOIN `checkout` `c` ON (((`c`.`rental_item` = `ri`.`id`) AND isnull(`c`.`date_returned`))))
     LEFT JOIN `reservation` `r` ON (((`r`.`rental_item` = `ri`.`id`) AND isnull(`r`.`checkout`))))
@@ -51,7 +51,7 @@ CREATE OR REPLACE VIEW `ri_dvd` AS SELECT
     count(`r`.`id`)       AS `is_reserved`,
     `rid`.`director`      AS `director`
   FROM (((`rental_item_dvd` `rid`
-    LEFT JOIN `rental_item` `ri` ON ((`ri`.`id` = `rid`.`id`)))
+    RIGHT JOIN `rental_item` `ri` ON ((`ri`.`id` = `rid`.`id`)))
     LEFT JOIN `checkout` `c` ON (((`c`.`rental_item` = `ri`.`id`) AND isnull(`c`.`date_returned`))))
     LEFT JOIN `reservation` `r` ON (((`r`.`rental_item` = `ri`.`id`) AND isnull(`r`.`checkout`))))
   GROUP BY `ri`.`id`;
