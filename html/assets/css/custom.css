@@ -59,3 +59,14 @@ footer ul li {
 	float: left;
 	margin-left: 15px;
 }
+
+/* Item Page */
+
+.ip-container {
+	padding-top: 60px;
+}
+
+.ip-img {
+	width: 50%;
+	min-height: 600px;
+}
