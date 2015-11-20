@@ -16,23 +16,23 @@
 		</header>
 		<div class="content">
 			<div class="container">
-				<?php if ($controller->getUser()) { ?>
+				<?php if ($controller->getSessionUser()) { ?>
 					ID:<br>
-					<?= $controller->getUser()->getId(); ?><br><br>
+					<?= $controller->getSessionUser()->getId(); ?><br><br>
 					Full Name:<br>
-					<?= $controller->getUser()->getNameFull(); ?><br><br>
+					<?= $controller->getSessionUser()->getNameFull(); ?><br><br>
 					Email:<br>
-					<?= $controller->getUser()->getEmail(); ?><br><br>
+					<?= $controller->getSessionUser()->getEmail(); ?><br><br>
 					Address:<br>
-					<?= $controller->getUser()->getAddressFull(); ?><br><br>
+					<?= $controller->getSessionUser()->getAddressFull(); ?><br><br>
 					DOB:<br>
-					<?= $controller->getUser()->getDateOfBirth()->format("m-d-Y"); ?><br><br>
+					<?= $controller->getSessionUser()->getDateOfBirth()->format("m-d-Y"); ?><br><br>
 					DSU:<br>
-					<?= $controller->getUser()->getDateSignedUp()->format("m-d-Y"); ?><br><br>
+					<?= $controller->getSessionUser()->getDateSignedUp()->format("m-d-Y"); ?><br><br>
 					Library Card:<br>
-					<?= $controller->getUser()->getLibraryCardNumber(); ?><br><br>
+					<?= $controller->getSessionUser()->getLibraryCardNumber(); ?><br><br>
 					Card Issue Date:<br>
-					<?= $controller->getUser()->getLibraryCardDateIssued()->format("m-d-Y"); ?>
+					<?= $controller->getSessionUser()->getLibraryCardDateIssued()->format("m-d-Y"); ?>
 				<?php } else { ?>
 					<p class="alert bg-warning">
 						You are not logged in. Please login to see some user output.

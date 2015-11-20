@@ -28,10 +28,9 @@
 
 			//TODO: Move this to external loading via html files if there is time.
 			$this->_mailer->msgHTML("Hello " . $user->getNameFirst() . ",<br><br>Please click "
-					. "<a href=\"localhost:8888/account/reset_password?rt=" . $user->getResetToken() . "\">here</a> "
+					. "<a href=\"localhost:8888/account/reset_password/?rt=" . $user->getResetToken() . "\">here</a> "
 					. "to reset your password.<br>If you did not request a password reset you may ignore this email.");
 
 			$this->_mailer->send();
 		}
-
 	}

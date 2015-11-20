@@ -13,27 +13,12 @@
 	class Admin extends Employee {
 		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
 		                       $address_line_1, $address_line_2, $address_zip, $address_city,
-		                       $address_state, $address_country_code, $password_hash) {
+		                       $address_state, $address_country_code, $password) {
 			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
 					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
-					$address_state, $address_country_code, $password_hash, self::PRIVILEGE_ADMIN);
+					$address_state, $address_country_code, $password, self::PRIVILEGE_ADMIN);
 
-			$this->parse(self::findRowBy($this->_pdo, "id", $id, self::PRIVILEGE_ADMIN));
-		}
-
-		public static function find(PDO_MySQL $_pdo, $id) {
-			$row = self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_ADMIN);
-			return $row ? new Admin($_pdo, $row) : null;
-		}
-
-		public static function findByEmail(PDO_MySQL $_pdo, $email) {
-			$row = self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_ADMIN);
-			return $row ? new Admin($_pdo, $row) : null;
-		}
-
-		public static function findByPhone(PDO_MySQL $_pdo, $phone) {
-			$row = self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_ADMIN);
-			return $row ? new Admin($_pdo, $row) : null;
+			$this->parse(self::findRowBy($this->_pdo, "id", $id));
 		}
 
 		public static function getAllActive(PDO_MySQL $_pdo) {

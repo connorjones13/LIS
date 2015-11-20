@@ -70,7 +70,8 @@
 		 * @return string
 		 */
 		public static function cleanPhoneString($phone) {
-			return preg_replace("/[^0-9]/", "", $phone);
+			$phone = preg_replace("/[^0-9]/", "", $phone);
+			return self::charAt($phone) == "1" ? substr($phone, 1) : $phone;
 		}
 
 		/**
@@ -109,5 +110,47 @@
 				$randomString .= $possible_chars[rand(0, $char_list_len - 1)];
 
 			return $randomString;
+		}
+
+		/**
+		 * Used to match
+		 * @param string $haystack
+		 * @param string|array $needle
+		 * @param bool $match_all
+		 * @return bool
+		 */
+		public static function stringContains($haystack, $needle, $match_all = true) {
+			if (!is_array($needle))
+				return strpos($haystack, $needle) !== false;
+
+			if ($match_all) {
+				foreach ($needle as $item)
+					if (!Utility::stringContains($haystack, $item))
+						return false;
+			}
+			else {
+				foreach ($needle as $item)
+					if (Utility::stringContains($haystack, $item))
+						return true;
+			}
+
+			return $match_all;
+		}
+
+		/**
+		 * @param string $str
+		 * @param int $index
+		 * @return string
+		 */
+		public static function charAt($str, $index = 0) {
+			return $str[$index];
+		}
+
+		public static function requestHasPost() {
+			return !empty($_POST);
+		}
+
+		public static function requestHasGet() {
+			return !empty($_GET);
 		}
 	}

@@ -10,6 +10,8 @@
 
 
 	use LIS\Database\PDO_MySQL;
+	use LIS\User\Admin;
+	use LIS\User\Employee;
 	use LIS\User\User;
 
 	class BaseController {
@@ -20,16 +22,17 @@
 		protected static $LAST_ACTION = "la";
 		protected static $SESSION_COOKIE = "s";
 		protected static $VALID_LOGIN = "valid_login";
-
 		protected static $PAGE_LOGIN = "/login";
+
 		protected static $PAGE_HOME = "/";
 		protected static $PAGE_LOGOUT = "/logout";
-
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
-		/* @var $_user User */
-		protected $_user;
+		/* @var $_session_user User|Employee|Admin */
+		protected $_session_user;
+
+		protected $error = false;
 
 		/**
 		 * @param PDO_MySQL $_pdo
@@ -71,11 +74,14 @@
 			return isset($_POST[self::LOGOUT]);
 		}
 
-		final public function getUser() {
-			if (!$this->_user && $this->isLoggedIn())
-				$this->_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
+		/**
+		 * @return Admin|Employee|User|null
+		 */
+		final public function getSessionUser() {
+			if (!$this->_session_user && $this->isLoggedIn())
+				$this->_session_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
 
-			return $this->_user;
+			return $this->_session_user;
 		}
 
 		final public function logout() {
@@ -105,5 +111,21 @@
 
 			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 			ini_set("display_errors", 1);
+		}
+
+		protected function setError($error) {
+			$this->error = $error;
+		}
+
+		public function hasError() {
+			return $this->error !== false;
+		}
+
+		public function getError() {
+			return $this->error;
+		}
+
+		public function getErrorMessage() {
+			return $this->hasError() ? "" : false;
 		}
 	}

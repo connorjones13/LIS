@@ -25,8 +25,8 @@
 
 		protected $id, $active, $privilege_level, $name_first, $name_last, $email, $phone, $date_signed_up, $gender,
 				$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city, $address_state,
-				$address_country_code, $password_hash, $reset_token, $reset_token_expiry, $library_card,
-				$library_card_date_issued;
+				$address_country_code, $password_hash, $reset_token, $reset_token_expiry, $account_confirm_token,
+				$library_card, $library_card_date_issued;
 
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo; //Since this is an internal dependency, I mark it with an _
@@ -75,16 +75,16 @@
 		 * @param string $address_city
 		 * @param string $address_state
 		 * @param string $address_country_code
-		 * @param string $password_hash
+		 * @param string $password
 		 */
 		public function create($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
 		                       $address_line_1, $address_line_2, $address_zip, $address_city,
-		                       $address_state, $address_country_code, $password_hash) {
+		                       $address_state, $address_country_code, $password) {
 			$id = self::createNew($this->_pdo, $name_first, $name_last, $email, $phone, $gender,
 					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
-					$address_state, $address_country_code, $password_hash, self::PRIVILEGE_USER);
+					$address_state, $address_country_code, $password, self::PRIVILEGE_USER);
 
-			$this->parse(self::findRowBy($this->_pdo, "id", $id, self::PRIVILEGE_USER));
+			$this->parse(self::findRowBy($this->_pdo, "id", $id));
 		}
 
 		/**
@@ -101,14 +101,23 @@
 		 * @param string $address_city
 		 * @param string $address_state
 		 * @param string $address_country_code
-		 * @param string $password_hash
+		 * @param string $password
 		 * @param int $privilege_level
 		 * @return int
 		 */
-		protected static function createNew(PDO_MySQL $_pdo, $name_first, $name_last, $email, $phone, $gender, $date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city, $address_state, $address_country_code, $password_hash, $privilege_level) {
+		protected static function createNew(PDO_MySQL $_pdo, $name_first, $name_last, $email, $phone,
+		                                    $gender, $date_of_birth, $address_line_1, $address_line_2,
+		                                    $address_zip, $address_city, $address_state, $address_country_code,
+		                                    $password, $privilege_level) {
 			$time = Utility::getDateTimeForMySQLDate();
 
-			$arguments = ["nf" => $name_first, "nl" => $name_last, "em" => $email, "ph" => $phone, "dsu" => $time, "ge" => $gender, "dob" => Utility::getDateTimeForMySQLDate($date_of_birth), "al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city, "ast" => $address_state, "acc" => $address_country_code, "pa" => $password_hash, "pl" => $privilege_level];
+			$arguments = [
+				"nf" => $name_first, "nl" => $name_last, "em" => $email, "ph" => Utility::cleanPhoneString($phone),
+				"dsu" => $time, "ge" => $gender, "dob" => Utility::getDateTimeForMySQLDate($date_of_birth),
+				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
+				"ast" => $address_state, "acc" => $address_country_code, "pa" => Utility::hashPassword($password),
+				"pl" => $privilege_level
+			];
 			$query = "INSERT INTO user (name_first, name_last, email, phone, date_signed_up, gender, date_of_birth,
 					  address_line_1, address_line_2, address_zip, address_city, address_state, address_country_code,
 					  password_hash, privilege_level) VALUES (:nf, :nl, :em, :ph, :dsu, :ge, :dob, :al1, :al2, :az,
@@ -119,6 +128,8 @@
 			$id = $_pdo->lastInsertId();
 
 			self::issueLibraryCard($_pdo, $id);
+
+			self::createAccountConfirmationToken($_pdo, $id);
 
 			return $id;
 		}
@@ -154,7 +165,7 @@
 			 * which was thrown. If it is any other kind of exception, it will throw
 			 * the exception again without catching it so we may see the error.
 			 */
-			while (true) {
+			for (;;) {
 				try {
 					$arguments = ["uid" => $id, "ti" => $time, "lc" => Utility::getRandomString(16, true, false, true)];
 					$query = "INSERT INTO library_card (user, date_issued, number) VALUES (:uid, :ti, :lc)";
@@ -317,6 +328,11 @@
 			return $this->reset_token;
 		}
 
+		/** @return string */
+		public function getAccountConfirmToken() {
+			return $this->account_confirm_token;
+		}
+
 		/** @return DateTime */
 		public function getResetTokenExpiry() {
 			return Utility::getDateTimeFromMySQLDate($this->reset_token_expiry);
@@ -361,7 +377,7 @@
 		 * @param $address_country_code
 		 */
 		public function updateAddress($address_line_1, $address_line_2, $address_zip, $address_city,
-		                                $address_state, $address_country_code) {
+		                              $address_state, $address_country_code) {
 			$this->address_line_1 = $address_line_1;
 			$this->address_line_2 = $address_line_2;
 			$this->address_zip = $address_zip;
@@ -371,7 +387,10 @@
 
 			$query = "UPDATE user SET address_line_1 = :al1, address_line_2 = :al2, address_zip = :az,
 					  address_city = :ac, address_state = :ast, address_country_code = :acc WHERE id = :id";
-			$args = ["al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city, "ast" => $address_state, "acc" => $address_country_code, "id" => $this->id];
+			$args = [
+				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
+				"ast" => $address_state, "acc" => $address_country_code, "id" => $this->id
+			];
 			$this->_pdo->perform($query, $args);
 		}
 
@@ -393,7 +412,35 @@
 
 			$args = ["rt" => $this->reset_token, "rte" => $this->reset_token_expiry, "id" => $this->id];
 			$query = "UPDATE user SET reset_token = :rt, reset_token_expiry = :rte WHERE id = :id";
-			$this->_pdo->perform($query, $args);
+
+			for (;;) {
+				try {
+					$this->_pdo->perform($query, $args);
+					break;
+				} catch (\PDOException $er) {
+					if (!PDO_MySQL::isDuplicateKeyError($er))
+						throw $er;
+
+					$this->reset_token = Utility::getRandomString(32);
+				}
+			}
+		}
+
+		private static function createAccountConfirmationToken(PDO_MySQL $_pdo, $id) {
+			$args = ["rt" => Utility::getRandomString(32), "id" => $id];
+			$query = "UPDATE user SET reset_token = :rt WHERE id = :id";
+
+			for (;;) {
+				try {
+					$_pdo->perform($query, $args);
+					break;
+				} catch (\PDOException $er) {
+					if (!PDO_MySQL::isDuplicateKeyError($er))
+						throw $er;
+
+					$args["rt"] = Utility::getRandomString(32);
+				}
+			}
 		}
 
 		/**
@@ -418,49 +465,45 @@
 		 * @param PDO_MySQL $_pdo
 		 * @param $column
 		 * @param $value
-		 * @param $privilege_level
 		 * @return array
 		 */
-		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value, $privilege_level) {
-			if (!in_array($privilege_level, [self::PRIVILEGE_USER, self::PRIVILEGE_EMPLOYEE, self::PRIVILEGE_ADMIN]))
-				throw new \InvalidArgumentException("Privilege level is invalid.");
+		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
+			$args = ["val" => $value];
 
-			$args = ["val" => $value, "pl" => $privilege_level];
-
-			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val AND privilege_level >= :pl", $args);
+			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val", $args);
 		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param int $id
-		 * @return User
+		 * @return Admin|Employee|User|null
 		 */
 		public static function find(PDO_MySQL $_pdo, $id) {
-			$row = self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_USER);
+			$row = self::findRowBy($_pdo, "id", $id);
 
-			return $row ? new User($_pdo, $row) : null;
+			return $row ? self::getInstanceFromData($_pdo, $row) : null;
 		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param string $email
-		 * @return User
+		 * @return Admin|Employee|User|null
 		 */
 		public static function findByEmail(PDO_MySQL $_pdo, $email) {
-			$row = self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_USER);
+			$row = self::findRowBy($_pdo, "email", $email);
 
-			return $row ? new User($_pdo, $row) : null;
+			return $row ? self::getInstanceFromData($_pdo, $row) : null;
 		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param string $phone
-		 * @return User
+		 * @return Admin|Employee|User|null
 		 */
 		public static function findByPhone(PDO_MySQL $_pdo, $phone) {
-			$row = self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_USER);
+			$row = self::findRowBy($_pdo, "phone", $phone);
 
-			return $row ? new User($_pdo, $row) : null;
+			return $row ? self::getInstanceFromData($_pdo, $row) : null;
 		}
 
 		/**
@@ -479,6 +522,24 @@
 			return array_map(function ($row) use ($_pdo) {
 				return new User($_pdo, $row);
 			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param array $data_arr
+		 * @return Admin|Employee|User|null
+		 */
+		public static function getInstanceFromData(PDO_MySQL $_pdo, array $data_arr) {
+			switch ($data_arr["privilege_level"]) {
+				case self::PRIVILEGE_USER:
+					return new User($_pdo, $data_arr);
+				case self::PRIVILEGE_EMPLOYEE:
+					return new Employee($_pdo, $data_arr);
+				case self::PRIVILEGE_ADMIN:
+					return new Admin($_pdo, $data_arr);
+				default:
+					return null;
+			}
 		}
 
 		public static function setToPrivilegeLevel(User $user) {
