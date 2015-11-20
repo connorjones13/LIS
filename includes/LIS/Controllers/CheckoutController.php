@@ -39,7 +39,7 @@
 			$checkout = new Checkout($this->_pdo);
 
 			if($checkout->findActiveCheckout($rentalItem) != null) {
-				$checkout->checkIn($this->getUser());
+				$checkout->checkIn($this->getSessionUser());
 			}
 
 
