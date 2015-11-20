@@ -44,12 +44,8 @@
 		}
 
 		final public function validateLogin() {
-			if ($this->isLoggedIn()) {
-				if ($this->isLogoutRequested())
-					$this->logout();
-
-				if ($this->isTimedOut())
-					$this->logout();
+			if ($this->isLoggedIn() && $this->isTimedOut()) {
+				$this->logout();
 			}
 			else {
 				$_SESSION[self::$REQUEST_URI] = $_SERVER[self::$REQUEST_URI];
@@ -68,10 +64,6 @@
 
 			$_SESSION[self::$LAST_ACTION] = time();
 			return false;
-		}
-
-		private function isLogoutRequested() {
-			return isset($_POST[self::LOGOUT]);
 		}
 
 		/**
