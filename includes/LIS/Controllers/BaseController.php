@@ -27,8 +27,8 @@
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
-		/* @var $_user User */
-		protected $_user;
+		/* @var $_session_user User */
+		protected $_session_user;
 
 		protected $error = false;
 
@@ -72,11 +72,11 @@
 			return isset($_POST[self::LOGOUT]);
 		}
 
-		final public function getUser() {
-			if (!$this->_user && $this->isLoggedIn())
-				$this->_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
+		final public function getSessionUser() {
+			if (!$this->_session_user && $this->isLoggedIn())
+				$this->_session_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
 
-			return $this->_user;
+			return $this->_session_user;
 		}
 
 		final public function logout() {

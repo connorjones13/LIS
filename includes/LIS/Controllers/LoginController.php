@@ -33,23 +33,23 @@
 			if ($username == "" && $password == "")
 				return;
 
-			$this->_user = User::findByEmail($this->_pdo, $username);
+			$this->_session_user = User::findByEmail($this->_pdo, $username);
 
-			if (!$this->_user) {
+			if (!$this->_session_user) {
 				$this->setError(self::$ERROR_USERNAME_NOT_FOUND);
 			}
 
-			else if (!$this->_user->isActive()) {
+			else if (!$this->_session_user->isActive()) {
 				$this->setError(self::$ERROR_ACCOUNT_INACTIVE);
 			}
 
-			else if (!Utility::verifyPassword($password, $this->_user->getPasswordHash())) {
+			else if (!Utility::verifyPassword($password, $this->_session_user->getPasswordHash())) {
 				$this->setError(self::$ERROR_CREDENTIALS_INVALID);
 			}
 
 
 			if (!$this->hasError()) {
-				$_SESSION[self::$VALID_LOGIN] = $this->_user->getEmail();
+				$_SESSION[self::$VALID_LOGIN] = $this->_session_user->getEmail();
 				$_SESSION[self::$LAST_ACTION] = time();
 
 				self::displayPage($_SESSION[self::$REQUEST_URI]);
