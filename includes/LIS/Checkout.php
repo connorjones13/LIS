@@ -177,7 +177,13 @@
 			return $this->_co_employee;
 		}
 
+		public function findActiveCheckout(RentalItem $rentalItem) {
 
+			$args = ["val" => $rentalItem->getId()];
+
+			$activeCheckout = null;
+			return $this->_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
+		}
 
 		/**
 		 * @param array $data_arr

@@ -60,10 +60,6 @@
 		 * @param int $status
 		 */
 		abstract public function create($summary, $title, $category, $date_published, $status);
-//			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status);
-//
-//			$this->parse(self::findRowBy($this->_pdo, "id", $id));
-
 
 		/**
 		 * @param PDO_MySQL $_pdo

@@ -6,7 +6,12 @@
 
 	class Book extends RentalItem {
 
+		const TYPE = 0;
+		//todo: insert type into DB
+
+
 		protected $isbn10, $isbn13, $authors;
+
 
 		public function create($summary, $title, $category, $date_published, $status, $isbn10 = "",
 		                       $isbn13 = "", array $authors = []) {
