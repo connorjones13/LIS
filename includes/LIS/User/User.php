@@ -84,7 +84,7 @@
 					$date_of_birth, $address_line_1, $address_line_2, $address_zip, $address_city,
 					$address_state, $address_country_code, $password, self::PRIVILEGE_USER);
 
-			$this->parse(self::findRowBy($this->_pdo, "id", $id, self::PRIVILEGE_USER));
+			$this->parse(self::findRowBy($this->_pdo, "id", $id));
 		}
 
 		/**
@@ -465,49 +465,45 @@
 		 * @param PDO_MySQL $_pdo
 		 * @param $column
 		 * @param $value
-		 * @param $privilege_level
 		 * @return array
 		 */
-		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value, $privilege_level) {
-			if (!in_array($privilege_level, [self::PRIVILEGE_USER, self::PRIVILEGE_EMPLOYEE, self::PRIVILEGE_ADMIN]))
-				throw new \InvalidArgumentException("Privilege level is invalid.");
+		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
+			$args = ["val" => $value];
 
-			$args = ["val" => $value, "pl" => $privilege_level];
-
-			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val AND privilege_level >= :pl", $args);
+			return $_pdo->fetchOne("SELECT * FROM `user_view` WHERE $column = :val", $args);
 		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param int $id
-		 * @return User
+		 * @return Admin|Employee|User|null
 		 */
 		public static function find(PDO_MySQL $_pdo, $id) {
-			$row = self::findRowBy($_pdo, "id", $id, self::PRIVILEGE_USER);
+			$row = self::findRowBy($_pdo, "id", $id);
 
-			return $row ? new User($_pdo, $row) : null;
+			return $row ? self::getInstanceFromData($_pdo, $row) : null;
 		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param string $email
-		 * @return User
+		 * @return Admin|Employee|User|null
 		 */
 		public static function findByEmail(PDO_MySQL $_pdo, $email) {
-			$row = self::findRowBy($_pdo, "email", $email, self::PRIVILEGE_USER);
+			$row = self::findRowBy($_pdo, "email", $email);
 
-			return $row ? new User($_pdo, $row) : null;
+			return $row ? self::getInstanceFromData($_pdo, $row) : null;
 		}
 
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param string $phone
-		 * @return User
+		 * @return Admin|Employee|User|null
 		 */
 		public static function findByPhone(PDO_MySQL $_pdo, $phone) {
-			$row = self::findRowBy($_pdo, "phone", $phone, self::PRIVILEGE_USER);
+			$row = self::findRowBy($_pdo, "phone", $phone);
 
-			return $row ? new User($_pdo, $row) : null;
+			return $row ? self::getInstanceFromData($_pdo, $row) : null;
 		}
 
 		/**
@@ -526,6 +522,24 @@
 			return array_map(function ($row) use ($_pdo) {
 				return new User($_pdo, $row);
 			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param array $data_arr
+		 * @return Admin|Employee|User|null
+		 */
+		public static function getInstanceFromData(PDO_MySQL $_pdo, array $data_arr) {
+			switch ($data_arr["privilege_level"]) {
+				case self::PRIVILEGE_USER:
+					return new User($_pdo, $data_arr);
+				case self::PRIVILEGE_EMPLOYEE:
+					return new Employee($_pdo, $data_arr);
+				case self::PRIVILEGE_ADMIN:
+					return new Admin($_pdo, $data_arr);
+				default:
+					return null;
+			}
 		}
 
 		public static function setToPrivilegeLevel(User $user) {

@@ -10,6 +10,8 @@
 
 
 	use LIS\Database\PDO_MySQL;
+	use LIS\User\Admin;
+	use LIS\User\Employee;
 	use LIS\User\User;
 
 	class BaseController {
@@ -27,7 +29,7 @@
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
-		/* @var $_session_user User */
+		/* @var $_session_user User|Employee|Admin */
 		protected $_session_user;
 
 		protected $error = false;
@@ -72,6 +74,9 @@
 			return isset($_POST[self::LOGOUT]);
 		}
 
+		/**
+		 * @return Admin|Employee|User|null
+		 */
 		final public function getSessionUser() {
 			if (!$this->_session_user && $this->isLoggedIn())
 				$this->_session_user = User::findByEmail($this->_pdo, $_SESSION[self::$VALID_LOGIN]);
