@@ -30,9 +30,9 @@
 					DSU:<br>
 					<?= $controller->getSessionUser()->getDateSignedUp()->format("m-d-Y"); ?><br><br>
 					Library Card:<br>
-					<?= $controller->getSessionUser()->getLibraryCardNumber(); ?><br><br>
+					<?= $controller->getSessionUser()->getLibraryCard()->getNumber(); ?><br><br>
 					Card Issue Date:<br>
-					<?= $controller->getSessionUser()->getLibraryCardDateIssued()->format("m-d-Y"); ?>
+					<?= $controller->getSessionUser()->getLibraryCard()->getDateIssued()->format("m-d-Y"); ?>
 				<?php } else { ?>
 					<p class="alert bg-warning">
 						You are not logged in. Please login to see some user output.

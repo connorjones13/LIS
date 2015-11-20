@@ -10,6 +10,7 @@
 
 	use DateTime;
 	use LIS\Contact\Mailer;
+	use LIS\LibraryCard;
 	use LIS\User\User;
 	use LIS\Utility;
 
@@ -89,10 +90,12 @@
 			if ($this->hasError())
 				return;
 
+			$library_card = new LibraryCard($this->_pdo);
+
 			$user = new User($this->_pdo);
 			$user->create($name_first, $name_last, $email, $phone, $gender,
 					Utility::getDateTimeFromMySQLDate($date_of_birth), $address_line_1, $address_line_2, $address_zip,
-					$address_city, $address_state, "USA", $password);
+					$address_city, $address_state, "USA", $password, $library_card);
 
 			$mailer = new Mailer();
 			$mailer->sendAccountConfirmationEmail($user);
