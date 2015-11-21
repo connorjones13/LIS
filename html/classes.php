@@ -63,7 +63,8 @@
 					$rental_book->create("This is a book summary.", "My First Book", "Horror",
 							DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
 					$authors = array("John", "Jacob", "Jacky");
-					$rental_book->updateAuthors($authors); // testing author update
+					\LIS\RentalItem\Author::deleteAllForBook($pdo, $rental_book);
+					$authors = \LIS\RentalItem\Author::createNewForBook($pdo, $rental_book, $authors);
 				?>
 				<div class="well-lg">
 					<h4>ID: <?= $rental_book->getId(); ?> | Title: <?= $rental_book->getTitle(); ?>
@@ -72,7 +73,8 @@
 					<p>Date Published: <?= $rental_book->getDatePublished()->format("m-d-Y"); ?></p>
 					<p>Date Added: <?= $rental_book->getDateAdded()->format("m-d-Y"); ?></p>
 					<p>Status: <?= $rental_book->getStatus(); ?></p>
-					<p>Authors: <?= implode(", ", $rental_book->getAuthors()); ?></p>
+					<p>Authors: <?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $rental_book)); ?></p>
+
 				</div>
 
 				<!-- testing dvd -->

@@ -10,47 +10,29 @@
 		//todo: insert type into DB
 
 
-		protected $isbn10, $isbn13, $authors;
+		protected $isbn10, $isbn13;
 
 
 		public function create($summary, $title, $category, $date_published, $status, $isbn10 = "",
 		                       $isbn13 = "", array $authors = []) {
 
 			$id = self::createNew($this->_pdo, $summary, $title, $category, $date_published, $status,
-				$isbn10, $isbn13, $authors);
+				$isbn10, $isbn13);
 
 			$this->parse(self::findRowBy($this->_pdo, "id", $id));
+
+			Author::createNewForBook($this->_pdo, $this, $authors);
 		}
 
 		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status,
-		                                    $isbn10, $isbn13, array $authors) {
+		                                    $isbn10, $isbn13) {
 			$id = parent::createNew($_pdo, $summary, $title, $category, $date_published, $status);
 
 			$arguments = ["id" => $id, "i10" => $isbn10, "i13" => $isbn13];
 
-			$query = "INSERT INTO rental_item_book (id, isbn10, isbn13)
-						VALUES (:id, :i10, :i13)";
+			$query = "INSERT INTO rental_item_book (id, isbn10, isbn13) VALUES (:id, :i10, :i13)";
 
 			$_pdo->perform($query, $arguments);
-
-			$book_id = $_pdo->lastInsertId();
-
-			$query = "INSERT INTO author (book, name_full)
-						VALUES ()";
-
-			$query = rtrim($query, '()');
-
-			$data = array();
-
-			foreach ($authors as $author) {
-				$data[] = $book_id;
-				$data[] = $author;
-
-				$query .= "(?,?),";
-			}
-			$query = rtrim($query, ',');
-
-			$_pdo->perform($query, $data);
 
 			return $id;
 		}
@@ -61,10 +43,6 @@
 
 		public function getISBN13() {
 			return $this->isbn13;
-		}
-
-		public function getAuthors() {
-			return $this->authors;
 		}
 
 		public function updateISBN10($isbn10){
@@ -79,31 +57,6 @@
 
 			$args = ["isbn" => $this->isbn13, "id" => $this->id];
 			$this->_pdo->perform("UPDATE rental_item_book SET isbn13 = :isbn WHERE id = :id", $args);
-		}
-
-		public function updateAuthors(array $authors){
-			$this->authors = $authors;
-
-			$args = ["id" => $this->id];
-			$this->_pdo->perform("DELETE FROM author WHERE book = :id", $args);
-
-			$query = "INSERT INTO author (book, name_full)
-						VALUES ()";
-
-			$query = rtrim($query, '()');
-
-			$data = array();
-
-			foreach ($authors as $author) {
-				$data[] = $this->id;
-				$data[] = $author;
-
-				$query .= "(?,?),";
-			}
-			$query = rtrim($query, ',');
-
-			$this->_pdo->perform($query, $data);
-
 		}
 
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
@@ -138,7 +91,5 @@
 
 		protected function parse(array $data_arr) {
 			parent::parse($data_arr);
-
-			$this->authors = explode(", ", $data_arr["authors"]);
 		}
 	}

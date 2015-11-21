@@ -1,17 +1,16 @@
 <?php
 	require_once(__DIR__ . "/../../includes/LIS/autoload.php");
 	$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\CreateUserController($pdo);
-$item = new LIS\RentalItem\Book($pdo);
+	$controller = new \LIS\Controllers\CreateUserController($pdo);
+	$item = new LIS\RentalItem\Book($pdo);
 
-// this for testing. todo: remove when page is passed a item
-$item->create("This is a book summary.", "My First Book", "Horror",
-	DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
-$authors = array("John", "Jacob", "Jacky");
-// todo: remove above section
+	// this for testing. todo: remove when page is passed a item
+	$item->create("This is a book summary.", "My First Book", "Horror",
+		DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
+	$authors = array("John", "Jacob", "Jacky");
+	// todo: remove above section
 
-$page_title = $item->getTitle();
-
+	$page_title = $item->getTitle();
 ?>
 
 <!doctype html>
@@ -33,7 +32,7 @@ $page_title = $item->getTitle();
 			<h4><?= $item->getCategory() ?></h4>
 			<p><?= $item->getSummary() ?></p>
 			<!-- if book -->
-			<p>Authors: <?= implode(", ", $item->getAuthors()); ?></p>
+			<p>Authors: <?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)); ?></p>
 			<!--todo: if logged in, show reserve button -->
 			<a href="#" class="btn btn-lg btn-primary">Reserve</a>
 		</div>
