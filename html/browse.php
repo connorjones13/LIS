@@ -26,7 +26,6 @@
 			<div class="content">
 				<?php
 					$book = new \LIS\RentalItem\Book($pdo);
-
 					$books = $book->getAllByStatus($pdo, 0);
 
 					foreach ($books as $bookarr) {

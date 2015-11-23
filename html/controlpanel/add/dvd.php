@@ -80,6 +80,7 @@ $page_title = "Add DVD";
 			</h4>
 		<?php } ?>
 	</div>
+	</div>
 </div>
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../../../includes/html_templates/footer.php"); ?>
