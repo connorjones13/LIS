@@ -77,6 +77,7 @@ $page_title = "Add Magazine";
 						<input type="hidden" class="form-control" id="status" name="status"
 						       placeholder="0" value="<?= $_POST["status"] == 0; ?>"
 					</div>
+					<!-- todo: clear form after submit, also refreshing the page creates an object in the databse -->
 					<button type="submit" class="btn btn-default">Create</button>
 				</form>
 			</div>
