@@ -34,6 +34,7 @@
 		protected $_session_user;
 
 		protected $error = false;
+		protected $alert = false;
 
 		/**
 		 * @param PDO_MySQL $_pdo
@@ -122,4 +123,5 @@
 		public function getErrorMessage() {
 			return $this->hasError() ? "" : false;
 		}
+
 	}

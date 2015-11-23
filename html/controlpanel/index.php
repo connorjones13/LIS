@@ -28,7 +28,6 @@
 
 				<h1 class="page-header">Control Panel</h1>
 
-				<!-- todo: replace static number placeholders with database queries -->
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
 						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getAvailableItemCount($pdo)) ?></h2>
