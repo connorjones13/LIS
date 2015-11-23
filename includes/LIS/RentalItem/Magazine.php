@@ -22,7 +22,7 @@
 		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status,
 		                                    $publication, $issue_number) {
 
-			$id = parent::createNew($_pdo, $summary, $title, $category, $date_published, $status);
+			$id = parent::createNew($_pdo, $summary, $title, $category, $date_published, $status, self::TYPE);
 
 			$arguments = ["id" => $id, "pu" => $publication, "inum" => $issue_number];
 

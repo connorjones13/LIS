@@ -19,7 +19,7 @@
 		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category,
 		                                    $date_published, $status, $director) {
 
-			$id = parent::createNew($_pdo, $summary, $title, $category, $date_published, $status);
+			$id = parent::createNew($_pdo, $summary, $title, $category, $date_published, $status, self::TYPE);
 
 			$arguments = ["id" => $id, "dir" => $director];
 
