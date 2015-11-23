@@ -17,54 +17,38 @@ $page_title = "Control Panel";
 </header>
 <div class="content">
 	<div class="container-fluid">
+		<?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isAdmin()) { ?>
 		<div class="row">
-			<div class="col-sm-3 col-md-2 sidebar">
-				<ul class="nav nav-sidebar">
-					<li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-					<li><a href="#">Reports</a></li>
-					<li><a href="#">Analytics</a></li>
-					<li><a href="#">Export</a></li>
-				</ul>
-				<ul class="nav nav-sidebar">
-					<li><a href="">Nav item</a></li>
-					<li><a href="">Nav item again</a></li>
-					<li><a href="">One more nav</a></li>
-					<li><a href="">Another nav item</a></li>
-					<li><a href="">More navigation</a></li>
-				</ul>
-				<ul class="nav nav-sidebar">
-					<li><a href="">Nav item again</a></li>
-					<li><a href="">One more nav</a></li>
-					<li><a href="">Another nav item</a></li>
-				</ul>
-			</div>
+			<?php require_once(__DIR__ . "/../../includes/html_templates/control_panel_nav.php"); ?>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<h1 class="page-header">Dashboard</h1>
 
+				<h1 class="page-header">Control Panel</h1>
+
+				<!-- todo: replace static number placeholders with database queries -->
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>19,431</h2>
+						<h4>Available Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>357</h2>
+						<h4>Checked Out Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>10</h2>
+						<h4>Damaged Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>184</h2>
+						<h4>Lost Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 				</div>
 
-				<h2 class="sub-header">Section title</h2>
+				<h2 class="sub-header">Active Reservations</h2>
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
@@ -192,8 +176,14 @@ $page_title = "Control Panel";
 						</tbody>
 					</table>
 				</div>
+
 			</div>
 		</div>
+		<?php } else { ?>
+			<h4 class="alert bg-warning">
+				You do not have permission to view this page.
+			</h4>
+		<?php } ?>
 	</div>
 </div>
 <footer class="footer">
