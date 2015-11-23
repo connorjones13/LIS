@@ -63,6 +63,11 @@
 			}, $rows);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param $status
+		 * @return DVD[]
+		 */
 		public static function getAllByStatus(PDO_MySQL $_pdo, $status) {
 			$args = ["val" => $status];
 			$rows = $_pdo->fetchAssoc("SELECT * FROM `ri_dvd` WHERE `status` = :val", $args);
