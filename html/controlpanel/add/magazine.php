@@ -27,10 +27,12 @@ $page_title = "Add Magazine";
 </header>
 <div class="container">
 	<div class="container-fluid">
+		<?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isAdmin()) { ?>
 		<div class="row">
 			<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
 			<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 				<h1 class="page-header">Add Magazine</h1>
+
 				<form action method="post">
 					<?php if ($controller->hasError()) { ?>
 						<p class="alert bg-danger">
@@ -79,8 +81,12 @@ $page_title = "Add Magazine";
 				</form>
 			</div>
 		</div>
+		<?php } else { ?>
+			<h4 class="alert bg-warning">
+				You do not have permission to view this page.
+			</h4>
+		<?php } ?>
 	</div>
-
 </div>
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../../../includes/html_templates/footer.php"); ?>
