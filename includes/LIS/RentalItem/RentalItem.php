@@ -15,8 +15,8 @@
 		const STATUS_CHECKED_OUT = 4;
 		const STATUS_RESERVED = 5;
 
-		//todo: is $date_added still needed here?
-		protected $id, $summary, $title, $category, $date_published, $date_added, $status;
+		protected $id, $summary, $title, $category, $date_published, $date_added, $type, $status,
+			$is_checked_out, $is_reserved;
 
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo; //Since this is an internal dependency, I mark it with an _
@@ -68,6 +68,7 @@
 		 * @param int $category
 		 * @param DateTime $date_published
 		 * @param int $status
+		 * @param int $type
 		 * @return int
 		 */
 		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status, $type) {
@@ -75,7 +76,7 @@
 
 			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category,
 					"dp" => Utility::getDateTimeForMySQLDate($date_published),
-					"da" => $time, "st" => $status,  "tp" => $type];
+					"da" => $time, "st" => $status, "tp" => $type];
 
 			$query = "INSERT INTO rental_item (summary, title, category, date_published, date_added, status, type)
 						VALUES (:su, :ti, :ca, :dp, :da, :st, :tp)";
@@ -130,7 +131,11 @@
 		 * @return int
 		 */
 		public function getStatus() {
-			//todo: switch statement?
+			if ($this->is_checked_out)
+				return self::STATUS_CHECKED_OUT;
+
+			if ($this->is_reserved)
+				return self::STATUS_RESERVED;
 
 			return $this->status;
 		}
@@ -157,12 +162,61 @@
 		}
 
 		/**
-		 * @param $status
+		 * Database not updated since the database is updated on record creation.
 		 */
-		public function updateStatus($status) {
-			$this->status = $status;
+		public function markAvailable() {
+			$this->is_checked_out = 0;
+			$this->is_reserved = 0;
+		}
 
-			$args = ["st" => $this->status, "id" => $this->id];
+		/**
+		 * Database not updated since the database is updated on record creation.
+		 */
+		public function markCheckedOut() {
+			$this->is_checked_out = 1;
+		}
+
+		/**
+		 * Database not updated since the database is updated on record creation.
+		 */
+		public function markReserved() {
+			$this->is_reserved = 1;
+		}
+
+		/**
+		 * Updates database since this status is tracked in the table itself.
+		 */
+		public function markLost() {
+			$this->status = self::STATUS_LOST;
+
+			self::updateStatus($this->status);
+		}
+
+		/**
+		 * Updates database since this status is tracked in the table itself.
+		 */
+		public function markDestroyed() {
+			$this->status = self::STATUS_LOST;
+
+			self::updateStatus($this->status);
+		}
+
+		/**
+		 * Updates database since this status is tracked in the table itself.
+		 */
+		public function markRemoved() {
+			$this->status = self::STATUS_REMOVED;
+
+			self::updateStatus($this->status);
+		}
+
+
+		/**
+		 * Used to update status of an item.
+		 * @param int $status
+		 */
+		protected function updateStatus($status) {
+			$args = ["st" => $status, "id" => $this->id];
 			$this->_pdo->perform("UPDATE rental_item SET status = :st WHERE id = :id", $args);
 		}
 
