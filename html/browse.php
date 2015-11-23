@@ -24,20 +24,24 @@
 				<?php require_once(__DIR__ . "/../includes/html_templates/header.php"); ?>
 			</header>
 			<div class="content">
-				<?php
-					$book = new \LIS\RentalItem\Book($pdo);
-					$books = $book->getAllByStatus($pdo, 0);
+				<div class="container-fluid">
+					<div class="row">
 
-					foreach ($books as $bookarr) {
-						var_dump($bookarr);
+						<?php
+							$book = new \LIS\RentalItem\Book($pdo);
+							$books = $book->getAllByStatus($pdo, 0);
+							foreach ($books as $book) { ?>
+						<div class="col-sm-6 col-md-3 list_items">
+							<h4><?= $book->getTitle(); ?></h4>
+							<p>Category: <?= $book->getCategory(); ?></p>
+							<p>Summary: <?= $book->getSummary(); ?></p>
+							<p>Date Published: <?= $book->getDatePublished()->format("m-d-Y"); ?></p>
+							<p>Authors: <?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $book)); ?></p>
+						</div>
+						<?php } ?>
 
-						echo gettype($bookarr);
-						$book = $bookarr;
-						echo gettype($bookarr);
-					?>
-
-					<?php } ?>
-
+					</div>
+				</div>
 			</div>
 			<footer class="footer">
 				<?php require_once(__DIR__ . "/../includes/html_templates/footer.php"); ?>

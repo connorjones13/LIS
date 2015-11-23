@@ -177,3 +177,9 @@ body {
 	display: inline-block;
 	border-radius: 50%;
 }
+
+/* Browse Page */
+
+.list_items {
+	border-bottom: 1px solid lightgray;
+}
