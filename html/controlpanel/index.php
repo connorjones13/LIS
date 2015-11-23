@@ -24,28 +24,28 @@ $page_title = "Control Panel";
 
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>19,431</h2>
+						<h4>Available Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>357</h2>
+						<h4>Checked Out Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>10</h2>
+						<h4>Damaged Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
-						<h4>Label</h4>
-						<span class="text-muted">Something else</span>
+						<h2>184</h2>
+						<h4>Lost Items</h4>
+<!--						<span class="text-muted">Something else</span>-->
 					</div>
 				</div>
 
-				<h2 class="sub-header">Section title</h2>
+				<h2 class="sub-header">Active Reservations</h2>
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
