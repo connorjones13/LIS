@@ -252,10 +252,18 @@
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return int
+		 */
 		public static function getAllItemCount(PDO_MySQL $_pdo) {
-			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item`")["count"];
+			return intval($_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item`")["count"]);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return int
+		 */
 		public static function getAvailableItemCount(PDO_MySQL $_pdo) {
 			$query = "SELECT COUNT(ri.id) as `count` FROM `rental_item` ri
 						LEFT JOIN checkout c
@@ -264,29 +272,80 @@
 						    ON ri.id = r.rental_item AND r.checkout IS NULL AND r.is_expired = 0
 						WHERE ri.`status` = :s AND c.id IS NULL AND r.id IS NULL";
 
-			return $_pdo->fetchOne($query, ["s" => self::STATUS_AVAILABLE])["count"];
+			return intval($_pdo->fetchOne($query, ["s" => self::STATUS_AVAILABLE])["count"]);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return int
+		 */
 		public static function getDamagedItemCount(PDO_MySQL $_pdo) {
-			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
+			return intval($_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
 				"s" => self::STATUS_DAMAGED
-			])["count"];
+			])["count"]);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return int
+		 */
 		public static function getLostItemCount(PDO_MySQL $_pdo) {
-			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
+			return intval($_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
 				"s" => self::STATUS_LOST
-			])["count"];
+			])["count"]);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return int
+		 */
 		public static function getRemovedItemCount(PDO_MySQL $_pdo) {
-			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
+			return intval($_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
 				"s" => self::STATUS_REMOVED
-			])["count"];
+			])["count"]);
 		}
 
-		// todo: isAvailable methods
+		public static function getAllLost(PDO_MySQL $_pdo) {
+			return self::getAllByStatus($_pdo, self::STATUS_LOST);
+		}
 
+		public static function getAllDamaged(PDO_MySQL $_pdo) {
+			return self::getAllByStatus($_pdo, self::STATUS_DAMAGED);
+		}
+
+		public static function getAllRemoved(PDO_MySQL $_pdo) {
+			return self::getAllByStatus($_pdo, self::STATUS_REMOVED);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param $status
+		 * @return Book[]|Magazine[]|DVD[]
+		 */
+		protected static function getAllByStatus(PDO_MySQL $_pdo, $status) {
+			$query = "SELECT ri.*, rib.*, rid.*, rim.* FROM rental_item ri
+					    LEFT JOIN rental_item_book rib ON ri.id = rib.id
+					    LEFT JOIN rental_item_dvd rid ON ri.id = rid.id
+					    LEFT JOIN rental_item_magazine rim ON ri.id = rim.id
+					  WHERE ri.status = :s
+					  GROUP BY ri.id";
+			$args = ["s" => $status];
+
+			$rows = $_pdo->fetchAssoc($query, $args);
+
+			return array_map(function ($row) use ($_pdo) {
+				switch ($row["type"]) {
+					case Book::TYPE:
+						return new Book($_pdo, $row);
+					case DVD::TYPE:
+						return new DVD($_pdo, $row);
+					case Magazine::TYPE:
+						return new Magazine($_pdo, $row);
+					default:
+						return null;
+				}
+			}, $rows);
+		}
 
 		/**
 		 * This function takes the data that a query returns and parses it into the
