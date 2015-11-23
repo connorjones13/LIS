@@ -4,8 +4,6 @@
 
 	use LIS\RentalItem\RentalItem;
 	use LIS\Checkout;
-	use LIS\User\User;
-	use LIS\Utility;
 
 	class CheckoutController extends BaseController {
 
@@ -34,7 +32,7 @@
 
 		public function checkInRentalItem(RentalItem $rentalItem) {
 
-			$rentalItem->updateStatus(0);   // set available
+			$rentalItem->markAvailable();   // set available
 
 			$checkout = new Checkout($this->_pdo);
 
