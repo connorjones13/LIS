@@ -30,6 +30,7 @@
 
 					foreach ($books as $bookarr) {
 						var_dump($bookarr);
+
 						echo gettype($bookarr);
 						$book = $bookarr;
 						echo gettype($bookarr);
