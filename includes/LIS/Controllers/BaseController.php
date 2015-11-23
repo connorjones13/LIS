@@ -26,6 +26,7 @@
 
 		protected static $PAGE_HOME = "/";
 		protected static $PAGE_LOGOUT = "/logout";
+		protected static $PAGE_ADD_ITEM = "/controlpanel/add";
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
@@ -85,7 +86,8 @@
 		}
 
 		final protected static function displayPage($page) {
-			$allowed_pages = [self::$PAGE_LOGIN, self::$PAGE_HOME, self::$PAGE_LOGOUT, $_SESSION[self::$REQUEST_URI]];
+			$allowed_pages = [self::$PAGE_LOGIN, self::$PAGE_HOME, self::$PAGE_LOGOUT, $_SESSION[self::$REQUEST_URI],
+					self::$PAGE_ADD_ITEM];
 
 			if (!in_array($page, $allowed_pages))
 				$page = self::$PAGE_HOME;
