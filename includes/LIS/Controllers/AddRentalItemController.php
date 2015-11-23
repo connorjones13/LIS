@@ -52,6 +52,7 @@
 			$magazine = new Magazine($this->_pdo);
 			$magazine->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 					$status = 0, $publication, $issue_number);
+			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 
 		public function createNewBook($summary, $title, $category, $date_published, $isbn10 = "",
@@ -84,6 +85,7 @@
 			$authorsArray = explode(',', $authors);
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $isbn10, $isbn13, $authorsArray);
+			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 
 		public function createNewDvd($summary, $title, $category, $date_published, $director) {
@@ -109,6 +111,7 @@
 			$book = new DVD($this->_pdo);
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $director);
+			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 
 		public function getErrorMessage() {
