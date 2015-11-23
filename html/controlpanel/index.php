@@ -1,10 +1,15 @@
 <!-- TEMPLATE -->
 <?php
-require_once(__DIR__ . "/../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\BaseController($pdo);
+	require_once(__DIR__ . "/../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\BaseController($pdo);
 
-$page_title = "Control Panel";
+	if ($controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+		header("Location: /");
+		exit();
+	}
+
+	$page_title = "Control Panel";
 ?>
 <!doctype html>
 <html lang="en">
@@ -17,7 +22,6 @@ $page_title = "Control Panel";
 </header>
 <div class="content">
 	<div class="container-fluid">
-		<?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isAdmin()) { ?>
 		<div class="row">
 			<?php require_once(__DIR__ . "/../../includes/html_templates/control_panel_nav.php"); ?>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -27,24 +31,24 @@ $page_title = "Control Panel";
 				<!-- todo: replace static number placeholders with database queries -->
 				<div class="row placeholders">
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<h2>19,431</h2>
+						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getAvailableItemCount($pdo)) ?></h2>
 						<h4>Available Items</h4>
-<!--						<span class="text-muted">Something else</span>-->
+						<span class="text-muted">Something else</span>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<h2>357</h2>
+						<h2><?= \LIS\Utility::formatNumber(\LIS\Checkout::getItemCheckedOutCount($pdo)) ?></h2>
 						<h4>Checked Out Items</h4>
-<!--						<span class="text-muted">Something else</span>-->
+						<span class="text-muted">Something else</span>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<h2>10</h2>
+						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getDamagedItemCount($pdo)) ?></h2>
 						<h4>Damaged Items</h4>
-<!--						<span class="text-muted">Something else</span>-->
+						<span class="text-muted">Something else</span>
 					</div>
 					<div class="col-xs-6 col-sm-3 placeholder">
-						<h2>184</h2>
+						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getLostItemCount($pdo)) ?></h2>
 						<h4>Lost Items</h4>
-<!--						<span class="text-muted">Something else</span>-->
+						<span class="text-muted">Something else</span>
 					</div>
 				</div>
 
@@ -179,11 +183,6 @@ $page_title = "Control Panel";
 
 			</div>
 		</div>
-		<?php } else { ?>
-			<h4 class="alert bg-warning">
-				You do not have permission to view this page.
-			</h4>
-		<?php } ?>
 	</div>
 </div>
 <footer class="footer">
