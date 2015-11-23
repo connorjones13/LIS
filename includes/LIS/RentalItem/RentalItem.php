@@ -70,14 +70,15 @@
 		 * @param int $status
 		 * @return int
 		 */
-		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status) {
+		protected static function createNew(PDO_MySQL $_pdo, $summary, $title, $category, $date_published, $status, $type) {
 			$time = Utility::getDateTimeForMySQLDateTime();
 
 			$arguments = ["su" => $summary, "ti" => $title, "ca" => $category,
-					"dp" => Utility::getDateTimeForMySQLDate($date_published), "da" => $time, "st" => $status];
+					"dp" => Utility::getDateTimeForMySQLDate($date_published),
+					"da" => $time, "st" => $status,  "tp" => $type];
 
-			$query = "INSERT INTO rental_item (summary, title, category, date_published, date_added, status)
-						VALUES (:su, :ti, :ca, :dp, :da, :st)";
+			$query = "INSERT INTO rental_item (summary, title, category, date_published, date_added, status, type)
+						VALUES (:su, :ti, :ca, :dp, :da, :st, :tp)";
 
 			$_pdo->perform($query, $arguments);
 
