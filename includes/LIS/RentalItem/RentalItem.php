@@ -198,6 +198,39 @@
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
 		}
 
+		public static function getAllItemCount(PDO_MySQL $_pdo) {
+			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item`")["count"];
+		}
+
+		public static function getAvailableItemCount(PDO_MySQL $_pdo) {
+			$query = "SELECT COUNT(ri.id) as `count` FROM `rental_item` ri
+						LEFT JOIN checkout c
+						    ON ri.id = c.rental_item AND c.checkin_employee IS NULL
+						  LEFT JOIN reservation r
+						    ON ri.id = r.rental_item AND r.checkout IS NULL AND r.is_expired = 0
+						WHERE ri.`status` = :s AND c.id IS NULL AND r.id IS NULL";
+
+			return $_pdo->fetchOne($query, ["s" => self::STATUS_AVAILABLE])["count"];
+		}
+
+		public static function getDamagedItemCount(PDO_MySQL $_pdo) {
+			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
+				"s" => self::STATUS_DAMAGED
+			])["count"];
+		}
+
+		public static function getLostItemCount(PDO_MySQL $_pdo) {
+			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
+				"s" => self::STATUS_LOST
+			])["count"];
+		}
+
+		public static function getRemovedItemCount(PDO_MySQL $_pdo) {
+			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `rental_item` WHERE `status` = :s", [
+				"s" => self::STATUS_REMOVED
+			])["count"];
+		}
+
 		// todo: isAvailable methods
 
 

@@ -153,4 +153,12 @@
 		public static function requestHasGet() {
 			return !empty($_GET);
 		}
+
+		/**
+		 * @param int $number
+		 * @return string
+		 */
+		public static function formatNumber($number) {
+			return number_format($number);
+		}
 	}

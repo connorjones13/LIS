@@ -178,11 +178,14 @@
 		}
 
 		public function findActiveCheckout(RentalItem $rentalItem) {
-
 			$args = ["val" => $rentalItem->getId()];
 
 			$activeCheckout = null;
 			return $this->_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
+		}
+
+		public static function getItemCheckedOutCount(PDO_MySQL $_pdo) {
+			return $_pdo->fetchOne("SELECT COUNT(`id`) AS `count` FROM `checkout` WHERE `date_returned` IS NULL")["count"];
 		}
 
 		/**

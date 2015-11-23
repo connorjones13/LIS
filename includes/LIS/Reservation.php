@@ -90,6 +90,12 @@ class Reservation {
 		return Utility::getDateTimeFromMySQLDateTime($this->date_created);
 	}
 
+	public static function getItemCheckedOutCount(PDO_MySQL $_pdo) {
+		$query = "SELECT COUNT(`id`) AS `count` FROM `reservation` WHERE `checkout` IS NULL AND `is_expired` = 0";
+
+		return $_pdo->fetchOne($query)["count"];
+	}
+
 	/**
 	 * @param array $data_arr
 	 */
