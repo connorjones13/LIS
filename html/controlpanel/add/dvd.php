@@ -8,11 +8,10 @@
 
 require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\AddDvdController($pdo);
+$controller = new \LIS\Controllers\AddRentalItemController($pdo);
 if (\LIS\Utility::requestHasPost())
 
-	$controller->createNewDvd($_POST["summary"], $_POST["title"], $_POST["category"], $_POST["date_published"],
-			$_POST["status"], $_POST["director"]);
+	$controller->createNewDvd($_POST["summary"], $_POST["title"], $_POST["category"], $_POST["date_published"], $_POST["director"]);
 
 $page_title = "Add DVD";
 ?>
@@ -64,11 +63,7 @@ $page_title = "Add DVD";
 						<input type="date" class="form-control" id="date_published" name="date_published"
 						       placeholder="11/19/1990" value="<?= $_POST["date_published"] ?>">
 					</div>
-					<div class="form-group">
-						<label for="status"></label>
-						<input type="hidden" class="form-control" id="status" name="status"
-						       placeholder="0" value="<?= $_POST["status"] == 0; ?>"
-					</div>
+
 					<!-- todo: clear form after submit, also refreshing the page creates an object in the databse -->
 					<button type="submit" class="btn btn-default">Create</button>
 				</form>
