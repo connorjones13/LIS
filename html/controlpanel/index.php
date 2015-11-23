@@ -17,9 +17,11 @@ $page_title = "Control Panel";
 </header>
 <div class="content">
 	<div class="container-fluid">
+		<?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isAdmin()) { ?>
 		<div class="row">
 			<?php require_once(__DIR__ . "/../../includes/html_templates/control_panel_nav.php"); ?>
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
 				<h1 class="page-header">Control Panel</h1>
 
 				<div class="row placeholders">
@@ -173,8 +175,14 @@ $page_title = "Control Panel";
 						</tbody>
 					</table>
 				</div>
+
 			</div>
 		</div>
+		<?php } else { ?>
+			<h4 class="alert bg-warning">
+				You do not have permission to view this page.
+			</h4>
+		<?php } ?>
 	</div>
 </div>
 <footer class="footer">
