@@ -52,6 +52,7 @@
 			$magazine = new Magazine($this->_pdo);
 			$magazine->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 					$status = 0, $publication, $issue_number);
+			$_SESSION["show_created_alert"] = "Successfully added a Magazine!";
 			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 
@@ -85,6 +86,7 @@
 			$authorsArray = explode(',', $authors);
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $isbn10, $isbn13, $authorsArray);
+			$_SESSION["show_created_alert"] = "Successfully added a Book!";
 			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 
@@ -111,6 +113,7 @@
 			$book = new DVD($this->_pdo);
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $director);
+			$_SESSION["show_created_alert"] = "Successfully added a DVD!";
 			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 

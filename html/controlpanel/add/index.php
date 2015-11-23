@@ -21,6 +21,10 @@ $page_title = "Add Rental Item";
 			<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
 			<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 				<h1 class="page-header">Add Rental Item</h1>
+				<?php if ($_SESSION["show_created_alert"]) { ?>
+					<p class="alert alert-success"><?php echo $_SESSION["show_created_alert"] ?></p>
+					<?php unset($_SESSION["show_created_alert"]) ?>
+				<?php } ?>
 				<!-- todo: formatting is weird on tablet/mobile -->
 				<div class="row">
 						<div class="col-sm-6 col-md-4">
