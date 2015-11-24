@@ -21,8 +21,7 @@ $page_title = "Browse Rental Items";
 			<div class="text-center"><h1>Browse Available Rental Items</h1></div>
 			<div class="col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 				<h2>Books</h2>
-				<?php $book = new \LIS\RentalItem\Book($pdo); ?>
-				<?php $books = $book->getAllByStatus($pdo, 0); ?>
+				<?php $books = \LIS\RentalItem\Book::getAllAvailable($pdo); ?>
 				<?php foreach ($books as $book) { ?>
 					<div class="col-sm-6 col-md-3 list_items">
 						<h4><b><a href="/item/<?= $book->getId() ?>/"><?= $book->getTitle(); ?></a></b></h4>
@@ -39,8 +38,7 @@ $page_title = "Browse Rental Items";
 			</div>
 			<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 				<h2>Magazines</h2>
-				<?php $magazine = new \LIS\RentalItem\Magazine($pdo); ?>
-				<?php $magazines = $magazine->getAllByStatus($pdo, 0); ?>
+				<?php $magazines = \LIS\RentalItem\Magazine::getAllAvailable($pdo); ?>
 				<?php foreach ($magazines as $magazine) { ?>
 					<div class="col-sm-6 col-md-3 list_items">
 						<h4><b><a href="/item/<?= $magazine->getId() ?>/"><?= $magazine->getTitle(); ?></a></b></h4>
@@ -57,8 +55,7 @@ $page_title = "Browse Rental Items";
 			</div>
 			<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 				<h2>DVDs</h2>
-				<?php $dvd = new \LIS\RentalItem\DVD($pdo); ?>
-				<?php $dvds = $dvd->getAllByStatus($pdo, 0); ?>
+				<?php $dvds = \LIS\RentalItem\DVD::getAllAvailable($pdo); ?>
 				<?php foreach ($dvds as $dvd) { ?>
 					<div class="col-sm-6 col-md-3 list_items">
 						<h4><b><a href="/item/<?= $dvd->getId() ?>/"><?= $dvd->getTitle(); ?></a></b></h4>

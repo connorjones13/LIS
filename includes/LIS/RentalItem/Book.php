@@ -70,8 +70,6 @@
 			$this->_pdo->perform("UPDATE rental_item_book SET isbn10 = :is10, isbn13 = :is13 WHERE id = :id", $args);
 
 			Author::createNewForBook($this->_pdo, $this, $authors); // add updated authors for book
-
-
 		}
 
 		/**
@@ -101,12 +99,75 @@
 			}, $rows);
 		}
 
+		//TODO: Concretely define available in all contexts
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return Book[]
+		 */
+		public static function getAllAvailable(PDO_MySQL $_pdo) {
+			$query = "SELECT ri.* FROM `ri_book` ri
+					    LEFT JOIN checkout c
+					      ON ri.id = c.rental_item AND c.checkin_employee IS NULL
+					    LEFT JOIN reservation r
+					      ON ri.id = r.rental_item AND r.checkout IS NULL AND r.is_expired = 0
+					  WHERE ri.`status` = 0 AND c.id IS NULL AND r.id IS NULL";
+			$rows = $_pdo->fetchAssoc($query);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new Book($_pdo, $row);
+			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return Book[]
+		 */
+		public static function getAllCheckedOut(PDO_MySQL $_pdo) {
+			$query = "SELECT ri.* FROM `ri_book` ri
+					    LEFT JOIN checkout c
+					      ON ri.id = c.rental_item AND c.checkin_employee IS NULL
+					  WHERE ri.`status` = 0 AND c.id IS NOT NULL";
+			$rows = $_pdo->fetchAssoc($query);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new Book($_pdo, $row);
+			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return Book[]
+		 */
+		public static function getAllReserved(PDO_MySQL $_pdo) {
+			$query = "SELECT ri.* FROM `ri_book` ri
+					    LEFT JOIN reservation r
+					      ON ri.id = r.rental_item AND r.checkout IS NULL AND r.is_expired = 0
+					  WHERE ri.`status` = 0 AND r.id IS NOT NULL";
+			$rows = $_pdo->fetchAssoc($query);
+
+			return array_map(function ($row) use ($_pdo) {
+				return new Book($_pdo, $row);
+			}, $rows);
+		}
+
+		public static function getAllLost(PDO_MySQL $_pdo) {
+			return self::getAllByStatus($_pdo, self::STATUS_LOST);
+		}
+
+		public static function getAllDamaged(PDO_MySQL $_pdo) {
+			return self::getAllByStatus($_pdo, self::STATUS_DAMAGED);
+		}
+
+		public static function getAllRemoved(PDO_MySQL $_pdo) {
+			return self::getAllByStatus($_pdo, self::STATUS_REMOVED);
+		}
+
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param $status
 		 * @return Book[]
 		 */
-		public static function getAllByStatus(PDO_MySQL $_pdo, $status) {
+		protected static function getAllByStatus(PDO_MySQL $_pdo, $status) {
 			$args = ["val" => $status];
 			$rows = $_pdo->fetchAssoc("SELECT * FROM `ri_book` WHERE `status` = :val", $args);
 

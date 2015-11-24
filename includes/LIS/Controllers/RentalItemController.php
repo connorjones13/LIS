@@ -27,31 +27,6 @@
 		private static $ERROR_PUBLICATION = 8;
 		private static $ERROR_ISSUE_NUMBER = 9;
 
-		public function getAllRentalItems() {
-
-			$book = new Book($this->_pdo);
-			$books = $book->getAllByStatus($this->_pdo, 0);
-
-			$dvd = new DVD($this->_pdo);
-			$dvds = $dvd->getAllByStatus($this->_pdo, 0);
-
-			$magazine = new Magazine($this->_pdo);
-			$magazines = $magazine->getAllByStatus($this->_pdo, 0);
-
-			foreach ($books as $book) {
-
-			}
-
-			foreach ($dvds as $dvd) {
-
-			}
-
-			foreach ($magazines as $magazine) {
-
-			}
-
-		}
-
 		public function updateBookInfo(Book $book, $summary, $title, $category, $date_published, $isbn10 = "",
 		                               $isbn13 = "", $authors) {
 			if (!$summary)
