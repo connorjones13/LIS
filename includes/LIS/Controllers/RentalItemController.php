@@ -27,8 +27,34 @@
 		private static $ERROR_PUBLICATION = 8;
 		private static $ERROR_ISSUE_NUMBER = 9;
 
+		public function getAllRentalItems() {
+
+			$book = new Book($this->_pdo);
+			$books = $book->getAllAvailable($this->_pdo);
+
+			$dvd = new DVD($this->_pdo);
+			$dvds = $dvd->getAllAvailable($this->_pdo);
+
+			$magazine = new Magazine($this->_pdo);
+			$magazines = $magazine->getAllAvailable($this->_pdo);
+
+			foreach ($books as $book) {
+
+			}
+
+			foreach ($dvds as $dvd) {
+
+			}
+
+			foreach ($magazines as $magazine) {
+
+			}
+
+		}
+
 		public function updateBookInfo(Book $book, $summary, $title, $category, $date_published, $isbn10 = "",
 		                               $isbn13 = "", $authors) {
+
 			if (!$summary)
 				$this->setError(self::$ERROR_SUMMARY);
 
@@ -56,8 +82,8 @@
 			$authorsArray = explode(',', $authors);
 			$book->updateBook($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 					$status = 0, $isbn10, $isbn13, $authorsArray);
-			$_SESSION["show_created_alert"] = "Successfully added a Book!";
-			self::displayPage(self::$PAGE_ADD_ITEM);
+			$_SESSION["show_created_alert"] = "Successfully updated a Book!";
+
 		}
 
 		public function updateDvdInfo(DVD $dvd, $summary, $title, $category, $date_published, $director) {

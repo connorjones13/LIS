@@ -39,7 +39,6 @@
 					</p>
 				<?php } ?>
 
-
 				<?php foreach (\LIS\RentalItem\RentalItem::getAllLost($pdo) as $ri) { ?>
 					<div class="well-lg">
 						<h4>ID: <?= $ri->getId(); ?> | Title: <?= $ri->getTitle(); ?>
