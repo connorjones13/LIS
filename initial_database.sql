@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.26)
 # Database: COMP3700_ECC
-# Generation Time: 2015-11-19 22:23:54 +0000
+# Generation Time: 2015-11-24 17:33:08 +0000
 # ************************************************************
 
 
@@ -39,27 +39,66 @@ LOCK TABLES `author` WRITE;
 
 INSERT INTO `author` (`id`, `book`, `name_full`)
 VALUES
-  (1,2,'Jim'),
-  (2,2,'Bob'),
-  (3,2,'Billy'),
-  (4,5,'Jim'),
-  (5,5,'Bob'),
-  (6,5,'Billy'),
-  (7,8,'Jim'),
-  (8,8,'Bob'),
-  (9,8,'Billy'),
-  (10,11,'Jim'),
-  (11,11,'Bob'),
-  (12,11,'Billy'),
-  (13,14,'Jim'),
-  (14,14,'Bob'),
-  (15,14,'Billy'),
-  (16,17,'Jim'),
-  (17,17,'Bob'),
-  (18,17,'Billy'),
-  (19,20,'Jim'),
-  (20,20,'Bob'),
-  (21,20,'Billy');
+	(1,2,'Jim'),
+	(2,2,'Bob'),
+	(3,2,'Billy'),
+	(4,5,'Jim'),
+	(5,5,'Bob'),
+	(6,5,'Billy'),
+	(7,8,'Jim'),
+	(8,8,'Bob'),
+	(9,8,'Billy'),
+	(10,11,'Jim'),
+	(11,11,'Bob'),
+	(12,11,'Billy'),
+	(13,14,'Jim'),
+	(14,14,'Bob'),
+	(15,14,'Billy'),
+	(16,17,'Jim'),
+	(17,17,'Bob'),
+	(18,17,'Billy'),
+	(19,20,'Jim'),
+	(20,20,'Bob'),
+	(21,20,'Billy'),
+	(25,23,'John'),
+	(26,23,'Jacob'),
+	(27,23,'Jacky'),
+	(31,26,'John'),
+	(32,26,'Jacob'),
+	(33,26,'Jacky'),
+	(37,29,'John'),
+	(38,29,'Jacob'),
+	(39,29,'Jacky'),
+	(43,32,'John'),
+	(44,32,'Jacob'),
+	(45,32,'Jacky'),
+	(49,35,'John'),
+	(50,35,'Jacob'),
+	(51,35,'Jacky'),
+	(55,38,'John'),
+	(56,38,'Jacob'),
+	(57,38,'Jacky'),
+	(61,41,'John'),
+	(62,41,'Jacob'),
+	(63,41,'Jacky'),
+	(67,44,'John'),
+	(68,44,'Jacob'),
+	(69,44,'Jacky'),
+	(73,47,'John'),
+	(74,47,'Jacob'),
+	(75,47,'Jacky'),
+	(79,50,'John'),
+	(80,50,'Jacob'),
+	(81,50,'Jacky'),
+	(85,53,'John'),
+	(86,53,'Jacob'),
+	(87,53,'Jacky'),
+	(91,56,'John'),
+	(92,56,'Jacob'),
+	(93,56,'Jacky'),
+	(97,59,'John'),
+	(98,59,'Jacob'),
+	(99,59,'Jacky');
 
 /*!40000 ALTER TABLE `author` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -86,9 +125,20 @@ CREATE TABLE `checkout` (
   KEY `checkin_employee_id` (`checkin_employee`),
   CONSTRAINT `checkin_employee_id` FOREIGN KEY (`checkin_employee`) REFERENCES `user` (`id`),
   CONSTRAINT `checkout_rental_item_id` FOREIGN KEY (`rental_item`) REFERENCES `rental_item` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `checkout_user_id` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `checkout_user_id` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_co_emp_id` FOREIGN KEY (`checkout_employee`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `checkout` WRITE;
+/*!40000 ALTER TABLE `checkout` DISABLE KEYS */;
+
+INSERT INTO `checkout` (`id`, `checkout_employee`, `checkin_employee`, `user`, `rental_item`, `date_checked_out`, `date_due`, `date_returned`)
+VALUES
+	(4,3,NULL,3,1,'2015-11-23 00:00:00','2015-11-30',NULL),
+	(5,3,3,3,10,'2015-11-23 00:00:00','2015-11-30','2015-11-24 00:00:00');
+
+/*!40000 ALTER TABLE `checkout` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table late_fee
@@ -130,7 +180,9 @@ LOCK TABLES `library_card` WRITE;
 
 INSERT INTO `library_card` (`id`, `user`, `number`, `date_issued`, `status`)
 VALUES
-  (1,1,'SHGMP0035PZBV9FG','2015-11-18',1);
+	(1,NULL,'SHGMP0035PZBV9FG','2015-11-18',1),
+	(2,NULL,'ZT8Y87UCTZE2H6JB','2015-11-19',1),
+	(3,3,'GPQ5X5T32I1NHN7A','2015-11-19',1);
 
 /*!40000 ALTER TABLE `library_card` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -143,6 +195,7 @@ DROP TABLE IF EXISTS `rental_item`;
 
 CREATE TABLE `rental_item` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `type` int(11) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `summary` varchar(6143) NOT NULL DEFAULT '',
   `category` varchar(255) NOT NULL DEFAULT '',
@@ -155,29 +208,68 @@ CREATE TABLE `rental_item` (
 LOCK TABLES `rental_item` WRITE;
 /*!40000 ALTER TABLE `rental_item` DISABLE KEYS */;
 
-INSERT INTO `rental_item` (`id`, `title`, `summary`, `category`, `date_published`, `date_added`, `status`)
+INSERT INTO `rental_item` (`id`, `type`, `title`, `summary`, `category`, `date_published`, `date_added`, `status`)
 VALUES
-  (1,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (2,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (3,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
-  (4,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (5,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (6,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
-  (7,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (8,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (9,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
-  (10,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (11,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (12,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
-  (13,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (14,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (15,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
-  (16,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (17,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (18,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
-  (19,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
-  (20,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
-  (21,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3);
+	(1,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',0),
+	(2,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',3),
+	(3,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',0),
+	(4,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',0),
+	(5,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',1),
+	(6,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',1),
+	(7,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',0),
+	(8,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',0),
+	(9,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',2),
+	(10,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
+	(11,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',3),
+	(12,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
+	(13,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',3),
+	(14,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',3),
+	(15,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
+	(16,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',3),
+	(17,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',1),
+	(18,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
+	(19,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-18',2),
+	(20,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-18',2),
+	(21,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-18',3),
+	(22,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',1),
+	(23,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',1),
+	(24,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',3),
+	(25,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',2),
+	(26,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',3),
+	(27,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',1),
+	(28,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',0),
+	(29,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',2),
+	(30,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',1),
+	(31,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',1),
+	(32,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',2),
+	(33,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',0),
+	(34,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',0),
+	(35,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',0),
+	(36,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',0),
+	(37,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',3),
+	(38,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',0),
+	(39,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',0),
+	(40,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-19',2),
+	(41,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-19',1),
+	(42,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-19',3),
+	(43,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-20',0),
+	(44,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-20',3),
+	(45,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-20',1),
+	(46,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-20',1),
+	(47,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-20',2),
+	(48,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-20',1),
+	(49,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-21',0),
+	(50,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-21',3),
+	(51,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-21',0),
+	(52,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-21',0),
+	(53,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-21',1),
+	(54,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-21',3),
+	(55,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-21',2),
+	(56,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-21',1),
+	(57,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-21',0),
+	(58,2,'My First Magazine','This is a magazine summary.','Adult','2015-11-07','2015-11-21',3),
+	(59,0,'My First Book','This is a book summary.','Horror','2015-11-07','2015-11-21',3),
+	(60,1,'My First DVD','This is a DVD summary.','Action','2011-05-15','2015-11-21',3);
 
 /*!40000 ALTER TABLE `rental_item` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -201,13 +293,26 @@ LOCK TABLES `rental_item_book` WRITE;
 
 INSERT INTO `rental_item_book` (`id`, `isbn10`, `isbn13`)
 VALUES
-  (2,'',''),
-  (5,'',''),
-  (8,'',''),
-  (11,'',''),
-  (14,'',''),
-  (17,'',''),
-  (20,'','');
+	(2,'',''),
+	(5,'',''),
+	(8,'',''),
+	(11,'',''),
+	(14,'',''),
+	(17,'',''),
+	(20,'',''),
+	(23,'',''),
+	(26,'',''),
+	(29,'',''),
+	(32,'',''),
+	(35,'',''),
+	(38,'',''),
+	(41,'',''),
+	(44,'',''),
+	(47,'',''),
+	(50,'',''),
+	(53,'',''),
+	(56,'',''),
+	(59,'','');
 
 /*!40000 ALTER TABLE `rental_item_book` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -230,13 +335,26 @@ LOCK TABLES `rental_item_dvd` WRITE;
 
 INSERT INTO `rental_item_dvd` (`id`, `director`)
 VALUES
-  (3,'Joseph Maxwell'),
-  (6,'Joseph Maxwell'),
-  (9,'Joseph Maxwell'),
-  (12,'Joseph Maxwell'),
-  (15,'Joseph Maxwell'),
-  (18,'Joseph Maxwell'),
-  (21,'Joseph Maxwell');
+	(3,'Joseph Maxwell'),
+	(6,'Joseph Maxwell'),
+	(9,'Joseph Maxwell'),
+	(12,'Joseph Maxwell'),
+	(15,'Joseph Maxwell'),
+	(18,'Joseph Maxwell'),
+	(21,'Joseph Maxwell'),
+	(24,'Joseph Maxwell'),
+	(27,'Joseph Maxwell'),
+	(30,'Joseph Maxwell'),
+	(33,'Joseph Maxwell'),
+	(36,'Joseph Maxwell'),
+	(39,'Joseph Maxwell'),
+	(42,'Joseph Maxwell'),
+	(45,'Joseph Maxwell'),
+	(48,'Joseph Maxwell'),
+	(51,'Joseph Maxwell'),
+	(54,'Joseph Maxwell'),
+	(57,'Joseph Maxwell'),
+	(60,'Joseph Maxwell');
 
 /*!40000 ALTER TABLE `rental_item_dvd` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -260,13 +378,26 @@ LOCK TABLES `rental_item_magazine` WRITE;
 
 INSERT INTO `rental_item_magazine` (`id`, `publication`, `issue_number`)
 VALUES
-  (1,'Maxim',3),
-  (4,'Maxim',3),
-  (7,'Maxim',3),
-  (10,'Maxim',3),
-  (13,'Maxim',3),
-  (16,'Maxim',3),
-  (19,'Maxim',3);
+	(1,'Maxim',3),
+	(4,'Maxim',3),
+	(7,'Maxim',3),
+	(10,'Maxim',3),
+	(13,'Maxim',3),
+	(16,'Maxim',3),
+	(19,'Maxim',3),
+	(22,'Maxim',3),
+	(25,'Maxim',3),
+	(28,'Maxim',3),
+	(31,'Maxim',3),
+	(34,'Maxim',3),
+	(37,'Maxim',3),
+	(40,'Maxim',3),
+	(43,'Maxim',3),
+	(46,'Maxim',3),
+	(49,'Maxim',3),
+	(52,'Maxim',3),
+	(55,'Maxim',3),
+	(58,'Maxim',3);
 
 /*!40000 ALTER TABLE `rental_item_magazine` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -293,6 +424,15 @@ CREATE TABLE `reservation` (
   CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `reservation` WRITE;
+/*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
+
+INSERT INTO `reservation` (`id`, `user`, `rental_item`, `checkout`, `date_created`, `is_expired`)
+VALUES
+	(1,3,3,NULL,'2015-11-23 00:00:00',0);
+
+/*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table ri_book
@@ -301,18 +441,18 @@ CREATE TABLE `reservation` (
 DROP VIEW IF EXISTS `ri_book`;
 
 CREATE TABLE `ri_book` (
-  `id` INT(11) UNSIGNED NULL DEFAULT '0',
-  `title` VARCHAR(255) NULL DEFAULT '',
-  `summary` VARCHAR(6143) NULL DEFAULT '',
-  `category` VARCHAR(255) NULL DEFAULT '',
-  `date_published` DATE NULL DEFAULT NULL,
-  `date_added` DATE NULL DEFAULT NULL,
-  `status` TINYINT(1) NULL DEFAULT '0',
-  `is_checked_out` BIGINT(21) NOT NULL DEFAULT '0',
-  `is_reserved` BIGINT(21) NOT NULL DEFAULT '0',
-  `authors` TEXT NULL DEFAULT NULL,
-  `isbn10` VARCHAR(13) NULL DEFAULT '',
-  `isbn13` VARCHAR(13) NULL DEFAULT ''
+   `id` INT(11) UNSIGNED NULL DEFAULT '0',
+   `type` INT(11) NULL DEFAULT '0',
+   `title` VARCHAR(255) NULL DEFAULT '',
+   `summary` VARCHAR(6143) NULL DEFAULT '',
+   `category` VARCHAR(255) NULL DEFAULT '',
+   `date_published` DATE NULL DEFAULT NULL,
+   `date_added` DATE NULL DEFAULT NULL,
+   `status` TINYINT(1) NULL DEFAULT '0',
+   `is_checked_out` INT(1) NOT NULL DEFAULT '0',
+   `is_reserved` INT(1) NOT NULL DEFAULT '0',
+   `isbn10` VARCHAR(13) NULL DEFAULT '',
+   `isbn13` VARCHAR(13) NULL DEFAULT ''
 ) ENGINE=MyISAM;
 
 
@@ -323,16 +463,17 @@ CREATE TABLE `ri_book` (
 DROP VIEW IF EXISTS `ri_dvd`;
 
 CREATE TABLE `ri_dvd` (
-  `id` INT(11) UNSIGNED NULL DEFAULT '0',
-  `title` VARCHAR(255) NULL DEFAULT '',
-  `summary` VARCHAR(6143) NULL DEFAULT '',
-  `category` VARCHAR(255) NULL DEFAULT '',
-  `date_published` DATE NULL DEFAULT NULL,
-  `date_added` DATE NULL DEFAULT NULL,
-  `status` TINYINT(1) NULL DEFAULT '0',
-  `is_checked_out` BIGINT(21) NOT NULL DEFAULT '0',
-  `is_reserved` BIGINT(21) NOT NULL DEFAULT '0',
-  `director` VARCHAR(255) NULL DEFAULT ''
+   `id` INT(11) UNSIGNED NULL DEFAULT '0',
+   `type` INT(11) NULL DEFAULT '0',
+   `title` VARCHAR(255) NULL DEFAULT '',
+   `summary` VARCHAR(6143) NULL DEFAULT '',
+   `category` VARCHAR(255) NULL DEFAULT '',
+   `date_published` DATE NULL DEFAULT NULL,
+   `date_added` DATE NULL DEFAULT NULL,
+   `status` TINYINT(1) NULL DEFAULT '0',
+   `is_checked_out` INT(1) NOT NULL DEFAULT '0',
+   `is_reserved` INT(1) NOT NULL DEFAULT '0',
+   `director` VARCHAR(255) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM;
 
 
@@ -343,17 +484,18 @@ CREATE TABLE `ri_dvd` (
 DROP VIEW IF EXISTS `ri_magazine`;
 
 CREATE TABLE `ri_magazine` (
-  `id` INT(11) UNSIGNED NULL DEFAULT '0',
-  `title` VARCHAR(255) NULL DEFAULT '',
-  `summary` VARCHAR(6143) NULL DEFAULT '',
-  `category` VARCHAR(255) NULL DEFAULT '',
-  `date_published` DATE NULL DEFAULT NULL,
-  `date_added` DATE NULL DEFAULT NULL,
-  `status` TINYINT(1) NULL DEFAULT '0',
-  `is_checked_out` BIGINT(21) NOT NULL DEFAULT '0',
-  `is_reserved` BIGINT(21) NOT NULL DEFAULT '0',
-  `publication` VARCHAR(255) NULL DEFAULT '',
-  `issue_number` BIGINT(11) NULL DEFAULT NULL
+   `id` INT(11) UNSIGNED NULL DEFAULT '0',
+   `type` INT(11) NULL DEFAULT '0',
+   `title` VARCHAR(255) NULL DEFAULT '',
+   `summary` VARCHAR(6143) NULL DEFAULT '',
+   `category` VARCHAR(255) NULL DEFAULT '',
+   `date_published` DATE NULL DEFAULT NULL,
+   `date_added` DATE NULL DEFAULT NULL,
+   `status` TINYINT(1) NULL DEFAULT '0',
+   `is_checked_out` INT(1) NOT NULL DEFAULT '0',
+   `is_reserved` INT(1) NOT NULL DEFAULT '0',
+   `publication` VARCHAR(255) NOT NULL DEFAULT '',
+   `issue_number` INT(11) NOT NULL
 ) ENGINE=MyISAM;
 
 
@@ -394,7 +536,7 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`id`, `active`, `privilege_level`, `name_first`, `name_last`, `email`, `phone`, `date_signed_up`, `gender`, `date_of_birth`, `address_line_1`, `address_line_2`, `address_zip`, `address_city`, `address_state`, `address_country_code`, `password_hash`, `reset_token`, `reset_token_expiry`, `account_confirm_token`)
 VALUES
-  (1,1,2,'Steven','Imle','ski0005@auburn.edu','(251) 533-0631','2015-11-18',1,'1993-11-10','','','','','','','$2y$10$c.GpLM8wZkWyxQj.rfS7.eyOg1.LMCtTv.UMyI8xWdDdiNWeISU4S','',NULL,NULL);
+	(3,1,2,'Steven','Imle','ski0005@auburn.edu','2515330631','2015-11-19',1,'1993-11-10','141 Wright St','Apt 6302','36830','Auburn','AL','USA','$2y$10$0yZTJPdrg7WYAC9aGn1X0upyDZdgeyITjcsdGjQbQr5cOQsDjTRnG','wJkA6HusttirYsXqaHy6QndVTfzoTMGp',NULL,NULL);
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -406,27 +548,27 @@ UNLOCK TABLES;
 DROP VIEW IF EXISTS `user_view`;
 
 CREATE TABLE `user_view` (
-  `id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
-  `active` TINYINT(1) NOT NULL DEFAULT '1',
-  `privilege_level` TINYINT(1) NOT NULL DEFAULT '0',
-  `name_first` VARCHAR(255) NOT NULL DEFAULT '',
-  `name_last` VARCHAR(255) NOT NULL DEFAULT '',
-  `email` VARCHAR(255) NOT NULL DEFAULT '',
-  `phone` VARCHAR(255) NOT NULL,
-  `date_signed_up` DATE NOT NULL,
-  `gender` TINYINT(1) NOT NULL DEFAULT '0',
-  `date_of_birth` DATE NULL DEFAULT NULL,
-  `address_line_1` VARCHAR(255) NOT NULL DEFAULT '',
-  `address_line_2` VARCHAR(255) NOT NULL DEFAULT '',
-  `address_zip` VARCHAR(10) NOT NULL DEFAULT '',
-  `address_city` VARCHAR(255) NOT NULL DEFAULT '',
-  `address_state` VARCHAR(255) NOT NULL,
-  `address_country_code` VARCHAR(3) NOT NULL DEFAULT 'USA',
-  `password_hash` VARCHAR(255) NOT NULL DEFAULT '',
-  `reset_token` VARCHAR(255) NULL DEFAULT NULL,
-  `reset_token_expiry` DATETIME NULL DEFAULT NULL,
-  `library_card` VARCHAR(16) NULL DEFAULT '',
-  `library_card_date_issued` DATE NULL DEFAULT NULL
+   `id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+   `active` TINYINT(1) NOT NULL DEFAULT '1',
+   `privilege_level` TINYINT(1) NOT NULL DEFAULT '0',
+   `name_first` VARCHAR(255) NOT NULL DEFAULT '',
+   `name_last` VARCHAR(255) NOT NULL DEFAULT '',
+   `email` VARCHAR(255) NOT NULL DEFAULT '',
+   `phone` VARCHAR(255) NOT NULL,
+   `date_signed_up` DATE NOT NULL,
+   `gender` TINYINT(1) NOT NULL DEFAULT '0',
+   `date_of_birth` DATE NULL DEFAULT NULL,
+   `address_line_1` VARCHAR(255) NOT NULL DEFAULT '',
+   `address_line_2` VARCHAR(255) NOT NULL DEFAULT '',
+   `address_zip` VARCHAR(10) NOT NULL DEFAULT '',
+   `address_city` VARCHAR(255) NOT NULL DEFAULT '',
+   `address_state` VARCHAR(255) NOT NULL,
+   `address_country_code` VARCHAR(3) NOT NULL DEFAULT 'USA',
+   `password_hash` VARCHAR(255) NOT NULL DEFAULT '',
+   `reset_token` VARCHAR(255) NULL DEFAULT NULL,
+   `reset_token_expiry` DATETIME NULL DEFAULT NULL,
+   `library_card` VARCHAR(16) NULL DEFAULT '',
+   `library_card_date_issued` DATE NULL DEFAULT NULL
 ) ENGINE=MyISAM;
 
 
@@ -440,16 +582,17 @@ DROP TABLE `ri_magazine`;
 
 CREATE OR REPLACE VIEW `ri_magazine`
 AS SELECT
-     `ri`.`id` AS `id`,
-     `ri`.`title` AS `title`,
-     `ri`.`summary` AS `summary`,
-     `ri`.`category` AS `category`,
-     `ri`.`date_published` AS `date_published`,
-     `ri`.`date_added` AS `date_added`,
-     `ri`.`status` AS `status`,count(`c`.`id`) AS `is_checked_out`,count(`r`.`id`) AS `is_reserved`,
-     `rim`.`publication` AS `publication`,
-     `rim`.`issue_number` AS `issue_number`
-   FROM (((`rental_item_magazine` `rim` left join `rental_item` `ri` on((`ri`.`id` = `rim`.`id`))) left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`)))) left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`))));
+   `ri`.`id` AS `id`,
+   `ri`.`type` AS `type`,
+   `ri`.`title` AS `title`,
+   `ri`.`summary` AS `summary`,
+   `ri`.`category` AS `category`,
+   `ri`.`date_published` AS `date_published`,
+   `ri`.`date_added` AS `date_added`,
+   `ri`.`status` AS `status`,(`c`.`id` is not null) AS `is_checked_out`,(`r`.`id` is not null) AS `is_reserved`,
+   `rim`.`publication` AS `publication`,
+   `rim`.`issue_number` AS `issue_number`
+FROM (((`rental_item_magazine` `rim` left join `rental_item` `ri` on((`ri`.`id` = `rim`.`id`))) left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`)))) left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`)))) group by `ri`.`id`;
 
 
 # Replace placeholder table for ri_book with correct view syntax
@@ -459,16 +602,17 @@ DROP TABLE `ri_book`;
 
 CREATE OR REPLACE VIEW `ri_book`
 AS SELECT
-     `ri`.`id` AS `id`,
-     `ri`.`title` AS `title`,
-     `ri`.`summary` AS `summary`,
-     `ri`.`category` AS `category`,
-     `ri`.`date_published` AS `date_published`,
-     `ri`.`date_added` AS `date_added`,
-     `ri`.`status` AS `status`,count(`c`.`id`) AS `is_checked_out`,count(`r`.`id`) AS `is_reserved`,group_concat(`a`.`name_full` separator ', ') AS `authors`,
-     `rib`.`isbn10` AS `isbn10`,
-     `rib`.`isbn13` AS `isbn13`
-   FROM ((((`rental_item_book` `rib` left join `rental_item` `ri` on((`ri`.`id` = `rib`.`id`))) left join `author` `a` on((`a`.`book` = `rib`.`id`))) left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`)))) left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`)))) group by `ri`.`id`;
+   `ri`.`id` AS `id`,
+   `ri`.`type` AS `type`,
+   `ri`.`title` AS `title`,
+   `ri`.`summary` AS `summary`,
+   `ri`.`category` AS `category`,
+   `ri`.`date_published` AS `date_published`,
+   `ri`.`date_added` AS `date_added`,
+   `ri`.`status` AS `status`,(`c`.`id` is not null) AS `is_checked_out`,(`r`.`id` is not null) AS `is_reserved`,
+   `rib`.`isbn10` AS `isbn10`,
+   `rib`.`isbn13` AS `isbn13`
+FROM (((`rental_item_book` `rib` left join `rental_item` `ri` on((`ri`.`id` = `rib`.`id`))) left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`)))) left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`)))) group by `ri`.`id`;
 
 
 # Replace placeholder table for ri_dvd with correct view syntax
@@ -478,15 +622,16 @@ DROP TABLE `ri_dvd`;
 
 CREATE OR REPLACE VIEW `ri_dvd`
 AS SELECT
-     `ri`.`id` AS `id`,
-     `ri`.`title` AS `title`,
-     `ri`.`summary` AS `summary`,
-     `ri`.`category` AS `category`,
-     `ri`.`date_published` AS `date_published`,
-     `ri`.`date_added` AS `date_added`,
-     `ri`.`status` AS `status`,count(`c`.`id`) AS `is_checked_out`,count(`r`.`id`) AS `is_reserved`,
-     `rid`.`director` AS `director`
-   FROM (((`rental_item_dvd` `rid` left join `rental_item` `ri` on((`ri`.`id` = `rid`.`id`))) left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`)))) left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`))));
+   `ri`.`id` AS `id`,
+   `ri`.`type` AS `type`,
+   `ri`.`title` AS `title`,
+   `ri`.`summary` AS `summary`,
+   `ri`.`category` AS `category`,
+   `ri`.`date_published` AS `date_published`,
+   `ri`.`date_added` AS `date_added`,
+   `ri`.`status` AS `status`,(`c`.`id` is not null) AS `is_checked_out`,(`r`.`id` is not null) AS `is_reserved`,
+   `rid`.`director` AS `director`
+FROM (((`rental_item_dvd` `rid` left join `rental_item` `ri` on((`ri`.`id` = `rid`.`id`))) left join `checkout` `c` on(((`c`.`rental_item` = `ri`.`id`) and isnull(`c`.`date_returned`)))) left join `reservation` `r` on(((`r`.`rental_item` = `ri`.`id`) and isnull(`r`.`checkout`)))) group by `ri`.`id`;
 
 
 # Replace placeholder table for user_view with correct view syntax
@@ -496,28 +641,28 @@ DROP TABLE `user_view`;
 
 CREATE OR REPLACE VIEW `user_view`
 AS SELECT
-     `u`.`id` AS `id`,
-     `u`.`active` AS `active`,
-     `u`.`privilege_level` AS `privilege_level`,
-     `u`.`name_first` AS `name_first`,
-     `u`.`name_last` AS `name_last`,
-     `u`.`email` AS `email`,
-     `u`.`phone` AS `phone`,
-     `u`.`date_signed_up` AS `date_signed_up`,
-     `u`.`gender` AS `gender`,
-     `u`.`date_of_birth` AS `date_of_birth`,
-     `u`.`address_line_1` AS `address_line_1`,
-     `u`.`address_line_2` AS `address_line_2`,
-     `u`.`address_zip` AS `address_zip`,
-     `u`.`address_city` AS `address_city`,
-     `u`.`address_state` AS `address_state`,
-     `u`.`address_country_code` AS `address_country_code`,
-     `u`.`password_hash` AS `password_hash`,
-     `u`.`reset_token` AS `reset_token`,
-     `u`.`reset_token_expiry` AS `reset_token_expiry`,
-     `lc`.`number` AS `library_card`,
-     `lc`.`date_issued` AS `library_card_date_issued`
-   FROM (`user` `u` left join `library_card` `lc` on(((`u`.`id` = `lc`.`user`) and (`lc`.`status` = 1))));
+   `u`.`id` AS `id`,
+   `u`.`active` AS `active`,
+   `u`.`privilege_level` AS `privilege_level`,
+   `u`.`name_first` AS `name_first`,
+   `u`.`name_last` AS `name_last`,
+   `u`.`email` AS `email`,
+   `u`.`phone` AS `phone`,
+   `u`.`date_signed_up` AS `date_signed_up`,
+   `u`.`gender` AS `gender`,
+   `u`.`date_of_birth` AS `date_of_birth`,
+   `u`.`address_line_1` AS `address_line_1`,
+   `u`.`address_line_2` AS `address_line_2`,
+   `u`.`address_zip` AS `address_zip`,
+   `u`.`address_city` AS `address_city`,
+   `u`.`address_state` AS `address_state`,
+   `u`.`address_country_code` AS `address_country_code`,
+   `u`.`password_hash` AS `password_hash`,
+   `u`.`reset_token` AS `reset_token`,
+   `u`.`reset_token_expiry` AS `reset_token_expiry`,
+   `lc`.`number` AS `library_card`,
+   `lc`.`date_issued` AS `library_card_date_issued`
+FROM (`user` `u` left join `library_card` `lc` on(((`u`.`id` = `lc`.`user`) and (`lc`.`status` = 1))));
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
