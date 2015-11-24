@@ -41,7 +41,7 @@
 			$this->_pdo->perform("UPDATE rental_item_dvd SET director = :dir WHERE id = :id", $args);
 		}
 
-		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
+		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
 			$args = ["val" => $value];
 
 			return $_pdo->fetchOne("SELECT * FROM `ri_dvd` WHERE $column = :val", $args);
