@@ -114,6 +114,20 @@
 			return $card;
 		}
 
+		public static function findByCardNumber(PDO_MySQL $_pdo, $number) {
+
+			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE number = :num AND status = :s",
+					["num" => $number, "s" => self::STATUS_ACTIVE]);
+
+			$card = $row ? new LibraryCard($_pdo, $row) : null;
+
+			if (!is_null($card))
+				$card->number= $number;
+
+			return $card;
+
+		}
+
 		private function parse(array $data_arr) {
 			foreach ($data_arr as $key => $value) {
 				$this->{$key} = $value;
