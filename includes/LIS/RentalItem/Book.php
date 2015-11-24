@@ -3,6 +3,7 @@
 	namespace LIS\RentalItem;
 
 	use LIS\Database\PDO_MySQL;
+	use LIS\Utility;
 
 	class Book extends RentalItem {
 
@@ -57,6 +58,16 @@
 			$this->_pdo->perform("UPDATE rental_item_book SET isbn13 = :isbn WHERE id = :id", $args);
 		}
 
+		/**
+		 * @param $summary
+		 * @param $title
+		 * @param $category
+		 * @param $date_published
+		 * @param $status
+		 * @param string $isbn10
+		 * @param string $isbn13
+		 * @param array $authors
+		 */
 		public function updateBook($summary, $title, $category, $date_published, $status, $isbn10 = "",
 		                           $isbn13 = "", array $authors = []) {
 

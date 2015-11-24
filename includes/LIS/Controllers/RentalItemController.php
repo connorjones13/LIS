@@ -52,8 +52,10 @@
 
 		}
 
+
 		public function updateBookInfo(Book $book, $summary, $title, $category, $date_published, $isbn10 = "",
 		                               $isbn13 = "", $authors) {
+
 			if (!$summary)
 				$this->setError(self::$ERROR_SUMMARY);
 
@@ -81,7 +83,7 @@
 			$authorsArray = explode(',', $authors);
 			$book->updateBook($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 					$status = 0, $isbn10, $isbn13, $authorsArray);
-			$_SESSION["show_created_alert"] = "Successfully added a Book!";
+			$_SESSION["show_created_alert"] = "Successfully updated a Book!";
 			self::displayPage(self::$PAGE_ADD_ITEM);
 		}
 
