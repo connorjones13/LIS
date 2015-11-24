@@ -40,58 +40,23 @@
 				<?php } ?>
 
 
-
-				<!-- testing magazine -->
-				<?php
-					$rental_magazine = new \LIS\RentalItem\Magazine($pdo);
-					$rental_magazine->create("This is a magazine summary.", "My First Magazine", "Adult",
-							DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "Maxim", 3);
-				?>
-				<div class="well-lg">
-					<h4>ID: <?= $rental_magazine->getId(); ?> | Title: <?= $rental_magazine->getTitle(); ?>
-						| Category: <?= $rental_magazine->getCategory(); ?></h4>
-					<p>Summary: <?= $rental_magazine->getSummary(); ?></p>
-					<p>Date Published: <?= $rental_magazine->getDatePublished()->format("m-d-Y"); ?></p>
-					<p>Date Added: <?= $rental_magazine->getDateAdded()->format("m-d-Y"); ?></p>
-					<p>Status: <?= $rental_magazine->getStatus(); ?></p>
-					<p>Publisher: <?= $rental_magazine->getPublication(); ?></p>
-				</div>
-
-				<!-- testing book -->
-				<?php
-					$rental_book = new \LIS\RentalItem\Book($pdo);
-					$rental_book->create("This is a book summary.", "My First Book", "Horror",
-							DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "", "", ["Jim", "Bob", "Billy"]);
-					$authors = array("John", "Jacob", "Jacky");
-					\LIS\RentalItem\Author::deleteAllForBook($pdo, $rental_book);
-					$authors = \LIS\RentalItem\Author::createNewForBook($pdo, $rental_book, $authors);
-				?>
-				<div class="well-lg">
-					<h4>ID: <?= $rental_book->getId(); ?> | Title: <?= $rental_book->getTitle(); ?>
-						| Category: <?= $rental_book->getCategory(); ?></h4>
-					<p>Summary: <?= $rental_book->getSummary(); ?></p>
-					<p>Date Published: <?= $rental_book->getDatePublished()->format("m-d-Y"); ?></p>
-					<p>Date Added: <?= $rental_book->getDateAdded()->format("m-d-Y"); ?></p>
-					<p>Status: <?= $rental_book->getStatus(); ?></p>
-					<p>Authors: <?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $rental_book)); ?></p>
-
-				</div>
-
-				<!-- testing dvd -->
-				<?php
-					$rental_dvd = new \LIS\RentalItem\DVD($pdo);
-					$rental_dvd->create("This is a DVD summary.", "My First DVD", "Action",
-							DateTime::createFromFormat("m-d-Y", "05-15-2011"), 3, "Joseph Maxwell");
-				?>
-				<div class="well-lg">
-					<h4>ID: <?= $rental_dvd->getId(); ?> | Title: <?= $rental_dvd->getTitle(); ?>
-						| Category: <?= $rental_dvd->getCategory(); ?></h4>
-					<p>Summary: <?= $rental_dvd->getSummary(); ?></p>
-					<p>Date Published: <?= $rental_dvd->getDatePublished()->format("m-d-Y"); ?></p>
-					<p>Date Added: <?= $rental_dvd->getDateAdded()->format("m-d-Y"); ?></p>
-					<p>Status: <?= $rental_dvd->getStatus(); ?></p>
-					<p>Director: <?= $rental_dvd->getDirector() ?></p>
-				</div>
+				<?php foreach (\LIS\RentalItem\RentalItem::getAllLost($pdo) as $ri) { ?>
+					<div class="well-lg">
+						<h4>ID: <?= $ri->getId(); ?> | Title: <?= $ri->getTitle(); ?>
+							| Category: <?= $ri->getCategory(); ?></h4>
+						<p>Summary: <?= $ri->getSummary(); ?></p>
+						<p>Date Published: <?= $ri->getDatePublished()->format("m-d-Y"); ?></p>
+						<p>Date Added: <?= $ri->getDateAdded()->format("m-d-Y"); ?></p>
+						<p>Status: <?= $ri->getStatus(); ?></p>
+						<?php if ($ri->isBook()) { ?>
+							<p>Authors: <?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $ri)); ?></p>
+						<?php } else if ($ri->isDVD()) { ?>
+							<p>Director: <?= $ri->getDirector(); ?></p>
+						<?php } else { ?>
+							<p>Publisher: <?= $ri->getPublication(); ?></p>
+						<?php } ?>
+					</div>
+				<?php } ?>
 			</div>
 		</div>
 		<footer class="footer">

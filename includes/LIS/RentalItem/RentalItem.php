@@ -210,6 +210,17 @@
 			self::updateStatus($this->status);
 		}
 
+		public function isBook() {
+			return $this->type == Book::TYPE;
+		}
+
+		public function isMagazine() {
+			return $this->type == Magazine::TYPE;
+		}
+
+		public function isDVD() {
+			return $this->type == DVD::TYPE;
+		}
 
 		/**
 		 * Used to update status of an item.
@@ -323,7 +334,8 @@
 		 * @return Book[]|Magazine[]|DVD[]
 		 */
 		protected static function getAllByStatus(PDO_MySQL $_pdo, $status) {
-			$query = "SELECT ri.*, rib.*, rid.*, rim.* FROM rental_item ri
+			$query = "SELECT ri.*, rib.isbn10, rib.isbn13, rid.director, rim.publication,
+					    rim.issue_number FROM rental_item ri
 					    LEFT JOIN rental_item_book rib ON ri.id = rib.id
 					    LEFT JOIN rental_item_dvd rid ON ri.id = rid.id
 					    LEFT JOIN rental_item_magazine rim ON ri.id = rim.id
