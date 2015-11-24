@@ -42,8 +42,11 @@
 				<?php if ($controller->isLoggedIn()) { ?>
 					<a href="#" class="btn btn-default btn-success">Reserve</a>
 				<?php } ?>
-				<?php if ($controller->isLoggedIn() && $controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
-					<a href="#" class ="btn btn-default btn-warning">Edit Item</a>
+				<?php if ($controller->isLoggedIn() &&
+						$controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
+					<!-- todo: change url depending on item type || make the update page generic? -->
+					<a href="/controlpanel/update/update_book.php?id=<?= $item->getId() ?>"
+					   class ="btn btn-default btn-warning">Edit Item</a>
 				<?php } ?>
 			</div>
 		</div>
