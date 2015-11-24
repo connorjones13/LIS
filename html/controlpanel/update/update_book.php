@@ -89,7 +89,7 @@ $page_title = "Update Book";
 							<input type="date" class="form-control" id="date_published" name="date_published"
 							       value="<?= \LIS\Utility::getDateTimeForMySQLDate($_POST["date_published"]) ?>">
 						</div>
-						<button type="submit" class="btn btn-default">Update</button>
+						<button type="submit" onclick="history.go(-1)" class="btn btn-default">Update</button>
 					</form>
 				</div>
 			</div>
