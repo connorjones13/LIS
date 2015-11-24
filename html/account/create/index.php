@@ -48,7 +48,7 @@
 						       placeholder="password" value="<?= $_POST["password"] ?>">
 					</div>
 					<div class="form-group">
-						<label for="password_confirm">Password</label>
+						<label for="password_confirm">Confirm Password</label>
 						<input type="password" class="form-control" id="password_confirm" name="password_confirm"
 						       placeholder="password" value="<?= $_POST["password_confirm"] ?>">
 					</div>
