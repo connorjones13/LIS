@@ -251,6 +251,19 @@
 			$this->_pdo->perform("UPDATE rental_item SET category = :ca WHERE id = :id", $args);
 		}
 
+		public function updateRentalItem($summary, $title, $category, $date_published, $status) {
+			$this->summary = $summary;
+			$this->title = $title;
+			$this->category = $category;
+			$this->date_published = $date_published;
+			$this->status = $status;
+
+			$args = ["su" => $summary, "ti" => $title, "ca" => $category,
+					"dp" => Utility::getDateTimeForMySQLDate($date_published), "st" => $status, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item SET summary = :su, title = :ti, category = :ca,
+				date_published = :dp, status = :st WHERE id = :id", $args);
+		}
+
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param $column

@@ -4,11 +4,7 @@
 	$controller = new \LIS\Controllers\CreateUserController($pdo);
 	$item = new LIS\RentalItem\Book($pdo);
 
-	// this for testing. todo: remove when page is passed an item
-	$item->create("This is a book summary.", "My First Book", "Horror",
-		DateTime::createFromFormat("m-d-Y", "11-7-2015"), 2, "1230219241", "3214123424", ["Jim", "Bob", "Billy"]);
-	$authors = array("John", "Jacob", "Jacky");
-	// todo: remove above section
+	$item = $item->find($pdo, $_GET['id']);
 
 	$page_title = $item->getTitle();
 ?>
@@ -40,7 +36,8 @@
 				if($controller->getSessionUser()) {
 					echo '<a href="#" class="btn btn-default btn-success">Reserve</a> ';
 				}
-				if($controller->getSessionUser()->isAdmin() || $controller->getSessionUser()->isEmployee()) {
+				if($controller->isLoggedIn() && ($controller->getSessionUser()->isAdmin()
+								|| $controller->getSessionUser()->isEmployee())) {
 					echo '<a href="#" class ="btn btn-default btn-warning">Edit Item</a>';
 				}
 			?>

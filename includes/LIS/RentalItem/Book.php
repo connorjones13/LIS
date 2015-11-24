@@ -57,6 +57,29 @@
 			$this->_pdo->perform("UPDATE rental_item_book SET isbn13 = :isbn WHERE id = :id", $args);
 		}
 
+		public function updateBook($summary, $title, $category, $date_published, $status, $isbn10 = "",
+		                           $isbn13 = "", array $authors = []) {
+
+			self::updateRentalItem($summary, $title, $category, $date_published, $status);
+
+			$this->isbn10 = $isbn10;
+			$this->isbn13 = $isbn13;
+			Author::deleteAllForBook($this->_pdo, $this);       // remove authors since we're replacing them
+
+			$args = ["is10" => $isbn10, "is13" => $isbn13, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item_book SET isbn10 = :is10, isbn13 = :is13 WHERE id = :id", $args);
+
+			Author::createNewForBook($this->_pdo, $this, $authors); // add updated authors for book
+
+
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param $column
+		 * @param $value
+		 * @return array
+		 */
 		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
 			$args = ["val" => $value];
 

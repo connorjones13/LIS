@@ -28,7 +28,7 @@ $page_title = "Browse Rental Items";
 				foreach ($books as $book) { ?>
 
 					<div class="col-sm-6 col-md-3 list_items">
-						<h4><b><?= $book->getTitle(); ?></b></h4>
+						<h4><b><a href="/item/?id=<?= $book->getId() ?>"><?= $book->getTitle(); ?></a></b></h4>
 
 						<p>Category: <?= $book->getCategory(); ?></p>
 
@@ -48,7 +48,7 @@ $page_title = "Browse Rental Items";
 					foreach ($magazines as $magazine) { ?>
 
 						<div class="col-sm-6 col-md-3 list_items">
-							<h4><b><?= $magazine->getTitle(); ?></b></h4>
+							<h4><b><a href="/item/?id=<?= $magazine->getId() ?>"><?= $magazine->getTitle(); ?></a></b></h4>
 
 							<p>Category: <?= $magazine->getCategory(); ?></p>
 
@@ -68,7 +68,7 @@ $page_title = "Browse Rental Items";
 					foreach ($dvds as $dvd) { ?>
 
 						<div class="col-sm-6 col-md-3 list_items">
-							<h4><b><?= $dvd->getTitle(); ?></b></h4>
+							<h4><b><a href="/item/?id=<?= $dvd->getId() ?>"><?= $dvd->getTitle(); ?></a></b></h4>
 
 							<p>Category: <?= $dvd->getCategory(); ?></p>
 
