@@ -20,6 +20,10 @@
 <div class="content">
 	<?php if (!is_null($item)) { ?>
 		<div class="container ip-container">
+			<?php if ($_SESSION["successful_update"]) { ?>
+				<p class="alert alert-success"><?= $_SESSION["successful_update"] ?></p>
+				<?php unset($_SESSION["successful_update"]) ?>
+			<?php } ?>
 			<div class="pull-left ip-img">
 				<img src="http://lorempixel.com/400/400/">
 			</div>
@@ -45,7 +49,7 @@
 				<?php if ($controller->isLoggedIn() &&
 						$controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
 					<!-- todo: change url depending on item type || make the update page generic? -->
-					<a href="/controlpanel/update/update_book.php?id=<?= $item->getId() ?>"
+					<a href="/controlpanel/update/<?= $item->getId() ?>/"
 					   class ="btn btn-default btn-warning">Edit Item</a>
 				<?php } ?>
 			</div>

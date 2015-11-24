@@ -82,17 +82,67 @@
 			$authorsArray = explode(',', $authors);
 			$book->updateBook($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 					$status = 0, $isbn10, $isbn13, $authorsArray);
-			$_SESSION["show_created_alert"] = "Successfully updated a Book!";
-
+			$_SESSION["successful_update"] = "Successfully updated Book!";
+			$loc = 'Location: /item/' . $book->getId() . '/';
+			header($loc);
 		}
 
 		public function updateDvdInfo(DVD $dvd, $summary, $title, $category, $date_published, $director) {
+			if (!$summary)
+				$this->setError(self::$ERROR_SUMMARY);
 
+			else if (!$title)
+				$this->setError(self::$ERROR_TITLE);
+
+			else if (!$category)
+				$this->setError(self::$ERROR_CATEGORY);
+
+			else if (Utility::getDateTimeFromMySQLDate($date_published) >= new DateTime())
+				$this->setError(self::$ERROR_DATE_PUBLISHED);
+
+			else if (!$director)
+				$this->setError(self::$ERROR_DIRECTOR);
+
+
+			if ($this->hasError())
+				return;
+
+			$dvd->updateDvd($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
+					$status = 0, $director);
+			$_SESSION["successful_update"] = "Successfully updated DVD!";
+			$loc = 'Location: /item/' . $dvd->getId() . '/';
+			header($loc);
 		}
 
 		public function updateMagazineInfo(Magazine $magazine, $summary, $title, $category, $date_published,
 		                                   $publication, $issue_number) {
 
+			if (!$summary)
+				$this->setError(self::$ERROR_SUMMARY);
+
+			else if (!$title)
+				$this->setError(self::$ERROR_TITLE);
+
+			else if (!$category)
+				$this->setError(self::$ERROR_CATEGORY);
+
+			else if (Utility::getDateTimeFromMySQLDate($date_published) >= new DateTime())
+				$this->setError(self::$ERROR_DATE_PUBLISHED);
+
+			else if (!$publication)
+				$this->setError(self::$ERROR_PUBLICATION);
+
+			else if (!$issue_number)
+				$this->setError(self::$ERROR_ISSUE_NUMBER);
+
+			if ($this->hasError())
+				return;
+
+			$magazine->updateMagazine($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
+					$status = 0, $publication, $issue_number);
+			$_SESSION["successful_update"] = "Successfully updated Magazine!";
+			$loc = 'Location: /item/' . $magazine->getId() . '/';
+			header($loc);
 		}
 
 		public function getErrorMessage() {

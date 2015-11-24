@@ -61,6 +61,18 @@
 			$this->_pdo->perform("UPDATE rental_item_magazine SET issue_number = :inum WHERE id = :id", $args);
 		}
 
+		public function updateMagazine($summary, $title, $category, $date_published, $status, $publication, $issue_number) {
+
+			self::updateRentalItem($summary, $title, $category, $date_published, $status);
+
+			$this->publication = $publication;
+			$this->issue_number = $issue_number;
+
+			$args = ["inum" => $issue_number, "pu" => $publication, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item_magazine SET issue_number = :inum, publication = :pu WHERE id = :id", $args);
+
+		}
+
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param $column

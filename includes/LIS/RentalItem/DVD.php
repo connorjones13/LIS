@@ -41,6 +41,17 @@
 			$this->_pdo->perform("UPDATE rental_item_dvd SET director = :dir WHERE id = :id", $args);
 		}
 
+		public function updateDvd($summary, $title, $category, $date_published, $status, $director) {
+
+			self::updateRentalItem($summary, $title, $category, $date_published, $status);
+
+			$this->director = $director;
+
+			$args = ["dir" => $director, "id" => $this->id];
+			$this->_pdo->perform("UPDATE rental_item_dvd SET director = :dir WHERE id = :id", $args);
+
+		}
+
 		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
 			$args = ["val" => $value];
 

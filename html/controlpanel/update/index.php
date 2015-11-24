@@ -10,21 +10,37 @@ require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
 $controller = new \LIS\Controllers\RentalItemController($pdo);
 
-$book = \LIS\RentalItem\Book::find($pdo, $_GET['id']);
-
+$rental_item = \LIS\RentalItem\RentalItem::find($pdo, $_GET['id']);
 
 if (\LIS\Utility::requestHasPost()) {
-	$controller->updateBookInfo($book, $_POST["summary"], $_POST["title"], $_POST["category"],
-		$_POST["date_published"],
-		$_POST["isbn10"], $_POST["isbn13"], $_POST["authors"]);
+	if($rental_item->isBook()) {
+		$controller->updateBookInfo($rental_item, $_POST["summary"], $_POST["title"], $_POST["category"],
+				$_POST["date_published"],
+				$_POST["isbn10"], $_POST["isbn13"], $_POST["authors"]);
+	} elseif($rental_item->isDVD()) {
+		$controller->updateDvdInfo($rental_item, $_POST["summary"], $_POST["title"], $_POST["category"],
+				$_POST["date_published"], $_POST["director"]);
+	} else {
+		$controller->updateMagazineInfo($rental_item, $_POST["summary"], $_POST["title"], $_POST["category"],
+				$_POST["date_published"], $_POST["publication"], $_POST["issue_number"]);
+	}
 }
-$_POST["summary"] = $book->getSummary();
-$_POST["title"] = $book->getTitle();
-$_POST["category"] = $book->getCategory();
-$_POST["date_published"] = $book->getDatePublished();
-$_POST["isbn10"] = $book->getISBN10();
-$_POST["isbn13"] = $book->getISBN13();
-$_POST["authors"] = implode(',', \LIS\RentalItem\Author::findAllForBook($pdo, $book));
+
+$_POST["summary"] = $rental_item->getSummary();
+$_POST["title"] = $rental_item->getTitle();
+$_POST["category"] = $rental_item->getCategory();
+$_POST["date_published"] = $rental_item->getDatePublished();
+
+if($rental_item->isBook()) {
+	$_POST["isbn10"] = $rental_item->getISBN10();
+	$_POST["isbn13"] = $rental_item->getISBN13();
+	$_POST["authors"] = implode(',', \LIS\RentalItem\Author::findAllForBook($pdo, $rental_item));
+} elseif($rental_item->isDVD()) {
+	$_POST["director"] = $rental_item->getDirector();
+} else {
+	$_POST["publication"] = $rental_item->getPublication();
+	$_POST["issue_number"] = $rental_item->getIssueNumber();
+}
 
 $page_title = "Update Book";
 ?>
@@ -43,7 +59,7 @@ $page_title = "Update Book";
 			<div class="row">
 				<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
 				<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
-					<h1 class="page-header">Update Book</h1>
+					<h1 class="page-header">Update Item</h1>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
@@ -65,6 +81,7 @@ $page_title = "Update Book";
 							<input type="text" class="form-control" id="category" name="category"
 							       value="<?= $_POST["category"] ?>">
 						</div>
+						<?php if($rental_item->isBook()) { ?>
 						<div class="form-group">
 							<label for="isbn10">ISBN10</label>
 							<input type="text" class="form-control" id="isbn10" name="isbn10"
@@ -82,14 +99,34 @@ $page_title = "Update Book";
 							<input type="text" class="form-control" id="authors" name="authors"
 							       value="<?= $_POST["authors"] ?>">
 						</div>
+						<?php } ?>
+						<?php if($rental_item->isDVD()) { ?>
+						<div class="form-group">
+							<label for="director">Director</label>
+							<input type="text" class="form-control" id="director" name="director"
+							       value="<?= $_POST["director"] ?>">
+						</div>
+						<?php } ?>
+						<?php if($rental_item->isMagazine()) { ?>
+						<div class="form-group">
+							<label for="publication">Publication</label>
+							<input type="text" class="form-control" id="publication" name="publication"
+							       value="<?= $_POST["publication"] ?>">
+						</div>
 
+						<div class="form-group">
+							<label for="issue_number">Issue Number</label>
+							<input type="number" class="form-control" id="issue_number" name="issue_number"
+							       value="<?= $_POST["issue_number"] ?>">
+						</div>
+						<?php } ?>
 						<div class="form-group">
 							<label for="date_published">Date Published</label>
 							<!-- Comes in as yyyy-mm-dd -->
 							<input type="date" class="form-control" id="date_published" name="date_published"
 							       value="<?= \LIS\Utility::getDateTimeForMySQLDate($_POST["date_published"]) ?>">
 						</div>
-						<button type="submit" onclick="history.go(-1)" class="btn btn-default">Update</button>
+						<button type="submit" class="btn btn-default">Update</button><!-- onclick="history.go(-1)" -->
 					</form>
 				</div>
 			</div>
