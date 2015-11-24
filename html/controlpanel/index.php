@@ -19,6 +19,11 @@
 <body>
 <header class="navbar navbar-fixed-top navbar-inverse">
 	<?php require_once(__DIR__ . "/../../includes/html_templates/header.php"); ?>
+	<script type="text/javascript">
+		$(".show_data").click(function() {
+
+		});
+	</script>
 </header>
 <div class="content">
 	<div class="container-fluid">
@@ -29,153 +34,56 @@
 				<h1 class="page-header">Control Panel</h1>
 
 				<div class="row placeholders">
-					<div class="col-xs-6 col-sm-3 placeholder">
+					<div class="col-xs-6 col-sm-3 placeholder show_data" data-view="available">
 						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getAvailableItemCount($pdo)) ?></h2>
 						<h4>Available Items</h4>
-						<span class="text-muted">Something else</span>
+						<span class="text-muted">Click to View</span>
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
+					<div class="col-xs-6 col-sm-3 placeholder show_data" data-view="checked_out">
 						<h2><?= \LIS\Utility::formatNumber(\LIS\Checkout::getItemCheckedOutCount($pdo)) ?></h2>
 						<h4>Checked Out Items</h4>
-						<span class="text-muted">Something else</span>
+						<span class="text-muted">Click to View</span>
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
+					<div class="col-xs-6 col-sm-3 placeholder show_data" data-view="damaged">
 						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getDamagedItemCount($pdo)) ?></h2>
 						<h4>Damaged Items</h4>
-						<span class="text-muted">Something else</span>
+						<span class="text-muted">Click to View</span>
 					</div>
-					<div class="col-xs-6 col-sm-3 placeholder">
+					<div class="col-xs-6 col-sm-3 placeholder show_data" data-view="lost">
 						<h2><?= \LIS\Utility::formatNumber(\LIS\RentalItem\RentalItem::getLostItemCount($pdo)) ?></h2>
 						<h4>Lost Items</h4>
-						<span class="text-muted">Something else</span>
+						<span class="text-muted">Click to View</span>
 					</div>
 				</div>
 
-				<h2 class="sub-header">Active Reservations</h2>
+				<h2 class="sub-header">Available Items</h2>
 				<div class="table-responsive">
 					<table class="table table-striped">
 						<thead>
-						<tr>
-							<th>#</th>
-							<th>Header</th>
-							<th>Header</th>
-							<th>Header</th>
-							<th>Header</th>
-						</tr>
+							<tr>
+								<th>ID#</th>
+								<th>Title</th>
+								<th>Category</th>
+								<th>Creators</th>
+								<th></th>
+							</tr>
 						</thead>
 						<tbody>
-						<tr>
-							<td>1,001</td>
-							<td>Lorem</td>
-							<td>ipsum</td>
-							<td>dolor</td>
-							<td>sit</td>
-						</tr>
-						<tr>
-							<td>1,002</td>
-							<td>amet</td>
-							<td>consectetur</td>
-							<td>adipiscing</td>
-							<td>elit</td>
-						</tr>
-						<tr>
-							<td>1,003</td>
-							<td>Integer</td>
-							<td>nec</td>
-							<td>odio</td>
-							<td>Praesent</td>
-						</tr>
-						<tr>
-							<td>1,003</td>
-							<td>libero</td>
-							<td>Sed</td>
-							<td>cursus</td>
-							<td>ante</td>
-						</tr>
-						<tr>
-							<td>1,004</td>
-							<td>dapibus</td>
-							<td>diam</td>
-							<td>Sed</td>
-							<td>nisi</td>
-						</tr>
-						<tr>
-							<td>1,005</td>
-							<td>Nulla</td>
-							<td>quis</td>
-							<td>sem</td>
-							<td>at</td>
-						</tr>
-						<tr>
-							<td>1,006</td>
-							<td>nibh</td>
-							<td>elementum</td>
-							<td>imperdiet</td>
-							<td>Duis</td>
-						</tr>
-						<tr>
-							<td>1,007</td>
-							<td>sagittis</td>
-							<td>ipsum</td>
-							<td>Praesent</td>
-							<td>mauris</td>
-						</tr>
-						<tr>
-							<td>1,008</td>
-							<td>Fusce</td>
-							<td>nec</td>
-							<td>tellus</td>
-							<td>sed</td>
-						</tr>
-						<tr>
-							<td>1,009</td>
-							<td>augue</td>
-							<td>semper</td>
-							<td>porta</td>
-							<td>Mauris</td>
-						</tr>
-						<tr>
-							<td>1,010</td>
-							<td>massa</td>
-							<td>Vestibulum</td>
-							<td>lacinia</td>
-							<td>arcu</td>
-						</tr>
-						<tr>
-							<td>1,011</td>
-							<td>eget</td>
-							<td>nulla</td>
-							<td>Class</td>
-							<td>aptent</td>
-						</tr>
-						<tr>
-							<td>1,012</td>
-							<td>taciti</td>
-							<td>sociosqu</td>
-							<td>ad</td>
-							<td>litora</td>
-						</tr>
-						<tr>
-							<td>1,013</td>
-							<td>torquent</td>
-							<td>per</td>
-							<td>conubia</td>
-							<td>nostra</td>
-						</tr>
-						<tr>
-							<td>1,014</td>
-							<td>per</td>
-							<td>inceptos</td>
-							<td>himenaeos</td>
-							<td>Curabitur</td>
-						</tr>
-						<tr>
-							<td>1,015</td>
-							<td>sodales</td>
-							<td>ligula</td>
-							<td>in</td>
-							<td>libero</td>
-						</tr>
+							<?php foreach (\LIS\RentalItem\RentalItem::getAllAvailable($pdo) as $item) { ?>
+								<tr>
+									<td><?= \LIS\Utility::formatNumber($item->getId()) ?></td>
+									<td><?= $item->getTitle() ?></td>
+									<td><?= $item->getCategory() ?></td>
+									<?php if ($item->isBook()) { ?>
+										<td><?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?></td>
+									<?php } else if ($item->isDVD()) { ?>
+										<td><?= $item->getDirector() ?></td>
+									<?php } else if ($item->isMagazine()) { ?>
+										<td><?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)</td>
+									<?php } ?>
+									<td></td>
+								</tr>
+							<?php } ?>
 						</tbody>
 					</table>
 				</div>
