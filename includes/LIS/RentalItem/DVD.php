@@ -6,7 +6,7 @@
 	class DVD extends RentalItem {
 
 		const TYPE = 1;
-		//todo: insert type into DB
+
 		protected $director;
 
 		public function create($summary, $title, $category, $date_published, $status, $director = "") {

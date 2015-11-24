@@ -7,8 +7,6 @@
 	class Book extends RentalItem {
 
 		const TYPE = 0;
-		//todo: insert type into DB
-
 
 		protected $isbn10, $isbn13;
 

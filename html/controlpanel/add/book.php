@@ -77,7 +77,6 @@ $page_title = "Add Book";
 						<input type="date" class="form-control" id="date_published" name="date_published"
 						       placeholder="11/19/1990" value="<?= $_POST["date_published"] ?>">
 					</div>
-					<!-- todo: clear form after submit, also refreshing the page creates an object in the databse -->
 					<button type="submit" class="btn btn-default">Create</button>
 				</form>
 			</div>
