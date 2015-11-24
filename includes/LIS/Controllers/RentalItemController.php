@@ -30,13 +30,13 @@
 		public function getAllRentalItems() {
 
 			$book = new Book($this->_pdo);
-			$books = $book->getAllByStatus($this->_pdo, 0);
+			$books = $book->getAllAvailable($this->_pdo);
 
 			$dvd = new DVD($this->_pdo);
-			$dvds = $dvd->getAllByStatus($this->_pdo, 0);
+			$dvds = $dvd->getAllAvailable($this->_pdo);
 
 			$magazine = new Magazine($this->_pdo);
-			$magazines = $magazine->getAllByStatus($this->_pdo, 0);
+			$magazines = $magazine->getAllAvailable($this->_pdo);
 
 			foreach ($books as $book) {
 

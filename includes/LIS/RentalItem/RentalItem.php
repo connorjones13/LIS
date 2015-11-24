@@ -270,7 +270,7 @@
 		 * @param $value
 		 * @return array
 		 */
-		public static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
+		protected static function findRowBy(PDO_MySQL $_pdo, $column, $value) {
 			$args = ["val" => $value];
 
 			return $_pdo->fetchOne("SELECT * FROM `rental_item` WHERE $column = :val", $args);
@@ -329,6 +329,19 @@
 			])["count"]);
 		}
 
+		public static function find(PDO_MySQL $_pdo, $id) {
+			$query = "SELECT ri.*, rib.isbn10, rib.isbn13, rid.director, rim.publication,
+					    rim.issue_number FROM rental_item ri
+					    LEFT JOIN rental_item_book rib ON ri.id = rib.id
+					    LEFT JOIN rental_item_dvd rid ON ri.id = rid.id
+					    LEFT JOIN rental_item_magazine rim ON ri.id = rim.id
+					  WHERE ri.id = :id
+					  GROUP BY ri.id";
+
+			$row = $_pdo->fetchOne($query, ["id" => $id]);
+			return $row ? self::getInstance($_pdo, $row) : null;
+		}
+
 		public static function getAllLost(PDO_MySQL $_pdo) {
 			return self::getAllByStatus($_pdo, self::STATUS_LOST);
 		}
@@ -359,17 +372,29 @@
 			$rows = $_pdo->fetchAssoc($query, $args);
 
 			return array_map(function ($row) use ($_pdo) {
-				switch ($row["type"]) {
-					case Book::TYPE:
-						return new Book($_pdo, $row);
-					case DVD::TYPE:
-						return new DVD($_pdo, $row);
-					case Magazine::TYPE:
-						return new Magazine($_pdo, $row);
-					default:
-						return null;
-				}
+				return self::getInstance($_pdo, $row);
 			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param array $row
+		 * @return Book|DVD|Magazine
+		 */
+		protected static function getInstance(PDO_MySQL $_pdo, array $row) {
+			if (!$row || !isset($row["type"]))
+				return null;
+
+			switch ($row["type"]) {
+				case Book::TYPE:
+					return new Book($_pdo, $row);
+				case DVD::TYPE:
+					return new DVD($_pdo, $row);
+				case Magazine::TYPE:
+					return new Magazine($_pdo, $row);
+				default:
+					return null;
+			}
 		}
 
 		/**

@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteBase /item
+RewriteRule ^([0-9]+)/$         index.php?id=$0         [L]
