@@ -23,7 +23,6 @@ if (\LIS\Utility::requestHasPost()) {
 	$controller->checkoutRentalItem($_POST['id'], $_POST['library_card']);
 }
 
-
 $page_title = "Checkout";
 ?>
 <!doctype html>
