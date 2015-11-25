@@ -13,10 +13,9 @@
 
 			// get library card from card number
 			$lib_card = LibraryCard::findByCardNumber($this->_pdo, $library_card_num);
-			// get user from library card
-			$user = $lib_card->getUser();
-			$ids = array_filter($ids);
-			// get checkout employee
+
+			$user = $lib_card->getUser();   // get user from library card
+			$ids = array_filter($ids);      // remove null values if not checking out max items
 
 			foreach($ids as $id) {
 
@@ -25,20 +24,19 @@
 
 				if($rental_item->getStatus() > 0) {
 					if($rental_item->getStatus() == 5) {
-						// check that this user is same user on reservation, then add to checkout basket
+						// todo: check that this user is same user on reservation, then add to checkout basket
 					}
 
-					// return error that book is unavailable
+					// todo: return error that book is unavailable
 				}
 
 
 				// create checkout record for item
 				$checkout = new Checkout($this->_pdo);
-//				var_dump($rental_item);
 				$checkout->create($this->getSessionUser(), $user, $rental_item);
 			}
 
-			// return due date & successful checkout message!
+			// todo: return due date & successful checkout message!
 		}
 
 		public function checkInRentalItem(RentalItem $rentalItem) {
