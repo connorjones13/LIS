@@ -49,11 +49,11 @@
 				$this->parse($data_arr);
 		}
 
-		protected function create(Employee $checkout_employee, User $user,
+		public function create(Employee $checkout_employee, User $user,
 		                                 RentalItem $rental_item) {
 
 			$this->date_due = new DateTime();
-			$this->date_due->add(new DateInterval("7 days"));
+			$this->date_due->add(new DateInterval('P07D'));
 			$this->date_due = Utility::getDateTimeForMySQLDate($this->date_due);
 
 			$this->date_checked_out = Utility::getDateTimeForMySQLDateTime();
@@ -78,6 +78,7 @@
 
 			$this->id = $this->_pdo->lastInsertId();
 
+			return $this->id;
 		}
 
 

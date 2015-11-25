@@ -8,22 +8,14 @@
 
 require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\RentalItemController($pdo);
+$controller = new \LIS\Controllers\CheckoutController($pdo);
 
 $rental_item = \LIS\RentalItem\RentalItem::find($pdo, $_GET['id']);
 
 if (\LIS\Utility::requestHasPost()) {
-	if($rental_item->isBook()) {
-		$controller->updateBookInfo($rental_item, $_POST["summary"], $_POST["title"], $_POST["category"],
-			$_POST["date_published"],
-			$_POST["isbn10"], $_POST["isbn13"], $_POST["authors"]);
-	} elseif($rental_item->isDVD()) {
-		$controller->updateDvdInfo($rental_item, $_POST["summary"], $_POST["title"], $_POST["category"],
-			$_POST["date_published"], $_POST["director"]);
-	} else {
-		$controller->updateMagazineInfo($rental_item, $_POST["summary"], $_POST["title"], $_POST["category"],
-			$_POST["date_published"], $_POST["publication"], $_POST["issue_number"]);
-	}
+	$library_card = $_POST["library_card"];
+	$ids = $_POST;
+	$controller->checkoutRentalItem($_POST['id'], $_POST['library_card']);
 }
 
 
@@ -44,19 +36,60 @@ $page_title = "Checkout Item";
 			<div class="row">
 				<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
 				<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
-					<h1 class="page-header">Add Book</h1>
+					<h1 class="page-header">Checkout</h1>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
 								<?= $controller->getErrorMessage(); ?>
 							</p>
 						<?php } ?>
-						<div class="form-group">
-							<label for="title">Enter ID:</label>
-							<input type="text" class="form-control" id="title" name="title"
-							       placeholder="To Kill a Mockingbird" value="<?= $_POST["title"] ?>">
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">Library Card #</span>
+							<input type="text" class="form-control" name="library_card" placeholder="123456789" aria-describedby="sizing-addon2">
 						</div>
-						<button type="submit" class="btn btn-default">Create</button>
+						<br />
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 01</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 02</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 03</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 04</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 05</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 06</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 07</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 08</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 09</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon" id="sizing-addon2">ID 10</span>
+							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+						</div>
+						<br />
+						<button type="submit" class="btn btn-default">Checkout</button>
 					</form>
 				</div>
 			</div>
