@@ -19,7 +19,7 @@ if (\LIS\Utility::requestHasPost()) {
 }
 
 
-$page_title = "Checkout Item";
+$page_title = "Checkout";
 ?>
 <!doctype html>
 <html lang="en">

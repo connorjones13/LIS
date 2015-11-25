@@ -15,5 +15,7 @@
 			<a href="">Manage Users</a></li>
 		<li <?php if($page_title == 'Checkout') echo 'class="active"' ?>>
 			<a href="/controlpanel/checkout">Checkout</a></li>
+		<li <?php if($page_title == 'Check In') echo 'class="active"' ?>>
+			<a href="/controlpanel/checkin">Check In</a></li>
 	</ul>
 </div>

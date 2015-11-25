@@ -30,7 +30,6 @@
 					// todo: return error that book is unavailable
 				}
 
-
 				// create checkout record for item
 				$checkout = new Checkout($this->_pdo);
 				$checkout->create($this->getSessionUser(), $user, $rental_item);
@@ -39,16 +38,19 @@
 			// todo: return due date & successful checkout message!
 		}
 
-		public function checkInRentalItem(RentalItem $rentalItem) {
+		public function checkInRentalItem($rental_item_id) {
+			// todo: error handling for method
 
-			$rentalItem->markAvailable();   // set available
+			$rental_item = RentalItem::find($this->_pdo, $rental_item_id);
 
-			$checkout = new Checkout($this->_pdo);
+			$rental_item->markAvailable();   // set available
 
-			if($checkout->findActiveCheckout($rentalItem) != null) {
-				$checkout->checkIn($this->getSessionUser());
-			}
+			$checkout = new Checkout($this->_pdo, Checkout::findActiveCheckout($this->_pdo, $rental_item));
 
+			if(is_null($checkout))
+				throw new \Exception("No active checkout for item");
+
+			$checkout->checkIn($this->getSessionUser());
 
 		}
 	}

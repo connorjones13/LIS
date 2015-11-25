@@ -83,7 +83,7 @@
 
 
 		public function checkIn(Employee $employee) {
-			$this->date_returned = Utility::getDateTimeForMySQLDate();
+			$this->date_returned = Utility::getDateTimeForMySQLDateTime();
 
 			$this->_ci_employee = $employee;
 			$this->checkin_employee = $employee->getId();
@@ -178,11 +178,16 @@
 			return $this->_co_employee;
 		}
 
-		public function findActiveCheckout(RentalItem $rentalItem) {
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param RentalItem $rentalItem
+		 * @return array
+		 */
+		public static function findActiveCheckout(PDO_MySQL $_pdo, RentalItem $rentalItem) {
 			$args = ["val" => $rentalItem->getId()];
 
 			$activeCheckout = null;
-			return $this->_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
+			return $_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
 		}
 
 		public static function getItemCheckedOutCount(PDO_MySQL $_pdo) {
