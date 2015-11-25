@@ -48,6 +48,10 @@ $page_title = "Checkout";
 								<?= $controller->getErrorMessage(); ?>
 							</p>
 						<?php } ?>
+						<?php if ($_SESSION["checkout_alert"]) { ?>
+							<p class="alert alert-success"><?php echo $_SESSION["checkout_alert"] ?></p>
+							<?php unset($_SESSION["checkout_alert"]) ?>
+						<?php } ?>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">Library Card #</span>
 							<input type="text" class="form-control" name="library_card" placeholder="123456789" aria-describedby="sizing-addon2">

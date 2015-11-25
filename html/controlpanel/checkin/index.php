@@ -41,12 +41,16 @@ $page_title = "Check In";
 			<div class="row">
 				<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
 				<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
-					<h1 class="page-header">Checkout</h1>
+					<h1 class="page-header">Check In</h1>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
 								<?= $controller->getErrorMessage(); ?>
 							</p>
+						<?php } ?>
+						<?php if ($_SESSION["checkin_alert"]) { ?>
+							<p class="alert alert-success"><?php echo $_SESSION["checkin_alert"] ?></p>
+							<?php unset($_SESSION["checkin_alert"]) ?>
 						<?php } ?>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">Item #</span>

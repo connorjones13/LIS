@@ -36,6 +36,7 @@
 			}
 
 			// todo: return due date & successful checkout message!
+			$_SESSION["checkout_alert"] = "Successfully checked out items for " . $user->getNameFull();
 		}
 
 		public function checkInRentalItem($rental_item_id) {
@@ -51,6 +52,7 @@
 				throw new \Exception("No active checkout for item");
 
 			$checkout->checkIn($this->getSessionUser());
+			$_SESSION["checkin_alert"] = "Successfully checked in " . $rental_item->getTitle();
 
 		}
 	}
