@@ -10,6 +10,11 @@ require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
 $controller = new \LIS\Controllers\CheckoutController($pdo);
 
+if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+	header("Location: /");
+	exit();
+}
+
 $rental_item = \LIS\RentalItem\RentalItem::find($pdo, $_GET['id']);
 
 if (\LIS\Utility::requestHasPost()) {
