@@ -17,6 +17,10 @@ body {
 	font-weight: bold;
 }
 
+.show_data {
+	cursor: pointer;
+}
+
 #logo:hover {
 	color: white;
 	text-decoration: none;

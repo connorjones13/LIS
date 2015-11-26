@@ -347,15 +347,35 @@
 		 * @return Book[]|Magazine[]|DVD[]
 		 */
 		public static function getAllAvailable(PDO_MySQL $_pdo) {
-			$query = "SELECT ri.*, 0 as is_checked_out, 0 as is_reserved, rib.isbn10, rib.isbn13, rid.director,
-					    rim.publication, rim.issue_number FROM rental_item ri
-					    LEFT JOIN rental_item_book rib ON ri.id = rib.id
-					    LEFT JOIN rental_item_dvd rid ON ri.id = rid.id
-					    LEFT JOIN rental_item_magazine rim ON ri.id = rim.id
-					    LEFT JOIN checkout c ON ri.id = c.rental_item AND c.checkin_employee IS NULL
-					    LEFT JOIN reservation r ON ri.id = r.rental_item AND r.checkout IS NULL AND r.is_expired = 0
-					  WHERE ri.status = 0 AND c.id IS NULL AND r.id IS NULL
-					  GROUP BY ri.id";
+			$query = "SELECT * FROM ri_all WHERE is_checked_out = 0 AND is_reserved = 0 AND `status` = 0";
+
+			$rows = $_pdo->fetchAssoc($query);
+
+			return array_map(function ($row) use ($_pdo) {
+				return self::getInstance($_pdo, $row);
+			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return Book[]|Magazine[]|DVD[]
+		 */
+		public static function getAllCheckedOut(PDO_MySQL $_pdo) {
+			$query = "SELECT * FROM ri_all WHERE is_checked_out = 1 AND `status` = 0";
+
+			$rows = $_pdo->fetchAssoc($query);
+
+			return array_map(function ($row) use ($_pdo) {
+				return self::getInstance($_pdo, $row);
+			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @return Book[]|Magazine[]|DVD[]
+		 */
+		public static function getAllReserved(PDO_MySQL $_pdo) {
+			$query = "SELECT * FROM ri_all WHERE is_reserved = 1 AND `status` = 0";
 
 			$rows = $_pdo->fetchAssoc($query);
 
@@ -382,13 +402,7 @@
 		 * @return Book[]|Magazine[]|DVD[]
 		 */
 		protected static function getAllByStatus(PDO_MySQL $_pdo, $status) {
-			$query = "SELECT ri.*, rib.isbn10, rib.isbn13, rid.director, rim.publication,
-					    rim.issue_number FROM rental_item ri
-					    LEFT JOIN rental_item_book rib ON ri.id = rib.id
-					    LEFT JOIN rental_item_dvd rid ON ri.id = rid.id
-					    LEFT JOIN rental_item_magazine rim ON ri.id = rim.id
-					  WHERE ri.status = :s
-					  GROUP BY ri.id";
+			$query = "SELECT * FROM ri_all WHERE `status` = :s";
 			$args = ["s" => $status];
 
 			$rows = $_pdo->fetchAssoc($query, $args);
