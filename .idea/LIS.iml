@@ -10,6 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jquery-impromptu" level="application" />
     <orderEntry type="module-library">
       <library name="PHARS">
         <CLASSES>
@@ -20,22 +21,5 @@
         </SOURCES>
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/vendor/aura/sql" />
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-          <root url="file://$MODULE_DIR$/vendor/league/plates" />
-          <root url="file://$MODULE_DIR$/vendor/phpmailer/phpmailer" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/vendor/aura/sql" />
-          <root url="file://$MODULE_DIR$/vendor/composer" />
-          <root url="file://$MODULE_DIR$/vendor/league/plates" />
-          <root url="file://$MODULE_DIR$/vendor/phpmailer/phpmailer" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="jquery-impromptu" level="application" />
   </component>
 </module>
