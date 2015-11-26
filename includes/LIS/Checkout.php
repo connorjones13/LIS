@@ -49,11 +49,11 @@
 				$this->parse($data_arr);
 		}
 
-		protected function create(Employee $checkout_employee, User $user,
+		public function create(Employee $checkout_employee, User $user,
 		                                 RentalItem $rental_item) {
 
 			$this->date_due = new DateTime();
-			$this->date_due->add(new DateInterval("7 days"));
+			$this->date_due->add(new DateInterval('P07D'));
 			$this->date_due = Utility::getDateTimeForMySQLDate($this->date_due);
 
 			$this->date_checked_out = Utility::getDateTimeForMySQLDateTime();
@@ -78,11 +78,12 @@
 
 			$this->id = $this->_pdo->lastInsertId();
 
+			return $this->id;
 		}
 
 
 		public function checkIn(Employee $employee) {
-			$this->date_returned = Utility::getDateTimeForMySQLDate();
+			$this->date_returned = Utility::getDateTimeForMySQLDateTime();
 
 			$this->_ci_employee = $employee;
 			$this->checkin_employee = $employee->getId();
@@ -177,11 +178,16 @@
 			return $this->_co_employee;
 		}
 
-		public function findActiveCheckout(RentalItem $rentalItem) {
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param RentalItem $rentalItem
+		 * @return array
+		 */
+		public static function findActiveCheckout(PDO_MySQL $_pdo, RentalItem $rentalItem) {
 			$args = ["val" => $rentalItem->getId()];
 
 			$activeCheckout = null;
-			return $this->_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
+			return $_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
 		}
 
 		public static function getItemCheckedOutCount(PDO_MySQL $_pdo) {

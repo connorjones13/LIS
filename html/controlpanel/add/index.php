@@ -3,6 +3,11 @@ require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
 $controller = new \LIS\Controllers\RentalItemController($pdo);
 
+if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+	header("Location: /");
+	exit();
+}
+
 $page_title = "Add Rental Item";
 ?>
 <!doctype html>

@@ -4,7 +4,7 @@
 	$pdo = new \LIS\Database\PDO_MySQL();
 	$controller = new \LIS\Controllers\BaseController($pdo);
 
-	if ($controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+	if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
 		header("Location: /");
 		exit();
 	}
