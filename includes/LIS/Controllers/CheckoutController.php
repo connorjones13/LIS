@@ -36,7 +36,6 @@
 				$checkout->create($this->getSessionUser(), $user, $rental_item);
 			}
 
-			// todo: return due date & successful checkout message!
 			$_SESSION["checkout_alert"] = "Successfully checked out items for " . $user->getNameFull() .
 					". Item(s) due " . $checkout->getDateDue()->format("m-d-Y");
 		}
