@@ -74,20 +74,21 @@
 									<td><?= \LIS\Utility::formatNumber($item->getId()) ?></td>
 									<td><?= $item->getTitle() ?></td>
 									<td><?= $item->getCategory() ?></td>
-									<?php if ($item->isBook()) { ?>
-										<td><?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?></td>
-									<?php } else if ($item->isDVD()) { ?>
-										<td><?= $item->getDirector() ?></td>
-									<?php } else if ($item->isMagazine()) { ?>
-										<td><?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)</td>
-									<?php } ?>
+									<td>
+										<?php if ($item->isBook()) { ?>
+											<?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?>
+										<?php } else if ($item->isDVD()) { ?>
+											<?= $item->getDirector() ?>
+										<?php } else if ($item->isMagazine()) { ?>
+											<?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)
+										<?php } ?>
+									</td>
 									<td></td>
 								</tr>
 							<?php } ?>
 						</tbody>
 					</table>
 				</div>
-
 			</div>
 		</div>
 	</div>
