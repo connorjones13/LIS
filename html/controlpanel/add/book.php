@@ -66,9 +66,9 @@ $page_title = "Add Book";
 					</div>
 
 					<div class="form-group">
-						<label for="authors">Authors (separate by comma WITHOUT spaces)</label>
+						<label for="authors">Authors (separate by comma)</label>
 						<input type="text" class="form-control" id="authors" name="authors"
-						       placeholder="John Doe,Harper Lee" value="<?= $_POST["authors"] ?>">
+						       placeholder="John Doe, Harper Lee" value="<?= $_POST["authors"] ?>">
 					</div>
 
 					<div class="form-group">
