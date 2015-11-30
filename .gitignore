@@ -10,3 +10,5 @@ composer.lock
 .idea/dictionaries
 vendor
 jsLibraryMappings.xml
+.idea/deployment.xml
+.idea/LIS.iml
