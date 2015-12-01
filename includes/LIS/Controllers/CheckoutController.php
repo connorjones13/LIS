@@ -68,11 +68,11 @@
 					return;
 				}
 
-				if ($rental_item->getStatus() > 0) {
+				if ($rental_item->getStatus() != RentalItem::STATUS_AVAILABLE) {
 					if ($rental_item->getStatus() == RentalItem::STATUS_CHECKED_OUT) {
 						$this->setError(self::$ERROR_ITEM_CHECKED_OUT);
 					}
-					else if ($rental_item->getStatus() == 5) {
+					else if ($rental_item->getStatus() == RentalItem::STATUS_RESERVED) {
 						$reservation = Reservation::findForRentalItem($this->_pdo, $rental_item);
 
 						if ($user->getId() != $reservation->getUserId())
