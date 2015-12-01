@@ -100,7 +100,6 @@
 		}
 
 		public function checkInRentalItem($rental_item_id) {
-			// todo: error handling for method
 
 			$rental_item = RentalItem::find($this->_pdo, $rental_item_id);
 
@@ -108,8 +107,10 @@
 
 			$checkout = Checkout::findActiveCheckout($this->_pdo, $rental_item);
 
-			if (is_null($checkout))
+			if (is_null($checkout)) {
 				$this->setError(self::$ERROR_ITEM_NOT_CHECKED_OUT);
+				return;
+			}
 
 			$checkout->checkIn($this->getSessionUser());
 			$_SESSION["checkin_alert"] = "Successfully checked in " . $rental_item->getTitle();

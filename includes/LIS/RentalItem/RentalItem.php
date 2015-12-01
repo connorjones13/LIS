@@ -207,6 +207,12 @@
 			self::updateStatus($this->status);
 		}
 
+		public function markAvailable() {
+			$this->status = self::STATUS_AVAILABLE;
+
+			self::updateStatus($this->status);
+		}
+
 		/**
 		 * Updates database since this status is tracked in the table itself.
 		 */

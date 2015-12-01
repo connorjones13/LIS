@@ -102,7 +102,7 @@
 							<?php foreach (\LIS\RentalItem\RentalItem::getAllDamaged($pdo) as $item) { ?>
 								<tr>
 									<td><?= \LIS\Utility::formatNumber($item->getId()) ?></td>
-									<td><?= $item->getTitle() ?></td>
+									<td><a href="/item/<?= $item->getId() ?>/"><?= $item->getTitle() ?></a></td>
 									<td><?= $item->getCategory() ?></td>
 									<td>
 										<?php if ($item->isBook()) { ?>

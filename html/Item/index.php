@@ -69,8 +69,18 @@
 					<a href="/controlpanel/update/<?= $item->getId() ?>/"
 					   class ="btn btn-default btn-warning">Edit Item</a>
 					<?php if ($controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
-						<a href="/item/damaged/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Damaged</a>
+						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_DAMAGED) { ?>
+							<a href="/item/damaged/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Damaged</a>
+						<?php } ?>
+						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_LOST) { ?>
 						<a href="/item/lost/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Lost</a>
+						<?php } ?>
+						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_AVAILABLE) { ?>
+							<a href="/item/available/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Available</a>
+						<?php } ?>
+							<?php
+							var_dump($item->getStatus())
+						?>
 					<?php } ?>
 				<?php } ?>
 			</div>
