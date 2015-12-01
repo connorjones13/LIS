@@ -203,4 +203,8 @@
 				$this->{$key} = $value;
 			}
 		}
+
+		// todo: get all checkouts by user
+
+		// todo: get all checkouts by item
 	}
