@@ -74,7 +74,8 @@
 			if (!$this->_user)
 				$this->_user = User::find($this->_pdo, $this->user);
 
-			$this->_user->referenceLibraryCard($this);
+			if ($this->_user)
+				$this->_user->referenceLibraryCard($this);
 
 			return $this->_user;
 		}
@@ -103,8 +104,9 @@
 		}
 
 		public static function findByUser(PDO_MySQL $_pdo, User $_user) {
-			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE user = :id AND status = :s",
-					["id" => $_user->getId(), "s" => self::STATUS_ACTIVE]);
+			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE user = :id", [
+				"id" => $_user->getId()
+			]);
 
 			$card = $row ? new LibraryCard($_pdo, $row) : null;
 
@@ -116,8 +118,9 @@
 
 		public static function findByCardNumber(PDO_MySQL $_pdo, $number) {
 
-			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE number = :num AND status = :s",
-					["num" => $number, "s" => self::STATUS_ACTIVE]);
+			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE number = :num", [
+				"num" => $number
+			]);
 
 			$card = $row ? new LibraryCard($_pdo, $row) : null;
 
