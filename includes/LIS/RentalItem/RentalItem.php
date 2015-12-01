@@ -164,8 +164,14 @@
 		/**
 		 * Database not updated since the database is updated on record creation.
 		 */
-		public function markAvailable() {
+		public function markCheckedIn() {
 			$this->is_checked_out = 0;
+		}
+
+		/**
+		 * Database not updated since the database is updated on record creation.
+		 */
+		public function markNotReserved() {
 			$this->is_reserved = 0;
 		}
 
@@ -330,13 +336,7 @@
 		}
 
 		public static function find(PDO_MySQL $_pdo, $id) {
-			$query = "SELECT ri.*, rib.isbn10, rib.isbn13, rid.director, rim.publication,
-					    rim.issue_number FROM rental_item ri
-					    LEFT JOIN rental_item_book rib ON ri.id = rib.id
-					    LEFT JOIN rental_item_dvd rid ON ri.id = rid.id
-					    LEFT JOIN rental_item_magazine rim ON ri.id = rim.id
-					  WHERE ri.id = :id
-					  GROUP BY ri.id";
+			$query = "SELECT * FROM ri_all WHERE id = :id GROUP BY id";
 
 			$row = $_pdo->fetchOne($query, ["id" => $id]);
 			return $row ? self::getInstance($_pdo, $row) : null;

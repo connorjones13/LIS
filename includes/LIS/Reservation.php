@@ -61,6 +61,49 @@ class Reservation {
 		$this->id = $this->_pdo->lastInsertId();
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUserId() {
+		return $this->user;
+	}
+
+	/**
+	 * @return User
+	 */
+	public function getUser() {
+		if (!$this->_user)
+			$this->_user = User::find($this->_pdo, $this->user);
+
+		return $this->_user;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRentalItemId() {
+		return $this->rental_item;
+	}
+
+	/**
+	 * @return RentalItem
+	 */
+	public function getRentalItem() {
+		if (!$this->_rental_item)
+			$this->_rental_item = RentalItem::find($this->_pdo, $this->rental_item);
+
+		return $this->_rental_item;
+	}
+
+
+
 	public function setPickedUp(Checkout $checkout) {
 		$this->checkout = $checkout->getId();
 		$args = ["co" => $this->checkout];
@@ -96,14 +139,12 @@ class Reservation {
 		return $_pdo->fetchOne($query)["count"];
 	}
 
-	public static function findForBook(PDO_MySQL $_pdo, RentalItem $_ri) {
-		$query = "SELECT * FROM reservation WHERE rental_item = :ri ORDER BY date_created ASC";
-
-		return $_pdo->fetchAll($query, [
+	public static function findForRentalItem(PDO_MySQL $_pdo, RentalItem $_ri) {
+		$row =  $_pdo->fetchAll("SELECT * FROM reservation WHERE rental_item = :ri", [
 			"ri" => $_ri->getId()
-		], function($row) use ($_pdo) {
-			return new Reservation($_pdo, $row);
-		});
+		]);
+
+		return $row ? new Reservation($_pdo, $row) : null;
 	}
 
 	/**
