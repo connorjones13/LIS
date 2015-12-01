@@ -10,9 +10,7 @@
 		public function reserveRentalItem(RentalItem $rentalItem) {
 
 			$reservation = new Reservation($this->_pdo);
+			$reservation->create($this->getSessionUser(), $rentalItem);
 
-			//todo: how does the controller pass along the item and the user so that the create function in reservation works?
-
-			$rentalItem->markReserved();   // set item status to reserved
 		}
 	}

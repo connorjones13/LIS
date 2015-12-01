@@ -41,7 +41,7 @@ class Reservation {
 			$this->parse($data_arr);
 	}
 
-	protected function create(User $user, RentalItem $rentalItem) {
+	public function create(User $user, RentalItem $rentalItem) {
 		$this->date_created = Utility::getDateTimeForMySQLDateTime();
 
 		$this->user = $user->getId();

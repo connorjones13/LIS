@@ -24,8 +24,9 @@
 				$rental_item = RentalItem::find($this->_pdo, $id);
 
 				if($rental_item->getStatus() > 0) {
-					if($rental_item->getStatus() == 5) {
+					if($rental_item->getStatus() == RentalItem::STATUS_RESERVED) {
 						// todo: check that this user is same user on reservation, then add to checkout basket
+
 					}
 
 					// todo: return error that book is unavailable
