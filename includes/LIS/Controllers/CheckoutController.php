@@ -5,7 +5,6 @@
 	use LIS\LibraryCard;
 	use LIS\RentalItem\RentalItem;
 	use LIS\Checkout;
-	use LIS\User\User;
 
 	class CheckoutController extends BaseController {
 
@@ -47,7 +46,7 @@
 
 			$rental_item->markAvailable();   // set available
 
-			$checkout = new Checkout($this->_pdo, Checkout::findActiveCheckout($this->_pdo, $rental_item));
+			$checkout = Checkout::findActiveCheckout($this->_pdo, $rental_item);
 
 			if(is_null($checkout))
 				throw new \Exception("No active checkout for item");

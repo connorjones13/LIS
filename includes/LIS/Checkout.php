@@ -181,13 +181,14 @@
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param RentalItem $rentalItem
-		 * @return array
+		 * @return Checkout
 		 */
 		public static function findActiveCheckout(PDO_MySQL $_pdo, RentalItem $rentalItem) {
-			$args = ["val" => $rentalItem->getId()];
+			$row = $_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", [
+				"val" => $rentalItem->getId()
+			]);
 
-			$activeCheckout = null;
-			return $_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", $args);
+			return $row ? new Checkout($_pdo, $row) : null;
 		}
 
 		public static function getItemCheckedOutCount(PDO_MySQL $_pdo) {
