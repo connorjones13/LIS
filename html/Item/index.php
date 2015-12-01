@@ -78,9 +78,6 @@
 						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_AVAILABLE) { ?>
 							<a href="/item/available/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Available</a>
 						<?php } ?>
-							<?php
-							var_dump($item->getStatus())
-						?>
 					<?php } ?>
 				<?php } ?>
 			</div>
