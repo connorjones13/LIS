@@ -49,7 +49,7 @@ $page_title = "Manage Users";
 						<?php $users = \LIS\User\User::getAllActive($pdo); ?>
 						<?php foreach ($users as $user) { ?>
 							<tr>
-								<td><b><a href="#"><?= $user->getNameFull(); ?></a></b></td>
+								<td><b><a href="/controlpanel/users/user/<?= $user->getId() ?>/"><?= $user->getNameFull(); ?></a></b></td>
 								<td><?= $user->getPhoneFormatted(); ?></td>
 								<td><?= $user->getEmail() ?></td>
 								<td><?= $user->getLibraryCard()->getNumber() ?></td>

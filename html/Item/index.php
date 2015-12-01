@@ -42,7 +42,7 @@
 			<?php } ?>
 
 			<div class="pull-left ip-img">
-				<img src="http://lorempixel.com/400/400/cats">
+				<img src="http://lorempixel.com/400/400/animals">
 			</div>
 			<div class="">
 				<h1><?= $item->getTitle() ?></h1>
