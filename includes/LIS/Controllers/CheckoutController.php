@@ -17,6 +17,7 @@
 			$user = $lib_card->getUser();   // get user from library card
 			$ids = array_filter($ids);      // remove null values if not checking out max items
 
+			$checkout = null;
 			foreach($ids as $id) {
 
 				// get rental item -> check status
@@ -35,8 +36,8 @@
 				$checkout->create($this->getSessionUser(), $user, $rental_item);
 			}
 
-			// todo: return due date & successful checkout message!
-			$_SESSION["checkout_alert"] = "Successfully checked out items for " . $user->getNameFull();
+			$_SESSION["checkout_alert"] = "Successfully checked out items for " . $user->getNameFull() .
+					". Item(s) due " . $checkout->getDateDue()->format("m-d-Y");
 		}
 
 		public function checkInRentalItem($rental_item_id) {
