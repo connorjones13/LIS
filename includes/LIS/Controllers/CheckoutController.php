@@ -103,6 +103,11 @@
 
 			$rental_item = RentalItem::find($this->_pdo, $rental_item_id);
 
+			if (is_null($rental_item)) {
+				$this->setError(self::$ERROR_ITEM_DOES_NOT_EXIST);
+				return;
+			}
+
 			$rental_item->markCheckedIn();
 
 			$checkout = Checkout::findActiveCheckout($this->_pdo, $rental_item);
