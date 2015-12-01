@@ -100,7 +100,7 @@
 		}
 
 		public function checkInRentalItem($rental_item_id) {
-
+			//TODO: Error handling
 			$rental_item = RentalItem::find($this->_pdo, $rental_item_id);
 
 			$rental_item->markCheckedIn();
