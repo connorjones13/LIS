@@ -195,8 +195,8 @@
 		/**
 		 * Updates database since this status is tracked in the table itself.
 		 */
-		public function markDestroyed() {
-			$this->status = self::STATUS_LOST;
+		public function markDamaged() {
+			$this->status = self::STATUS_DAMAGED;
 
 			self::updateStatus($this->status);
 		}
