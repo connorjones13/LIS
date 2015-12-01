@@ -1,7 +1,7 @@
 <?php
 	require_once(__DIR__ . "/../../includes/LIS/autoload.php");
 	$pdo = new \LIS\Database\PDO_MySQL();
-	$controller = new \LIS\Controllers\CreateUserController($pdo);
+	$controller = new \LIS\Controllers\CreateUserController($pdo); //todo: why is this createusercontroller?
 
 	$item = \LIS\RentalItem\RentalItem::find($pdo, $_GET["id"]);
 
@@ -24,6 +24,14 @@
 				<p class="alert alert-success"><?= $_SESSION["successful_update"] ?></p>
 				<?php unset($_SESSION["successful_update"]) ?>
 			<?php } ?>
+			<?php if ($_SESSION["reserve_success"]) { ?>
+				<p class="alert alert-success"><?php echo $_SESSION["reserve_success"] ?></p>
+				<?php unset($_SESSION["reserve_success"]) ?>
+			<?php } ?>
+			<?php if ($_SESSION["reserve_fail"]) { ?>
+				<p class="alert alert-danger"><?php echo $_SESSION["reserve_fail"] ?></p>
+				<?php unset($_SESSION["reserve_fail"]) ?>
+			<?php } ?>
 			<div class="pull-left ip-img">
 				<img src="http://lorempixel.com/400/400/">
 			</div>
@@ -44,7 +52,7 @@
 				<?php } ?>
 
 				<?php if ($controller->isLoggedIn()) { ?>
-					<a href="#" class="btn btn-default btn-success">Reserve</a>
+					<a href="/reserve/<?= $item->getId() ?>/" class="btn btn-default btn-success">Reserve</a>
 				<?php } ?>
 				<?php if ($controller->isLoggedIn() &&
 						$controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>

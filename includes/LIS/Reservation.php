@@ -96,7 +96,7 @@ class Reservation {
 		return $_pdo->fetchOne($query)["count"];
 	}
 
-	public static function findForBook(PDO_MySQL $_pdo, RentalItem $_ri) {
+	public static function findForItem(PDO_MySQL $_pdo, RentalItem $_ri) {
 		$query = "SELECT * FROM reservation WHERE rental_item = :ri ORDER BY date_created ASC";
 
 		return $_pdo->fetchAll($query, [
