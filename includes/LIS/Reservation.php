@@ -96,6 +96,16 @@ class Reservation {
 		return $_pdo->fetchOne($query)["count"];
 	}
 
+	public static function findForBook(PDO_MySQL $_pdo, RentalItem $_ri) {
+		$query = "SELECT * FROM reservation WHERE rental_item = :ri ORDER BY date_created ASC";
+
+		return $_pdo->fetchAll($query, [
+			"ri" => $_ri->getId()
+		], function($row) use ($_pdo) {
+			return new Reservation($_pdo, $row);
+		});
+	}
+
 	/**
 	 * @param array $data_arr
 	 */
@@ -104,5 +114,4 @@ class Reservation {
 			$this->{$key} = $value;
 		}
 	}
-
 }
