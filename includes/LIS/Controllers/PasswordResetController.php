@@ -26,7 +26,7 @@ class PasswordResetController extends BaseController {
             } else {
                 $mailer = new Mailer();
                 $mailer->sendPasswordResetEmail($user);
-
+                var_dump($mailer);
                 $_SESSION["successMessage"] = "Password reset email sent";
             }
         }

@@ -17,7 +17,7 @@
 		protected $_mailer;
 
 		public function __construct() {
-			$this->_mailer = new PHPMailer();
+			$this->_mailer = new PHPMailer(true);
 			$this->_mailer->isSendmail();
 		}
 
@@ -31,7 +31,9 @@
 					. "<a href=\"localhost:8888/account/reset_password/?rt=" . $user->getResetToken() . "\">here</a> "
 					. "to reset your password.<br>If you did not request a password reset you may ignore this email.");
 
-			$this->_mailer->send();
+			if (!$this->_mailer->send()) {
+				throw new \ErrorException;
+			}
 		}
 
 
