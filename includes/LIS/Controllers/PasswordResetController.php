@@ -24,9 +24,9 @@ class PasswordResetController extends BaseController {
                 //error
                 $this->setError(self::$ERROR_USER_NOT_FOUND);
             } else {
+                $user->initiatePasswordReset();
                 $mailer = new Mailer();
                 $mailer->sendPasswordResetEmail($user);
-                var_dump($mailer);
                 $_SESSION["successMessage"] = "Password reset email sent";
             }
         }
