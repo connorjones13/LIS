@@ -17,7 +17,7 @@
 		protected $_mailer;
 
 		public function __construct() {
-			$this->_mailer = new PHPMailer(true);
+			$this->_mailer = new PHPMailer();
 			$this->_mailer->isSendmail();
 		}
 
