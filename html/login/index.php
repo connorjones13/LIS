@@ -36,6 +36,9 @@
 					</div>
 					<button type="submit" class="btn btn-default">Submit</button>
 					<span class="pull-right">Click <a href="/account/create">here</a> to create an account.</span>
+					<br>
+					<span class="pull-right"> <a href="/account/password_reset">Forgot Password?</a></span>
+
 				</form>
 			</div>
 		</div>

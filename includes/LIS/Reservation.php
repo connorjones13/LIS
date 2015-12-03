@@ -41,7 +41,7 @@ class Reservation {
 			$this->parse($data_arr);
 	}
 
-	protected function create(User $user, RentalItem $rentalItem) {
+	public function create(User $user, RentalItem $rentalItem) {
 		$this->date_created = Utility::getDateTimeForMySQLDateTime();
 
 		$this->user = $user->getId();
@@ -60,6 +60,49 @@ class Reservation {
 
 		$this->id = $this->_pdo->lastInsertId();
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getId() {
+		return $this->id;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getUserId() {
+		return $this->user;
+	}
+
+	/**
+	 * @return User
+	 */
+	public function getUser() {
+		if (!$this->_user)
+			$this->_user = User::find($this->_pdo, $this->user);
+
+		return $this->_user;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getRentalItemId() {
+		return $this->rental_item;
+	}
+
+	/**
+	 * @return RentalItem
+	 */
+	public function getRentalItem() {
+		if (!$this->_rental_item)
+			$this->_rental_item = RentalItem::find($this->_pdo, $this->rental_item);
+
+		return $this->_rental_item;
+	}
+
+
 
 	public function setPickedUp(Checkout $checkout) {
 		$this->checkout = $checkout->getId();
@@ -96,6 +139,14 @@ class Reservation {
 		return $_pdo->fetchOne($query)["count"];
 	}
 
+	public static function findForRentalItem(PDO_MySQL $_pdo, RentalItem $_ri) {
+		$row =  $_pdo->fetchAll("SELECT * FROM reservation WHERE rental_item = :ri", [
+			"ri" => $_ri->getId()
+		]);
+
+		return $row ? new Reservation($_pdo, $row) : null;
+	}
+
 	/**
 	 * @param array $data_arr
 	 */
@@ -104,5 +155,4 @@ class Reservation {
 			$this->{$key} = $value;
 		}
 	}
-
 }

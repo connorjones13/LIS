@@ -23,7 +23,6 @@ if (\LIS\Utility::requestHasPost()) {
 	$controller->checkoutRentalItem($_POST['id'], $_POST['library_card']);
 }
 
-
 $page_title = "Checkout";
 ?>
 <!doctype html>
@@ -54,48 +53,58 @@ $page_title = "Checkout";
 						<?php } ?>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">Library Card #</span>
-							<input type="text" class="form-control" name="library_card" placeholder="123456789" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control" name="library_card" placeholder="123456789" value="<?= $_POST["library_card"] ?>">
 						</div>
 						<br />
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 01</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][0] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][0] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 02</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][1] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][1] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 03</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][2] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][2] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 04</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][3] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][3] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 05</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][4] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][4] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 06</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][5] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][5] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 07</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][6] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][6] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 08</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][7] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][7] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 09</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][8] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][8] ?>">
 						</div>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">ID 10</span>
-							<input type="text" class="form-control" name="id[]" placeholder="1234" aria-describedby="sizing-addon2">
+							<input type="text" class="form-control <?= $controller->getErrorInId() && $_POST["id"][9] == $controller->getErrorInId() ? "alert-danger" : "" ?>" name="id[]"
+							       placeholder="1234" value="<?= $_POST["id"][9] ?>">
 						</div>
 						<br />
 						<button type="submit" class="btn btn-default">Checkout</button>

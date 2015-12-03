@@ -24,8 +24,25 @@
 				<p class="alert alert-success"><?= $_SESSION["successful_update"] ?></p>
 				<?php unset($_SESSION["successful_update"]) ?>
 			<?php } ?>
+			<?php if ($_SESSION["reserve_success"]) { ?>
+				<p class="alert alert-success"><?php echo $_SESSION["reserve_success"] ?></p>
+				<?php unset($_SESSION["reserve_success"]) ?>
+			<?php } ?>
+			<?php if ($_SESSION["reserve_fail"]) { ?>
+				<p class="alert alert-danger"><?php echo $_SESSION["reserve_fail"] ?></p>
+				<?php unset($_SESSION["reserve_fail"]) ?>
+			<?php } ?>
+			<?php if ($_SESSION["lost_success"]) { ?>
+				<p class="alert alert-success"><?php echo $_SESSION["lost_success"] ?></p>
+				<?php unset($_SESSION["lost_success"]) ?>
+			<?php } ?>
+			<?php if ($_SESSION["damaged_success"]) { ?>
+				<p class="alert alert-success"><?php echo $_SESSION["damaged_success"] ?></p>
+				<?php unset($_SESSION["damaged_success"]) ?>
+			<?php } ?>
+
 			<div class="pull-left ip-img">
-				<img src="http://lorempixel.com/400/400/">
+				<img src="http://lorempixel.com/400/400/animals">
 			</div>
 			<div class="">
 				<h1><?= $item->getTitle() ?></h1>
@@ -44,13 +61,24 @@
 				<?php } ?>
 
 				<?php if ($controller->isLoggedIn()) { ?>
-					<a href="#" class="btn btn-default btn-success">Reserve</a>
+					<a href="/item/reserve/<?= $item->getId() ?>/" class="btn btn-default btn-success">Reserve</a>
 				<?php } ?>
 				<?php if ($controller->isLoggedIn() &&
 						$controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
 					<!-- todo: change url depending on item type || make the update page generic? -->
 					<a href="/controlpanel/update/<?= $item->getId() ?>/"
 					   class ="btn btn-default btn-warning">Edit Item</a>
+					<?php if ($controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
+						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_DAMAGED) { ?>
+							<a href="/item/damaged/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Damaged</a>
+						<?php } ?>
+						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_LOST) { ?>
+						<a href="/item/lost/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Lost</a>
+						<?php } ?>
+						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_AVAILABLE) { ?>
+							<a href="/item/available/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Available</a>
+						<?php } ?>
+					<?php } ?>
 				<?php } ?>
 			</div>
 		</div>

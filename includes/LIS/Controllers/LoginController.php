@@ -12,10 +12,10 @@
 	use LIS\Utility;
 
 	class LoginController extends BaseController {
-		static $ERROR_CREDENTIALS_INVALID = 0;
-		static $ERROR_ACCOUNT_INACTIVE = 1;
-		static $ERROR_SESSION_TIMED_OUT = 2;
-		static $ERROR_USERNAME_NOT_FOUND = 3;
+		private static $ERROR_CREDENTIALS_INVALID = 0;
+		private static $ERROR_ACCOUNT_INACTIVE = 1;
+		private static $ERROR_SESSION_TIMED_OUT = 2;
+		private static $ERROR_USERNAME_NOT_FOUND = 3;
 
 		/**
 		 * @param $username

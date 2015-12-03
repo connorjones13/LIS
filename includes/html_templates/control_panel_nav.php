@@ -12,7 +12,7 @@
 				<li><a href="/controlpanel/add/index.php">Add DVD</a></li>
 			</ul> -->
 		<li <?php if($page_title == 'Manage Users') echo 'class="active"'?>>
-			<a href="">Manage Users</a></li>
+			<a href="/controlpanel/users">Manage Users</a></li>
 		<li <?php if($page_title == 'Checkout') echo 'class="active"' ?>>
 			<a href="/controlpanel/checkout">Checkout</a></li>
 		<li <?php if($page_title == 'Check In') echo 'class="active"' ?>>

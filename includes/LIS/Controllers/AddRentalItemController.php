@@ -83,7 +83,7 @@
 				return;
 
 			$book = new Book($this->_pdo);
-			$authorsArray = preg_split('/,\s?/', $authors);
+			$authorsArray = preg_split('/,[\s]+?/', $authors);
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $isbn10, $isbn13, $authorsArray);
 			$_SESSION["show_created_alert"] = "Successfully added a Book!";

@@ -12,6 +12,7 @@
 	use LIS\RentalItem\Book;
 	use LIS\RentalItem\DVD;
 	use LIS\RentalItem\Magazine;
+	use LIS\RentalItem\RentalItem;
 	use LIS\Utility;
 
 	class RentalItemController extends BaseController {
@@ -170,5 +171,28 @@
 				default:
 					return false;
 			}
+		}
+
+		public function markItemLost(RentalItem $rentalItem) {
+			$rentalItem->markLost();
+			// todo: cancel any reservations and automatically check the item in
+			// todo: error in case there is any reason it could not be marked as lost
+			$_SESSION["lost_success"] = "Successfully marked " . $rentalItem->getTitle() . " as lost.";
+			header('Location: /item/' . $rentalItem->getId() . '/');
+		}
+
+		public function markItemDamaged(RentalItem $rentalItem) {
+			$rentalItem->markDamaged();
+			// todo: cancel any reservations and automatically check the item in
+			// todo: error in case there is any reason it could not be marked as damaged
+			$_SESSION["damaged_success"] = "Successfully marked " . $rentalItem->getTitle() . " as damaged.";
+			header('Location: /item/' . $rentalItem->getId() . '/');
+		}
+		public function markItemAvailable(RentalItem $rentalItem) {
+			$rentalItem->markAvailable();
+			// todo: cancel any reservations and automatically check the item in
+			// todo: error in case there is any reason it could not be marked as available
+			$_SESSION["damaged_success"] = "Successfully marked " . $rentalItem->getTitle() . " as available.";
+			header('Location: /item/' . $rentalItem->getId() . '/');
 		}
 	}
