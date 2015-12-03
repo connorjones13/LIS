@@ -326,6 +326,16 @@
 			$this->_pdo->perform("UPDATE user SET phone = :ph WHERE id = :id", $args);
 		}
 
+		/*
+		 *  @param string $dateOfBirth
+		 *  not 100% sure this function works
+		 */
+		public function updateDateOfBirth($dateOfBirth) {
+			$args = ["ph" => $this->$dateOfBirth, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET date_of_birth = :ph WHERE id = :id", $args);
+		}
+
+
 		/**
 		 * @param mixed $address_line_1
 		 * @param $address_line_2
