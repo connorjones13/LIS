@@ -551,11 +551,24 @@
 			}
 		}
 
-		public static function setToPrivilegeLevel(User $user) {
-			$user->privilege_level = self::PRIVILEGE_USER;
-			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => self::PRIVILEGE_USER]);
+		public function setToPrivilegeLevelUser() {
 
-			return new User($user->_pdo, get_object_vars($user));
+			$this->_pdo->perform("UPDATE user SET privilege_level = :pl WHERE id = :id",
+					["pl" => self::PRIVILEGE_USER, "id" => $this->getId()]);
+
+		}
+
+		public function setToPrivilegeLevelEmployee() {
+
+			$this->_pdo->perform("UPDATE user SET privilege_level = :pl WHERE id = :id",
+					["pl" => self::PRIVILEGE_EMPLOYEE, "id" => $this->getId()]);
+
+		}
+
+		public function setToPrivilegeLevelAdmin() {
+			$this->_pdo->perform("UPDATE user SET privilege_level = :pl WHERE id = :id",
+					["pl" => self::PRIVILEGE_ADMIN, "id" => $this->getId()]);
+
 		}
 
 		public function referenceLibraryCard(LibraryCard $library_card) {

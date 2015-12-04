@@ -2,3 +2,10 @@ RewriteEngine On
 
 RewriteBase /controlpanel/users
 RewriteRule ^user/([0-9]+)/$         user.php?id=$1         [L]
+RewriteRule ^issue_card/([0-9]+)/$         issue_card.php?id=$1         [L]
+RewriteRule ^make_active/([0-9]+)/$         make_active.php?id=$1         [L]
+RewriteRule ^make_inactive/([0-9]+)/$         make_inactive.php?id=$1         [L]
+RewriteRule ^make_admin/([0-9]+)/$         make_admin.php?id=$1         [L]
+RewriteRule ^make_employee/([0-9]+)/$         make_employee.php?id=$1         [L]
+RewriteRule ^make_user/([0-9]+)/$         make_user.php?id=$1         [L]
+

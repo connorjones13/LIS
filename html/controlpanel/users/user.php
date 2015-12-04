@@ -58,21 +58,29 @@ $page_title = $user->getNameFull();
 
 					<div class="form-group">
 						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
-							<a href="#" class="btn btn-default btn-info">Make Employee</a>
+							<a href="/controlpanel/users/make_employee/<?= $user->getId() ?>/" class="btn btn-default btn-info">Make Employee</a>
 						<?php } ?>
-						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_ADMIN) { ?>
-							<a href="#" class="btn btn-default btn-info">Make Admin</a>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_ADMIN &&
+								$controller->getSessionUser()->getPrivilegeLevel() == \LIS\User\User::PRIVILEGE_ADMIN) { ?>
+							<a href="/controlpanel/users/make_admin/<?= $user->getId() ?>/" class="btn btn-default btn-info">Make Admin</a>
 						<?php } ?>
 						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_USER) { ?>
-							<a href="#" class="btn btn-default btn-danger">Unemploy</a>
+							<a href="/controlpanel/users/make_user/<?= $user->getId() ?>/" class="btn btn-default btn-danger">Unemploy</a>
 						<?php } ?>
 						<!-- todo: if inactive / active -->
-						<a href="#" class="btn btn-default btn-danger">Deactivate</a>
-						<a href="#" class="btn btn-default btn-success">Activate</a>
-						<a href="#" class="btn btn-default btn-warning pull-right">Issue Lib Card</a>
+						<?php if(!$user->isActive()) { ?>
+							<a href="/controlpanel/users/make_active/<?= $user->getId() ?>/"
+							   class="btn btn-default btn-success">Activate</a>
+						<?php } ?>
+						<?php if($user->isActive()) { ?>
+							<a href="/controlpanel/users/make_inactive/<?= $user->getId() ?>/"
+							   class="btn btn-default btn-danger">Deactivate</a>
+						<?php } ?>
+
+						<a href="/controlpanel/users/issue_card/<?= $user->getId() ?>/"
+						   class="btn btn-default btn-warning pull-right">Issue Lib Card</a>
 
 					</div>
-					<?php var_dump($_SESSION) ?>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
@@ -97,16 +105,6 @@ $page_title = $user->getNameFull();
 							<label for="username">Username/Email</label>
 							<input type="text" class="form-control" id="username" name="username"
 							       value="<?= $_POST["username"] ?>">
-						</div>
-						<div class="form-group">
-							<label for="password">Password</label>
-							<input type="password" class="form-control" id="password" name="password"
-							       placeholder="password" value="<?= $_POST["password"] ?>">
-						</div>
-						<div class="form-group">
-							<label for="password_confirm">Confirm Password</label>
-							<input type="password" class="form-control" id="password_confirm" name="password_confirm"
-							       placeholder="password" value="<?= $_POST["password_confirm"] ?>">
 						</div>
 						<div class="form-group">
 							<label for="phone">Phone</label>
