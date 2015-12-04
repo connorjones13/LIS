@@ -96,6 +96,15 @@
            header($loc);
        }
 
+       public function activateUser(User $user) {
+           $user->setActive();
+
+           $_SESSION["user_activated"] = $user->getNameFull() . "'s account has been activated" ;
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
+           header($loc);
+       }
+
+
        public function getErrorMessage() {
            switch ($this->getError()) {
                case self::$ERROR_NAME_FIRST:
