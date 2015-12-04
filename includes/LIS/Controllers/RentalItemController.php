@@ -1,11 +1,4 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: connorjones
-	 * Date: 11/23/15
-	 * Time: 8:23 AM
-    */
-
 	namespace LIS\Controllers;
 
 	use DateTime;
@@ -13,12 +6,13 @@
 	use LIS\RentalItem\DVD;
 	use LIS\RentalItem\Magazine;
 	use LIS\RentalItem\RentalItem;
+	use LIS\Reservation;
 	use LIS\Utility;
 
 	class RentalItemController extends BaseController {
 
 		private static $ERROR_SUMMARY = 0;
-		private static $ERROR_TITLE= 1;
+		private static $ERROR_TITLE = 1;
 		private static $ERROR_CATEGORY = 2;
 		private static $ERROR_DATE_PUBLISHED = 3;
 		private static $ERROR_ISBN10 = 4;
@@ -29,10 +23,8 @@
 		private static $ERROR_ISSUE_NUMBER = 9;
 
 
-
 		public function updateBookInfo(Book $book, $summary, $title, $category, $date_published, $isbn10 = "",
 		                               $isbn13 = "", $authors) {
-
 			if (!$summary)
 				$this->setError(self::$ERROR_SUMMARY);
 
@@ -94,7 +86,6 @@
 
 		public function updateMagazineInfo(Magazine $magazine, $summary, $title, $category, $date_published,
 		                                   $publication, $issue_number) {
-
 			if (!$summary)
 				$this->setError(self::$ERROR_SUMMARY);
 
@@ -138,7 +129,7 @@
 				case self::$ERROR_ISBN13:
 					return "Please enter a valid issue number.";
 				case self::$ERROR_AUTHORS:
-					return"Please enter at least one valid author.";
+					return "Please enter at least one valid author.";
 				case self::$ERROR_PUBLICATION:
 					return "Please enter a valid publication.";
 				case self::$ERROR_ISSUE_NUMBER:
@@ -152,25 +143,24 @@
 
 		public function markItemLost(RentalItem $rentalItem) {
 			$rentalItem->markLost();
-			// todo: cancel any reservations and automatically check the item in
+			Reservation::findForRentalItem($this->_pdo, $rentalItem)->setExpired();
 
-			// todo: error in case there is any reason it could not be marked as lost
 			$_SESSION["lost_success"] = "Successfully marked " . $rentalItem->getTitle() . " as lost.";
 			self::displayPage('/item/' . $rentalItem->getId() . '/');
 		}
 
 		public function markItemDamaged(RentalItem $rentalItem) {
 			$rentalItem->markDamaged();
-			// todo: cancel any reservations and automatically check the item in
-			// todo: error in case there is any reason it could not be marked as damaged
+			Reservation::findForRentalItem($this->_pdo, $rentalItem)->setExpired();
+
 			$_SESSION["damaged_success"] = "Successfully marked " . $rentalItem->getTitle() . " as damaged.";
 			self::displayPage('/item/' . $rentalItem->getId() . '/');
-
 		}
+
 		public function markItemAvailable(RentalItem $rentalItem) {
 			$rentalItem->markAvailable();
-			// todo: cancel any reservations and automatically check the item in
-			// todo: error in case there is any reason it could not be marked as available
+			Reservation::findForRentalItem($this->_pdo, $rentalItem)->setExpired();
+
 			$_SESSION["damaged_success"] = "Successfully marked " . $rentalItem->getTitle() . " as available.";
 			self::displayPage('/item/' . $rentalItem->getId() . '/');
 		}

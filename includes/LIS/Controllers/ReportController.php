@@ -1,86 +1,73 @@
 <?php
+	namespace LIS\Controllers;
 
-namespace LIS\Controllers;
+	use LIS\Checkout;
+	use LIS\RentalItem\RentalItem;
+	use LIS\LibraryCard;
 
-use LIS\Checkout;
-use LIS\RentalItem\RentalItem;
-use LIS\LibraryCard;
+	class ReportController extends BaseController {
+		private static $ITEM_ERROR = 0;
+		private static $USER_ERROR = 1;
 
-class ReportController extends BaseController{
+		/**
+		 * @param $rentalItemId
+		 * @return \LIS\Checkout[]
+		 */
+		public function generateRentalItemReport($rentalItemId) {
+			$rt = RentalItem::find($this->_pdo, $rentalItemId);
 
-    private static $ITEM_ERROR = 0;
-    private static $USER_ERROR = 1;
+			if (is_null($rt)) {
+				$this->setError(self::$ITEM_ERROR);
+				return [];
+			}
 
-    /**
-     * @param $rentalItemId
-     * @return \LIS\Checkout[]
-     */
-    public function generateRentalItemReport ($rentalItemId) {
+			$allCheckouts = Checkout::getAllCheckoutsByItem($this->_pdo, $rt);
 
-        $rt = RentalItem::find($this->_pdo, $rentalItemId);
+			return $allCheckouts;
+		}
 
-        if($rt == NULL) {
-            $this->setError(self::$ITEM_ERROR);
-            return;
-        }
+		/**
+		 * Employee Report is the same as this
+		 * Specific User/Employee and their related Rental Items/Checkouts/Checkins
+		 *
+		 * @param $cardNum
+		 * @return Checkout[]
+		 */
+		public function generateUserReport($cardNum) {
+			$card = LibraryCard::findByCardNumber($this->_pdo, $cardNum);
 
-        $allCheckouts = Checkout::getAllCheckoutsByItem($this->_pdo, $rt);
+			if (is_null($card)) {
+				$this->setError(self::$USER_ERROR);
+				return [];
+			}
 
-        return $allCheckouts;
+			$user = $card->getUser();
 
-    }
-    //Employee Report is the same as this
-    //Specific User/Employee and their related Rental Items/Checkouts/Checkins
-    /**
-     * @param $cardNum
-     * @return Checkout[]
-     */
-    public function generateUserReport ($cardNum) {
+			if (is_null($user)) {
+				$this->setError(self::$USER_ERROR);
+				return [];
+			}
 
-        $card = LibraryCard::findByCardNumber($this->_pdo, $cardNum);
-        if($card == NULL) {
-            $this->setError(self::$USER_ERROR);
-            return;
-        }
-        $user = $card->getUser();
+			$allCheckouts = Checkout::getAllCheckoutsByUser($this->_pdo, $user);
 
-        if($user == NULL) {
-            $this->setError(self::$USER_ERROR);
-            return;
-        }
+			return $allCheckouts;
+		}
 
-        $allCheckouts = Checkout::getAllCheckoutsByUser($this->_pdo, $user);
+		/**
+		 * @return RentalItem[]
+		 */
+		public function generateLibraryStatusReport() {
+			return RentalItem::getAllRDL($this->_pdo);
+		}
 
-        return $allCheckouts;
-
-    }
-    //all damaged/lost
-    /**
-     * @return RentalItem[]
-     */
-    public function generateLibraryStatusReport () {
-
-        $a = RentalItem::getAllLost($this->_pdo);
-        $b = RentalItem::getAllDamaged($this->_pdo);
-        $c = RentalItem::getAllRemoved($this->_pdo);
-
-        $allRentalItems = array_merge($a, $b, $c);
-
-
-        return $allRentalItems;
-    }
-
-    public function getErrorMessage() {
-        switch ($this->getError()) {
-            case self::$ITEM_ERROR:
-                return "Please enter a valid Item ID";
-            case self::$USER_ERROR:
-                return "Please enter a valid Library Card Number";
-            default:
-                return false;
-        }
-    }
-
-
-
-}
+		public function getErrorMessage() {
+			switch ($this->getError()) {
+				case self::$ITEM_ERROR:
+					return "Please enter a valid Item ID";
+				case self::$USER_ERROR:
+					return "Please enter a valid Library Card Number";
+				default:
+					return false;
+			}
+		}
+	}

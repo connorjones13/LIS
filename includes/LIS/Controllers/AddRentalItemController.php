@@ -1,12 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: connorjones
- * Date: 11/23/15
- * Time: 2:32 PM
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: connorjones
+	 * Date: 11/23/15
+	 * Time: 2:32 PM
+	 */
 
 	namespace LIS\Controllers;
+
 	use DateTime;
 	use LIS\Utility;
 	use LIS\RentalItem\Book;
@@ -15,7 +16,7 @@
 
 	class AddRentalItemController extends BaseController {
 		private static $ERROR_SUMMARY = 0;
-		private static $ERROR_TITLE= 1;
+		private static $ERROR_TITLE = 1;
 		private static $ERROR_CATEGORY = 2;
 		private static $ERROR_DATE_PUBLISHED = 3;
 		private static $ERROR_ISBN10 = 4;
@@ -53,7 +54,7 @@
 			$magazine->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 					$status = 0, $publication, $issue_number);
 			$_SESSION["show_created_alert"] = "Successfully added a Magazine!";
-			self::displayPage(self::$PAGE_ADD_ITEM);
+			self::displayPage("/controlpanel/add");
 		}
 
 		public function createNewBook($summary, $title, $category, $date_published, $isbn10 = "",
@@ -87,7 +88,7 @@
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $isbn10, $isbn13, $authorsArray);
 			$_SESSION["show_created_alert"] = "Successfully added a Book!";
-			self::displayPage(self::$PAGE_ADD_ITEM);
+			self::displayPage("/controlpanel/add");
 		}
 
 		public function createNewDvd($summary, $title, $category, $date_published, $director) {
@@ -114,7 +115,7 @@
 			$book->create($summary, $title, $category, Utility::getDateTimeFromMySQLDate($date_published),
 				$status = 0, $director);
 			$_SESSION["show_created_alert"] = "Successfully added a DVD!";
-			self::displayPage(self::$PAGE_ADD_ITEM);
+			self::displayPage("/controlpanel/add");
 		}
 
 		public function getErrorMessage() {
@@ -132,7 +133,7 @@
 				case self::$ERROR_ISBN13:
 					return "Please enter a valid issue number.";
 				case self::$ERROR_AUTHORS:
-					return"Please enter at least one valid author.";
+					return "Please enter at least one valid author.";
 				case self::$ERROR_PUBLICATION:
 					return "Please enter a valid publication.";
 				case self::$ERROR_ISSUE_NUMBER:

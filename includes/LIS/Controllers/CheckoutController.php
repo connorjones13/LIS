@@ -36,7 +36,7 @@
 				return;
 			}
 
-			$user = $lib_card->getUser();   // get user from library card
+			$user = $lib_card->getUser();
 
 			if (is_null($user)) {
 				$this->setError(self::$ERROR_LIBRARY_CARD_NOT_ATTACHED);
@@ -58,7 +58,6 @@
 			$ris = [];
 
 			foreach ($ids as $id) {
-				// get rental item -> check status
 				$rental_item = RentalItem::find($this->_pdo, $id);
 
 				if (is_null($rental_item)) {

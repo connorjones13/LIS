@@ -26,7 +26,7 @@
 
 		protected static $PAGE_HOME = "/";
 		protected static $PAGE_LOGOUT = "/logout";
-		protected static $PAGE_ADD_ITEM = "/controlpanel/add";
+
 		/* @var PDO_MySQL $_pdo */
 		protected $_pdo;
 
@@ -52,8 +52,6 @@
 			else {
 				$_SESSION[self::$REQUEST_URI] = $_SERVER[self::$REQUEST_URI];
 
-				$_SESSION[self::$LAST_ACTION] = time();
-
 				self::displayPage(self::$PAGE_LOGIN);
 			}
 		}
@@ -67,6 +65,7 @@
 				return true;
 
 			$_SESSION[self::$LAST_ACTION] = time();
+
 			return false;
 		}
 
@@ -89,12 +88,6 @@
 		}
 
 		final protected static function displayPage($page) {
-//			$allowed_pages = [self::$PAGE_LOGIN, self::$PAGE_HOME, self::$PAGE_LOGOUT, $_SESSION[self::$REQUEST_URI],
-//					self::$PAGE_ADD_ITEM];
-//
-//			if (!in_array($page, $allowed_pages))
-//				$page = self::$PAGE_HOME;
-
 			header("Location: /" . ltrim($page, "/"));
 			exit();
 		}
@@ -103,7 +96,7 @@
 			date_default_timezone_set("America/Chicago");
 
 			session_name(self::$SESSION_COOKIE);
-			session_set_cookie_params(0, "/", NULL);
+			session_set_cookie_params(0, "/", null);
 			session_start();
 
 			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
