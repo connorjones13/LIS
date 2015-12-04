@@ -1,9 +1,9 @@
 <?php
-require_once(__DIR__ . "/../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\BaseController($pdo);
+	require_once(__DIR__ . "/../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\BaseController($pdo);
 
-$page_title = "Contact Us";
+	$page_title = "Contact Us";
 ?>
 <!doctype html>
 <html lang="en">
@@ -16,7 +16,8 @@ $page_title = "Contact Us";
 </header>
 <div class="content">
 	<h1>Contact Us</h1>
-	<p>Have questions? Drop us an <a href="mailto:ski0005@auburn.edu">email</a> and we'll get back to you as soon as possible!</p>
+	<p>Have questions? Drop us an
+		<a href="mailto:ski0005@auburn.edu">email</a> and we'll get back to you as soon as possible!</p>
 </div>
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../includes/html_templates/footer.php"); ?>

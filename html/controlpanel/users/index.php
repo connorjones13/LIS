@@ -1,22 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: connorjones
- * Date: 12/1/2015
- * Time: 10:05 AM
- */
+	require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\UserController($pdo);
 
-require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\UserController($pdo);
+	if (is_null($controller->getSessionUser())
+		|| $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+		header("Location: /");
+		exit();
+	}
 
-if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
-	header("Location: /");
-	exit();
-}
-
-
-$page_title = "Manage Users";
+	$page_title = "Manage Users";
 ?>
 <!doctype html>
 <html lang="en">
@@ -37,32 +30,38 @@ $page_title = "Manage Users";
 
 					<table class="table table-striped" id="view_table">
 						<thead>
-						<tr>
-							<th>Name</th>
-							<th>Number</th>
-							<th>Email</th>
-							<th>Library #</th>
-							<th>Deactivate</th>
-						</tr>
+							<tr>
+								<th>Name</th>
+								<th>Number</th>
+								<th>Email</th>
+								<th>Library #</th>
+								<th>Deactivate</th>
+							</tr>
 						</thead>
 						<tbody>
-						<?php $users = \LIS\User\User::getAllActive($pdo); ?>
-						<?php foreach ($users as $user) { ?>
-							<tr>
-								<td><b><a href="/controlpanel/users/user/<?= $user->getId() ?>/"><?= $user->getNameFull(); ?></a></b></td>
-								<td><?= $user->getPhoneFormatted(); ?></td>
-								<td><?= $user->getEmail() ?></td>
-								<td><?= $user->getLibraryCard()->getNumber() ?></td>
-								<td><a href="#" class="btn btn-sm btn-danger">Deactivate</a></td>
-							</tr>
-
-						<?php } ?>
+							<?php $users = \LIS\User\User::getAllActive($pdo); ?>
+							<?php foreach ($users as $user) { ?>
+								<tr>
+									<td>
+										<b>
+											<a href="/controlpanel/users/user/<?= $user->getId() ?>/">
+												<?= $user->getNameFull(); ?>
+											</a>
+										</b>
+									</td>
+									<td><?= $user->getPhoneFormatted(); ?></td>
+									<td><?= $user->getEmail() ?></td>
+									<td><?= $user->getLibraryCard()->getNumber() ?></td>
+									<td><a href="#" class="btn btn-sm btn-danger">Deactivate</a></td>
+								</tr>
+							<?php } ?>
 						</tbody>
 					</table>
 
 				</div>
 			</div>
-		<?php } else { ?>
+		<?php }
+		else { ?>
 			<h4 class="alert bg-warning">
 				You do not have permission to view this page.
 			</h4>

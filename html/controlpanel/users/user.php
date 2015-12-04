@@ -1,41 +1,33 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: connorjones
- * Date: 12/1/2015
- * Time: 10:50 AM
- */
+	require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\UserController($pdo);
 
-require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\UserController($pdo);
+	if (is_null($controller->getSessionUser())
+		|| $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+		header("Location: /");
+		exit();
+	}
 
-if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
-	header("Location: /");
-	exit();
-}
+	$user = \LIS\User\User::find($pdo, $_GET['id']);
 
-$user = \LIS\User\User::find($pdo, $_GET['id']);
+	if (\LIS\Utility::requestHasPost()) {
+		$controller->updateUser($user, $_POST["name_first"], $_POST["name_last"], $_POST["username"], $_POST["phone"], $_POST["gender"], $_POST["dob"], $_POST["address_line_1"], $_POST["address_line_2"], $_POST["address_city"], $_POST["address_state"], $_POST["address_zip"]);
+	}
 
-if (\LIS\Utility::requestHasPost()) {
-	$controller->updateUser($user, $_POST["name_first"], $_POST["name_last"], $_POST["username"],
-			$_POST["phone"], $_POST["gender"], $_POST["dob"], $_POST["address_line_1"],
-			$_POST["address_line_2"], $_POST["address_city"], $_POST["address_state"], $_POST["address_zip"]);
-}
+	$_POST["name_first"] = $user->getNameFirst();
+	$_POST["name_last"] = $user->getNameLast();
+	$_POST["username"] = $user->getEmail();
+	$_POST["phone"] = $user->getPhoneFormatted();
+	$_POST["gender"] = $user->getGender();
+	$_POST["dob"] = $user->getDateOfBirth();
+	$_POST["address_line_1"] = $user->getAddressLine1();
+	$_POST["address_line_2"] = $user->getAddressLine2();
+	$_POST["address_city"] = $user->getAddressCity();
+	$_POST["address_state"] = $user->getAddressState();
+	$_POST["address_zip"] = $user->getAddressZip();
 
-$_POST["name_first"] = $user->getNameFirst();
-$_POST["name_last"] = $user->getNameLast();
-$_POST["username"] = $user->getEmail();
-$_POST["phone"] = $user->getPhoneFormatted();
-$_POST["gender"] = $user->getGender();
-$_POST["dob"] = $user->getDateOfBirth();
-$_POST["address_line_1"] = $user->getAddressLine1();
-$_POST["address_line_2"] = $user->getAddressLine2();
-$_POST["address_city"] = $user->getAddressCity();
-$_POST["address_state"] = $user->getAddressState();
-$_POST["address_zip"] = $user->getAddressZip();
-
-$page_title = $user->getNameFull();
+	$page_title = $user->getNameFull();
 ?>
 <!doctype html>
 <html lang="en">
@@ -53,25 +45,27 @@ $page_title = $user->getNameFull();
 				<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
 				<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
 					<h1 class="page-header"><?= $user->getNameFull() ?>
-						<small class="pull-right">User since: <?= $user->getDateSignedUp()->format("m-d-Y")?></small>
+						<small class="pull-right">User since: <?= $user->getDateSignedUp()->format("m-d-Y") ?></small>
 					</h1>
 
 					<div class="form-group">
-						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
-							<a href="/controlpanel/users/make_employee/<?= $user->getId() ?>/" class="btn btn-default btn-info">Make Employee</a>
+						<?php if ($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
+							<a href="/controlpanel/users/make_employee/<?= $user->getId() ?>/"
+							   class="btn btn-default btn-info">Make Employee</a>
 						<?php } ?>
-						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_ADMIN &&
-								$controller->getSessionUser()->getPrivilegeLevel() == \LIS\User\User::PRIVILEGE_ADMIN) { ?>
-							<a href="/controlpanel/users/make_admin/<?= $user->getId() ?>/" class="btn btn-default btn-info">Make Admin</a>
+						<?php if ($user->getPrivilegeLevel() == \LIS\User\User::PRIVILEGE_ADMIN) { ?>
+							<a href="/controlpanel/users/make_admin/<?= $user->getId() ?>/"
+							   class="btn btn-default btn-info">Make Admin</a>
 						<?php } ?>
-						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_USER) { ?>
-							<a href="/controlpanel/users/make_user/<?= $user->getId() ?>/" class="btn btn-default btn-danger">Unemploy</a>
+						<?php if ($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_USER) { ?>
+							<a href="/controlpanel/users/make_user/<?= $user->getId() ?>/"
+							   class="btn btn-default btn-danger">Unemploy</a>
 						<?php } ?>
-						<?php if(!$user->isActive()) { ?>
+						<?php if (!$user->isActive()) { ?>
 							<a href="/controlpanel/users/make_active/<?= $user->getId() ?>/"
 							   class="btn btn-default btn-success">Activate</a>
 						<?php } ?>
-						<?php if($user->isActive()) { ?>
+						<?php if ($user->isActive()) { ?>
 							<a href="/controlpanel/users/make_inactive/<?= $user->getId() ?>/"
 							   class="btn btn-default btn-danger">Deactivate</a>
 						<?php } ?>
@@ -86,7 +80,7 @@ $page_title = $user->getNameFull();
 								<?= $controller->getErrorMessage(); ?>
 							</p>
 						<?php } ?>
-						<?php if($_SESSION["profile_update"]) { ?>
+						<?php if ($_SESSION["profile_update"]) { ?>
 							<p class="alert alert-success"><?= $_SESSION["profile_update"] ?></p>
 							<?php unset($_SESSION["profile_update"]) ?>
 						<?php } ?>
@@ -209,13 +203,13 @@ $page_title = $user->getNameFull();
 					</form>
 				</div>
 			</div>
-		<?php } else { ?>
+		<?php }
+		else { ?>
 			<h4 class="alert bg-warning">
 				You do not have permission to view this page.
 			</h4>
 		<?php } ?>
 	</div>
-</div>
 </div>
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../../../includes/html_templates/footer.php"); ?>

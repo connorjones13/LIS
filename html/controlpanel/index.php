@@ -1,10 +1,10 @@
-<!-- TEMPLATE -->
 <?php
 	require_once(__DIR__ . "/../../includes/LIS/autoload.php");
 	$pdo = new \LIS\Database\PDO_MySQL();
 	$controller = new \LIS\Controllers\BaseController($pdo);
 
-	if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+	if (is_null($controller->getSessionUser())
+		|| $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
 		header("Location: /");
 		exit();
 	}
@@ -71,9 +71,11 @@
 									<td>
 										<?php if ($item->isBook()) { ?>
 											<?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?>
-										<?php } else if ($item->isDVD()) { ?>
+										<?php }
+										else if ($item->isDVD()) { ?>
 											<?= $item->getDirector() ?>
-										<?php } else if ($item->isMagazine()) { ?>
+										<?php }
+										else if ($item->isMagazine()) { ?>
 											<?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)
 										<?php } ?>
 									</td>
@@ -89,9 +91,11 @@
 									<td>
 										<?php if ($item->isBook()) { ?>
 											<?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?>
-										<?php } else if ($item->isDVD()) { ?>
+										<?php }
+										else if ($item->isDVD()) { ?>
 											<?= $item->getDirector() ?>
-										<?php } else if ($item->isMagazine()) { ?>
+										<?php }
+										else if ($item->isMagazine()) { ?>
 											<?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)
 										<?php } ?>
 									</td>
@@ -107,9 +111,11 @@
 									<td>
 										<?php if ($item->isBook()) { ?>
 											<?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?>
-										<?php } else if ($item->isDVD()) { ?>
+										<?php }
+										else if ($item->isDVD()) { ?>
 											<?= $item->getDirector() ?>
-										<?php } else if ($item->isMagazine()) { ?>
+										<?php }
+										else if ($item->isMagazine()) { ?>
 											<?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)
 										<?php } ?>
 									</td>
@@ -125,9 +131,11 @@
 									<td>
 										<?php if ($item->isBook()) { ?>
 											<?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)) ?>
-										<?php } else if ($item->isDVD()) { ?>
+										<?php }
+										else if ($item->isDVD()) { ?>
 											<?= $item->getDirector() ?>
-										<?php } else if ($item->isMagazine()) { ?>
+										<?php }
+										else if ($item->isMagazine()) { ?>
 											<?= $item->getPublication() ?> (#<?= $item->getIssueNumber() ?>)
 										<?php } ?>
 									</td>
@@ -143,7 +151,7 @@
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../../includes/html_templates/footer.php"); ?>
 	<script type="text/javascript">
-		$(".show_data").click(function() {
+		$(".show_data").click(function () {
 			$("#view_table").find("tbody").hide();
 			$("#" + $(this).attr("data-view")).show();
 			$(".sub-header").text($(this).attr("data-title") + " Items");
