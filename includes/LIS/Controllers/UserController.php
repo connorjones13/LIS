@@ -67,22 +67,22 @@
         }
 
        public function changeToUserPrivilege(User $user) {
-           User::setToPrivilegeLevel($user);
-           $_SESSION["privilege_changed_to_User"] = $user->getNameFull() . "'s privilege changed to User" ;
+           $user->setToPrivilegeLevelUser();
+           $_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to User" ;
            $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
 
        public function changeToEmployeePrivilege(User $user) {
-           Employee::setToPrivilegeLevel($user);
-           $_SESSION["privilege_changed_to_Employee"] = $user->getNameFull() . "'s privilege changed to Employee" ;
+           $user->setToPrivilegeLevelEmployee();
+           $_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to Employee" ;
            $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
 
        public function changeToAdminPrivilege(User $user) {
-           Admin::setToPrivilegeLevel($user);
-           $_SESSION["privilege_changed_to_Admin"] = $user->getNameFull() . "'s privilege changed to Admin" ;
+           $user->setToPrivilegeLevelAdmin();
+           $_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to Admin" ;
            $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
@@ -91,10 +91,19 @@
        public function deactivateUser(User $user) {
            $user->setInactive();
 
-           $_SESSION["user_deactivated"] = $user->getNameFull() . "'s account has been deactivated" ;
+           $_SESSION["profile_update"] = $user->getNameFull() . "'s account has been deactivated" ;
            $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
+
+       public function activateUser(User $user) {
+           $user->setActive();
+
+           $_SESSION["profile_update"] = $user->getNameFull() . "'s account has been activated" ;
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
+           header($loc);
+       }
+
 
        public function getErrorMessage() {
            switch ($this->getError()) {

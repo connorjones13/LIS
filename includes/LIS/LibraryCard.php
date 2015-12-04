@@ -40,9 +40,9 @@
 
 		public function create(User $user) {
 			$arguments = [
-				"uid" => $user->getId(),
-				"ti" => Utility::getDateTimeForMySQLDate(),
-				"lc" => Utility::getRandomString(16, true, false, true)
+				"uid" => $this->user = $user->getId(),
+				"ti" => $this->date_issued = Utility::getDateTimeForMySQLDate(),
+				"lc" => $this->number = Utility::getRandomString(16, true, false, true)
 			];
 			$query = "INSERT INTO library_card (user, date_issued, number) VALUES (:uid, :ti, :lc)";
 
@@ -101,10 +101,13 @@
 				throw new \InvalidArgumentException("Passed status is invalid");
 
 			$this->status = $status;
+
+			$this->_pdo->perform("UPDATE library_card SET status = :st WHERE id = :id",
+					["st" => $this->status, "id" => $this->getId()]);
 		}
 
 		public static function findByUser(PDO_MySQL $_pdo, User $_user) {
-			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE user = :id", [
+			$row = $_pdo->fetchOne("SELECT * FROM library_card WHERE user = :id AND status = 1", [
 				"id" => $_user->getId()
 			]);
 
@@ -136,6 +139,7 @@
 				$this->{$key} = $value;
 			}
 		}
+
 
 		public function referenceUser(User $_user) {
 			if ($_user->getId() != $this->user)
