@@ -13,7 +13,7 @@ if (\LIS\Utility::requestHasPost())
 
 $checkouts = $controller->generateRentalItemReport($_POST["rentalItemID"]);
 
-$page_title = "Enter Rental Item for Report";
+$page_title = "Rentel Item Report";
 ?>
 <!doctype html>
 <html lang="en">

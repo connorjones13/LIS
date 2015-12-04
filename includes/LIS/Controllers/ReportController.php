@@ -50,6 +50,9 @@ class ReportController extends BaseController{
 
     }
     //all damaged/lost
+    /**
+     * @return RentalItem[]
+     */
     public function generateLibraryStatusReport () {
 
         $a = RentalItem::getAllLost($this->_pdo);
