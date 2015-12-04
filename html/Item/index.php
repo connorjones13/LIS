@@ -53,9 +53,11 @@
 					<p>ISBN10: <?= $item->getISBN10() ?></p>
 					<p>ISBN13: <?= $item->getISBN13() ?></p>
 					<p>Authors: <?= implode(", ", \LIS\RentalItem\Author::findAllForBook($pdo, $item)); ?></p>
-				<?php } else if ($item->isDVD()) { ?>
+				<?php }
+				else if ($item->isDVD()) { ?>
 					<p>Director: <?= $item->getDirector() ?></p>
-				<?php } else if ($item->isMagazine()) { ?>
+				<?php }
+				else if ($item->isMagazine()) { ?>
 					<p>Publication: <?= $item->getPublication() ?></p>
 					<p>Issue #: <?= $item->getIssueNumber() ?></p>
 				<?php } ?>
@@ -63,28 +65,28 @@
 				<?php if ($controller->isLoggedIn()) { ?>
 					<a href="/item/reserve/<?= $item->getId() ?>/" class="btn btn-default btn-success">Reserve</a>
 				<?php } ?>
-				<?php if ($controller->isLoggedIn() &&
-						$controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
+				<?php if ($controller->isLoggedIn() && $controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
 					<a href="/controlpanel/update/<?= $item->getId() ?>/"
-					   class ="btn btn-default btn-warning">Edit Item</a>
+					   class="btn btn-default btn-warning">Edit Item</a>
 					<?php if ($controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
-						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_DAMAGED) { ?>
+						<?php if ($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_DAMAGED) { ?>
 							<a href="/item/damaged/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Damaged</a>
 						<?php } ?>
-						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_LOST) { ?>
-						<a href="/item/lost/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Lost</a>
+						<?php if ($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_LOST) { ?>
+							<a href="/item/lost/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Lost</a>
 						<?php } ?>
-						<?php if($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_AVAILABLE) { ?>
+						<?php if ($item->getStatus() != \LIS\RentalItem\RentalItem::STATUS_AVAILABLE) { ?>
 							<a href="/item/available/<?= $item->getId() ?>/" class="btn btn-default btn-info">Mark Available</a>
 						<?php } ?>
 					<?php } ?>
 				<?php } ?>
 			</div>
 		</div>
-	<?php } else { ?>
-	<div class="container ip-container">
-		No item found by that id
-	</div>
+	<?php }
+	else { ?>
+		<div class="container ip-container">
+			No item found by that id
+		</div>
 	<?php } ?>
 </div>
 <footer class="footer">

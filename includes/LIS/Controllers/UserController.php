@@ -61,28 +61,28 @@
 
 			$_SESSION["profile_update"] = "Successfully updated user profile!";
 
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 
 		public function changeToUserPrivilege(User $user) {
 			User::setToPrivilegeLevel($user);
 			$_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to User";
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 
 		public function changeToEmployeePrivilege(User $user) {
 			Employee::setToPrivilegeLevel($user);
 			$_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to Employee";
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 
 		public function changeToAdminPrivilege(User $user) {
 			Admin::setToPrivilegeLevel($user);
 			$_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to Admin";
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 
@@ -91,7 +91,7 @@
 			$user->setInactive();
 
 			$_SESSION["profile_update"] = $user->getNameFull() . "'s account has been deactivated";
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 
@@ -99,7 +99,7 @@
 			$user->setActive();
 
 			$_SESSION["profile_update"] = $user->getNameFull() . "'s account has been activated";
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 

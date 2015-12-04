@@ -23,7 +23,7 @@
 
 			$_SESSION["profile_update"] = "Card with number: " . $card->getNumber() . " was successfully added to "
 				. $user->getNameFull() . "'s account";
-			$loc = '/controlpanel/users/user/' . $user->getId() . '/';
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
 			self::displayPage($loc);
 		}
 	}

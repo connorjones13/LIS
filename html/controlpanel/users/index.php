@@ -44,7 +44,7 @@
 								<tr>
 									<td>
 										<b>
-											<a href="/controlpanel/users/user/<?= $user->getId() ?>/">
+											<a href="/controlpanel/users/<?= $user->getId() ?>/">
 												<?= $user->getNameFull(); ?>
 											</a>
 										</b>

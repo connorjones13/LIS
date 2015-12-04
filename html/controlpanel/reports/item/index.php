@@ -54,7 +54,7 @@
 								<?php foreach ($checkouts as $checkout) { ?>
 									<tr>
 										<td>
-											<a href="/controlpanel/users/user/<?= $checkout->getUserID() ?>/">
+											<a href="/controlpanel/users/<?= $checkout->getUserID() ?>/">
 												<?= $checkout->getUser()->getNameFull() ?>
 											</a>
 										</td>

@@ -26,7 +26,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
-							<li><a href="/controlpanel/users/user/<?= $controller->getSessionUser()->getId() ?>/">Account</a></li>
+							<li><a href="/controlpanel/users/<?= $controller->getSessionUser()->getId() ?>/">Account</a></li>
 							<li class="divider"></li>
 							<li>
 								<a href="/logout">Log out</a>
