@@ -420,6 +420,24 @@
 
 		/**
 		 * @param PDO_MySQL $_pdo
+		 * @param string $search_terms
+		 * @return Book[]|DVD[]|Magazine[]
+		 */
+		public static function search(PDO_MySQL $_pdo, $search_terms) {
+			$search_terms = $_pdo->quote("+" . implode(" +", explode(" ", $search_terms)));
+
+			$query = "SELECT * FROM ri_all WHERE MATCH(title, summary, category, isbn10, isbn13, director, publication)
+					  AGAINST ($search_terms IN BOOLEAN MODE)";
+
+			$rows = $_pdo->fetchAssoc($query);
+
+			return array_map(function ($row) use ($_pdo) {
+				return self::getInstance($_pdo, $row);
+			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
 		 * @param array $row
 		 * @return Book|DVD|Magazine
 		 */
