@@ -4,14 +4,21 @@ namespace LIS\Controllers;
 
 use LIS\Checkout;
 use LIS\RentalItem\RentalItem;
-use LIS\User\User;
+use LIS\LibraryCard;
 
 class ReportController extends BaseController{
+
+    private static $ITEM_ERROR = 0;
+    private static $USER_ERROR = 1;
 
     //Specific Rental ITem, who used it
     public function generateRentalItemReport ($rentalItemId) {
 
         $rt = RentalItem::find($this->_pdo, $rentalItemId);
+
+        if($rt == NULL) {
+            $this->setError(self::$ITEM_ERROR);
+        }
 
         $allCheckouts = Checkout::getAllCheckoutsByItem($this->_pdo, $rt);
 
@@ -20,9 +27,18 @@ class ReportController extends BaseController{
     }
     //Employee Report is the same as this
     //Specific User/Employee and their related Rental Items/Checkouts/Checkins
-    public function generateUserReport ($userId) {
+    /**
+     * @param $cardNum
+     * @return array
+     */
+    public function generateUserReport ($cardNum) {
 
-        $user = User::find($this->_pdo, $userId);
+        $card = LibraryCard::findByCardNumber($this->_pdo, $cardNum);
+        $user = $card->getUser();
+
+        if($user == NULL) {
+            $this->setError(self::$USER_ERROR);
+        }
 
         $allCheckouts = Checkout::getAllCheckoutsByUser($this->_pdo, $user);
 
@@ -41,6 +57,18 @@ class ReportController extends BaseController{
 
         return $allRentalItems;
     }
+
+    public function getErrorMessage() {
+        switch ($this->getError()) {
+            case self::$ITEM_ERROR:
+                return "Please enter a valid Item ID";
+            case self::$USER_ERROR:
+                return "Please enter a valid Library Card Number";
+            default:
+                return false;
+        }
+    }
+
 
 
 }

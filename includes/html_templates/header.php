@@ -39,9 +39,9 @@
 					<li><a href="/account/create">Sign Up</a></li>
 				<?php } ?>
 			</ul>
-			<form class="navbar-form navbar-right" role="search">
+			<form action="/search" method="get" class="navbar-form navbar-right" role="search">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" class="form-control" name="s" placeholder="Search" value="<?= $_GET["s"] ?>">
 				</div>
 				<button type="submit" class="btn btn-default">Search</button>
 			</form>

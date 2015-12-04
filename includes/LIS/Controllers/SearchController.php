@@ -14,14 +14,20 @@ use LIS\RentalItem\RentalItem;
 class SearchController extends BaseController {
 
     private static $ERROR_INVALID_SEARCH = 1;
-
+    /**
+     * @param $input
+     * @return \LIS\RentalItem\Book[]|\LIS\RentalItem\DVD[]|\LIS\RentalItem\Magazine[]
+     */
     public function newSearch($input)
     {
         if ($input == null) {
             $this->setError(self::$ERROR_INVALID_SEARCH);
         }
 
-        $ItemsMatched = RentalItem::search( $this->_pdo , $input);
+        $ItemsMatched = [];
+
+        if (!$input == "")
+            $ItemsMatched = RentalItem::search( $this->_pdo , $input);
 
         return $ItemsMatched;
     }
