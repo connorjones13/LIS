@@ -65,9 +65,9 @@ $page_title = "Enter Rental Item for Report";
                                 <?php foreach ($checkouts as $checkout) { ?>
                                     <tr>
                                         <td><a href="/controlpanel/users/user/<?= $checkout->getUserID() ?>/"><?= $checkout->getUser()->getNameFull() ?></td>
-                                        <td><?= $checkout->getDateCheckedOut()->format("m-d-Y") ?></td>
+                                        <td><?= $checkout->getDateCheckedOut()->format("m-d-Y H:i:s") ?></td>
                                         <td><?= $checkout->getDateDue()->format("m-d-Y") ?></td>
-                                        <td><?= $checkout->getDateReturned()?$checkout->getDateReturned()->format("m-d-Y"):""?></td>
+                                        <td><?= $checkout->getDateReturned()?$checkout->getDateReturned()->format("m-d-Y H:i:s"):""?></td>
                                     </tr>
 
                                 <?php } ?>

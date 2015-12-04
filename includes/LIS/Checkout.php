@@ -150,7 +150,7 @@
 		 * @return DateTime
 		 */
 		public function getDateReturned() {
-			return Utility::getDateTimeFromMySQLDate($this->date_returned);
+			return Utility::getDateTimeFromMySQLDateTime($this->date_returned);
 		}
 
 		/**
