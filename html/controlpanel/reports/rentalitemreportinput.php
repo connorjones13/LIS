@@ -41,7 +41,7 @@ $page_title = "Enter Rental Item for Report";
 					<div class="form-group">
 						<label for="title">Rental Item ID</label>
 						<input type="text" class="form-control" id="title" name="rentalItemID"
-						       placeholder="To Kill a Mockingbird" value="<?= $_POST["rentalItemID"] ?>">
+						       placeholder="1234" value="<?= $_POST["rentalItemID"] ?>">
 					</div>
 					<button type="submit" class="btn btn-default">Create</button>
 				</form>
@@ -67,9 +67,11 @@ $page_title = "Enter Rental Item for Report";
 										</td>
 										<td><?= $checkout->getDateCheckedOut()->format("m-d-Y H:i:s") ?></td>
 										<td><?= $checkout->getDateDue()->format("m-d-Y") ?></td>
-										<?php if ($checkout->getDateReturned()) { ?>
-											<td><?= $checkout->getDateReturned()->format("m-d-Y H:i:s") ?></td>
-										<?php } ?>
+										<td>
+											<?php if ($checkout->getDateReturned()) { ?>
+												<?= $checkout->getDateReturned()->format("m-d-Y H:i:s") ?>
+											<?php } ?>
+										</td>
 									</tr>
 								<?php } ?>
 							<?php } ?>

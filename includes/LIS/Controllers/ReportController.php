@@ -33,7 +33,7 @@ class ReportController extends BaseController{
     //Specific User/Employee and their related Rental Items/Checkouts/Checkins
     /**
      * @param $cardNum
-     * @return array
+     * @return Checkout[]
      */
     public function generateUserReport ($cardNum) {
 
