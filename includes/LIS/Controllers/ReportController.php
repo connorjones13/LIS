@@ -11,13 +11,17 @@ class ReportController extends BaseController{
     private static $ITEM_ERROR = 0;
     private static $USER_ERROR = 1;
 
-    //Specific Rental ITem, who used it
+    /**
+     * @param $rentalItemId
+     * @return \LIS\Checkout[]
+     */
     public function generateRentalItemReport ($rentalItemId) {
 
         $rt = RentalItem::find($this->_pdo, $rentalItemId);
 
         if($rt == NULL) {
             $this->setError(self::$ITEM_ERROR);
+            return;
         }
 
         $allCheckouts = Checkout::getAllCheckoutsByItem($this->_pdo, $rt);

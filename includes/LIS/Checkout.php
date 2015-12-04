@@ -146,6 +146,14 @@
 		/**
 		 * @return DateTime
 		 */
+		public function getDateCheckedOut()
+		{
+			return Utility::getDateTimeFromMySQLDate($this->date_checked_out);
+		}
+
+		/**
+		 * @return DateTime
+		 */
 		public function getDateReturned() {
 			return Utility::getDateTimeFromMySQLDate($this->date_returned);
 		}
@@ -154,6 +162,9 @@
 		 * @return User
 		 */
 		public function getUser() {
+			if (!$this->_user)
+				$this->_user = User::find($this->_pdo, $this->user);
+
 			return $this->_user;
 		}
 
@@ -161,6 +172,9 @@
 		 * @return RentalItem
 		 */
 		public function getRentalItem() {
+			if (!$this->_rental_item)
+				$this->_rental_item = User::find($this->_pdo, $this->rental_item);
+
 			return $this->_rental_item;
 		}
 
@@ -218,6 +232,11 @@
 			}, $rows);
 		}
 
+		/**
+		 * @param PDO_MySQL $_pdo
+		 * @param RentalItem $rentalItem
+		 * @return Checkout[]
+		 */
 		public static function getAllCheckoutsByItem(PDO_MySQL $_pdo, RentalItem $rentalItem) {
 			$rows = $_pdo->fetchAssoc("SELECT * FROM `checkout` WHERE `rental_item` = :itm",
 					["itm" => $rentalItem->getId()]);
@@ -229,7 +248,7 @@
 			 * User object type.
 			 */
 			return array_map(function ($row) use ($_pdo) {
-				return new User($_pdo, $row);
+				return new Checkout($_pdo, $row);
 			}, $rows);
 		}
 	}

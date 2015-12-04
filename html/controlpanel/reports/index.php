@@ -38,9 +38,9 @@ $page_title = "Reports";
                     </div>
                     <div class="col-sm-6 col-md-4">
                         <div class="thumbnail">
-                            <a href="userreportinput.php"><img src="/assets/images/book_shelf.jpg" alt="User/Employee Report"></a>
+                            <a href="userreportinput.php"><img src="/assets/images/book_shelf.jpg" alt="User Report"></a>
                             <div class="caption">
-                                <a href="userreportinput.php" class="btn btn-primary center-block" role="button">User/Employee Report</a>
+                                <a href="userreportinput.php" class="btn btn-primary center-block" role="button">User Report</a>
                             </div>
                         </div>
                     </div>

@@ -34,7 +34,7 @@
 			if (($temp = DateTime::createFromFormat("Y-m-d", $date_string)) !== false)
 				return $temp;
 
-			return DateTime::createFromFormat("s", strtotime($date_string));
+			return DateTime::createFromFormat("U", strtotime($date_string));
 		}
 
 		/**

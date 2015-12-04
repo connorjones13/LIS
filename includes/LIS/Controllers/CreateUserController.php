@@ -48,6 +48,8 @@
 		public function createNewUser($name_first, $name_last, $email, $phone, $gender, $date_of_birth,
 		                              $address_line_1, $address_line_2, $address_zip, $address_city,
 		                              $address_state, $password, $password_confirm) {
+			$date_of_birth = Utility::getDateTimeFromUserInput($date_of_birth);
+
 			if (!$name_first)
 				$this->setError(self::$ERROR_NAME_FIRST);
 
@@ -72,7 +74,7 @@
 			else if ($gender > User::GENDER_OTHER)
 				$this->setError(self::$ERROR_GENDER);
 
-			else if (Utility::getDateTimeFromUserInput($date_of_birth) >= new DateTime())
+			else if ($date_of_birth >= new DateTime())
 				$this->setError(self::$ERROR_DOB);
 
 			else if (!$address_line_1)
@@ -94,7 +96,7 @@
 
 			$user = new User($this->_pdo);
 			$user->create($name_first, $name_last, $email, $phone, $gender,
-					Utility::getDateTimeFromMySQLDate($date_of_birth), $address_line_1, $address_line_2, $address_zip,
+					$date_of_birth, $address_line_1, $address_line_2, $address_zip,
 					$address_city, $address_state, "USA", $password, $library_card);
 
 			$mailer = new Mailer();
