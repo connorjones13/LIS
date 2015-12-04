@@ -326,6 +326,32 @@
 			$this->_pdo->perform("UPDATE user SET phone = :ph WHERE id = :id", $args);
 		}
 
+		/*
+		 *  @param string $dateOfBirth
+		 *  not 100% sure this function works
+		 */
+		public function updateDateOfBirth(DateTime $dateOfBirth) {
+			$args = ["ph" => Utility::getDateTimeForMySQLDate($this->$dateOfBirth), "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET date_of_birth = :ph WHERE id = :id", $args);
+		}
+
+		public function updateFirstName($firstName) {
+			$args = ["ph" => $this->$firstName, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET name_first = :ph WHERE id = :id", $args);
+		}
+
+		public function updateLastName($lastName) {
+			$args = ["ph" => $this->$lastName, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET name_last = :ph WHERE id = :id", $args);
+		}
+
+		public function updateGender($gender) {
+			$args = ["ph" => $this->$gender, "id" => $this->id];
+			$this->_pdo->perform("UPDATE user SET gender = :ph WHERE id = :id", $args);
+		}
+
+
+
 		/**
 		 * @param mixed $address_line_1
 		 * @param $address_line_2
