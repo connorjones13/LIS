@@ -12,7 +12,7 @@
 			//todo: check that a reservation does not already exist (in case 2 users are on the same page)
 
 			$reservation = null;
-			$reservation = Reservation::findForItem($this->_pdo, $rentalItem);
+			$reservation = Reservation::findForRentalItem($this->_pdo, $rentalItem);
 
 			if($reservation != null) {
 				$_SESSION["reserve_fail"] = "Sorry, but " . $rentalItem->getTitle() . " is already reserved.";
