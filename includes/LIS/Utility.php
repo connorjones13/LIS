@@ -30,6 +30,17 @@
 		 * @param string $date_string
 		 * @return DateTime
 		 */
+		public static function getDateTimeFromUserInput($date_string) {
+			if (($temp = DateTime::createFromFormat("Y-m-d", $date_string)) !== false)
+				return $temp;
+
+			return DateTime::createFromFormat("s", strtotime($date_string));
+		}
+
+		/**
+		 * @param string $date_string
+		 * @return DateTime
+		 */
 		public static function getDateTimeFromMySQLDate($date_string) {
 			return DateTime::createFromFormat("Y-m-d", $date_string);
 		}
@@ -160,5 +171,9 @@
 		 */
 		public static function formatNumber($number) {
 			return number_format($number);
+		}
+
+		public static function explodeForMySQLMatch($search_terms) {
+			return "+" . implode(" +", explode(" ", $search_terms));
 		}
 	}

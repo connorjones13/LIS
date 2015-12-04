@@ -17,19 +17,11 @@ if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->get
 
 $user = \LIS\User\User::find($pdo, $_GET['id']);
 
-//if (\LIS\Utility::requestHasPost()) {
-//	if($user->isBook()) {
-//		$controller->updateBookInfo($user, $_POST["summary"], $_POST["title"], $_POST["category"],
-//			$_POST["date_published"],
-//			$_POST["isbn10"], $_POST["isbn13"], $_POST["authors"]);
-//	} elseif($user->isDVD()) {
-//		$controller->updateDvdInfo($user, $_POST["summary"], $_POST["title"], $_POST["category"],
-//			$_POST["date_published"], $_POST["director"]);
-//	} else {
-//		$controller->updateMagazineInfo($user, $_POST["summary"], $_POST["title"], $_POST["category"],
-//			$_POST["date_published"], $_POST["publication"], $_POST["issue_number"]);
-//	}
-//}
+if (\LIS\Utility::requestHasPost()) {
+	$controller->updateUser($user, $_POST["name_first"], $_POST["name_last"], $_POST["username"],
+			$_POST["phone"], $_POST["gender"], $_POST["dob"], $_POST["address_line_1"],
+			$_POST["address_line_2"], $_POST["address_city"], $_POST["address_state"], $_POST["address_zip"]);
+}
 
 $_POST["name_first"] = $user->getNameFirst();
 $_POST["name_last"] = $user->getNameLast();
@@ -42,18 +34,6 @@ $_POST["address_line_2"] = $user->getAddressLine2();
 $_POST["address_city"] = $user->getAddressCity();
 $_POST["address_state"] = $user->getAddressState();
 $_POST["address_zip"] = $user->getAddressZip();
-
-
-//if($user->isBook()) {
-//	$_POST["isbn10"] = $user->getISBN10();
-//	$_POST["isbn13"] = $user->getISBN13();
-//	$_POST["authors"] = implode(',', \LIS\RentalItem\Author::findAllForBook($pdo, $user));
-//} elseif($user->isDVD()) {
-//	$_POST["director"] = $user->getDirector();
-//} else {
-//	$_POST["publication"] = $user->getPublication();
-//	$_POST["issue_number"] = $user->getIssueNumber();
-//}
 
 $page_title = $user->getNameFull();
 ?>
@@ -92,15 +72,16 @@ $page_title = $user->getNameFull();
 						<a href="#" class="btn btn-default btn-warning pull-right">Issue Lib Card</a>
 
 					</div>
+					<?php var_dump($_SESSION) ?>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
 								<?= $controller->getErrorMessage(); ?>
 							</p>
 						<?php } ?>
-						<?php if($_SESSION["profile_update_success"]) { ?>
-							<p class="alert alert-success"><?= $_SESSION["profile_update_success"] ?></p>
-							<?php unset($_SESSION["profile_update_success"]) ?>
+						<?php if($_SESSION["profile_update"]) { ?>
+							<p class="alert alert-success"><?= $_SESSION["profile_update"] ?></p>
+							<?php unset($_SESSION["profile_update"]) ?>
 						<?php } ?>
 						<div class="form-group">
 							<label for="name_first">First Name</label>
@@ -116,6 +97,16 @@ $page_title = $user->getNameFull();
 							<label for="username">Username/Email</label>
 							<input type="text" class="form-control" id="username" name="username"
 							       value="<?= $_POST["username"] ?>">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"
+							       placeholder="password" value="<?= $_POST["password"] ?>">
+						</div>
+						<div class="form-group">
+							<label for="password_confirm">Confirm Password</label>
+							<input type="password" class="form-control" id="password_confirm" name="password_confirm"
+							       placeholder="password" value="<?= $_POST["password_confirm"] ?>">
 						</div>
 						<div class="form-group">
 							<label for="phone">Phone</label>

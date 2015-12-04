@@ -13,3 +13,4 @@ jsLibraryMappings.xml
 .idea/deployment.xml
 .idea/LIS.iml
 .idea/codeStyleSettings.xml
+!.htaccess
