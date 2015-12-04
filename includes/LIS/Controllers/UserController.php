@@ -26,10 +26,10 @@
        private static $ERROR_CITY = 8;
        private static $ERROR_STATE = 9;
        private static $ERROR_ZIP = 10;
-       private static $ERROR_PASSWORD = 11;
 
        public function updateUser(User $user, $name_first, $name_last, $email,
-                                  $phone, $gender, $dob, $address_1, $address_2, $city, $state, $zip, $password ) {
+                                  $phone, $gender, $dob, $address_1, $address_2,
+                                  $city, $state, $zip ) {
            if(!$name_first)
                $this->setError(self::$ERROR_NAME_FIRST);
            elseif(!$name_last)
@@ -52,8 +52,6 @@
                $this->setError(self::$ERROR_STATE);
            elseif(!$zip)
                $this->setError(self::$ERROR_ZIP);
-           elseif(!$password)
-                $this->setError(self::$ERROR_PASSWORD);
 
             $user->updateAddress($address_1, $address_2, $zip, $city,
                 $state);
@@ -63,6 +61,7 @@
             $user->updateFirstName($name_first);
             $user->updateLastName($name_last);
             $user->updateGender($gender);
+
 
            $_SESSION["profile_update_success"] = "Successfully updated user profile!";
            $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
@@ -124,8 +123,6 @@
                    return "Please select a valid state.";
                case self::$ERROR_ZIP:
                    return "Please enter a valid zip code.";
-               case self::$ERROR_PASSWORD:
-                    return"Please enter a valid password.";
                default:
                    return false;
            }

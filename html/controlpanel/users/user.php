@@ -17,19 +17,12 @@ if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->get
 
 $user = \LIS\User\User::find($pdo, $_GET['id']);
 
-//if (\LIS\Utility::requestHasPost()) {
-//	if($user->isBook()) {
-//		$controller->updateBookInfo($user, $_POST["summary"], $_POST["title"], $_POST["category"],
-//			$_POST["date_published"],
-//			$_POST["isbn10"], $_POST["isbn13"], $_POST["authors"]);
-//	} elseif($user->isDVD()) {
-//		$controller->updateDvdInfo($user, $_POST["summary"], $_POST["title"], $_POST["category"],
-//			$_POST["date_published"], $_POST["director"]);
-//	} else {
-//		$controller->updateMagazineInfo($user, $_POST["summary"], $_POST["title"], $_POST["category"],
-//			$_POST["date_published"], $_POST["publication"], $_POST["issue_number"]);
-//	}
-//}
+if (\LIS\Utility::requestHasPost()) {
+//$address_1, $address_2, $city, $state, $zip, $password ) {
+	$controller->updateUser($user, $_POST["name_first"], $_POST["name_last"], $_POST["email"],
+			$_POST["phone"], $_POST["gender"], $_POST["dob"], $_POST["address_line_1"],
+			$_POST["address_line_2"], $_POST["address_city"], $_POST["address_zip"];
+}
 
 $_POST["name_first"] = $user->getNameFirst();
 $_POST["name_last"] = $user->getNameLast();
@@ -42,18 +35,6 @@ $_POST["address_line_2"] = $user->getAddressLine2();
 $_POST["address_city"] = $user->getAddressCity();
 $_POST["address_state"] = $user->getAddressState();
 $_POST["address_zip"] = $user->getAddressZip();
-
-
-//if($user->isBook()) {
-//	$_POST["isbn10"] = $user->getISBN10();
-//	$_POST["isbn13"] = $user->getISBN13();
-//	$_POST["authors"] = implode(',', \LIS\RentalItem\Author::findAllForBook($pdo, $user));
-//} elseif($user->isDVD()) {
-//	$_POST["director"] = $user->getDirector();
-//} else {
-//	$_POST["publication"] = $user->getPublication();
-//	$_POST["issue_number"] = $user->getIssueNumber();
-//}
 
 $page_title = $user->getNameFull();
 ?>
@@ -116,6 +97,16 @@ $page_title = $user->getNameFull();
 							<label for="username">Username/Email</label>
 							<input type="text" class="form-control" id="username" name="username"
 							       value="<?= $_POST["username"] ?>">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" class="form-control" id="password" name="password"
+							       placeholder="password" value="<?= $_POST["password"] ?>">
+						</div>
+						<div class="form-group">
+							<label for="password_confirm">Confirm Password</label>
+							<input type="password" class="form-control" id="password_confirm" name="password_confirm"
+							       placeholder="password" value="<?= $_POST["password_confirm"] ?>">
 						</div>
 						<div class="form-group">
 							<label for="phone">Phone</label>
