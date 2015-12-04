@@ -72,7 +72,7 @@
 			else if ($gender > User::GENDER_OTHER)
 				$this->setError(self::$ERROR_GENDER);
 
-			else if (Utility::getDateTimeFromMySQLDate($date_of_birth) >= new DateTime())
+			else if (Utility::getDateTimeFromUserInput($date_of_birth) >= new DateTime())
 				$this->setError(self::$ERROR_DOB);
 
 			else if (!$address_line_1)
