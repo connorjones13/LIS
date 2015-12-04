@@ -65,7 +65,6 @@
 				<?php } ?>
 				<?php if ($controller->isLoggedIn() &&
 						$controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_USER) { ?>
-					<!-- todo: change url depending on item type || make the update page generic? -->
 					<a href="/controlpanel/update/<?= $item->getId() ?>/"
 					   class ="btn btn-default btn-warning">Edit Item</a>
 					<?php if ($controller->getSessionUser()->getPrivilegeLevel() > \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
