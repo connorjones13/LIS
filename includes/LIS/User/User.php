@@ -410,7 +410,7 @@
 
 		private static function createAccountConfirmationToken(PDO_MySQL $_pdo, $id) {
 			$args = ["rt" => Utility::getRandomString(32), "id" => $id];
-			$query = "UPDATE user SET reset_token = :rt WHERE id = :id";
+			$query = "UPDATE user SET account_confirm_token = :rt WHERE id = :id";
 
 			for (;;) {
 				try {
