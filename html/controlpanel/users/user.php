@@ -88,6 +88,10 @@ $page_title = $user->getNameFull();
 								<?= $controller->getErrorMessage(); ?>
 							</p>
 						<?php } ?>
+						<?php if($_SESSION["profile_update_success"]) { ?>
+							<p class="alert alert-success"><?= $_SESSION["profile_update_success"] ?></p>
+							<?php unset($_SESSION["profile_update_success"]) ?>
+						<?php } ?>
 						<div class="form-group">
 							<label for="name_first">First Name</label>
 							<input type="text" class="form-control" id="name_first" name="name_first"

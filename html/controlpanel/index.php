@@ -66,7 +66,7 @@
 							<?php foreach (\LIS\RentalItem\RentalItem::getAllAvailable($pdo) as $item) { ?>
 								<tr>
 									<td><?= \LIS\Utility::formatNumber($item->getId()) ?></td>
-									<td><?= $item->getTitle() ?></td>
+									<td><a href="/item/<?= $item->getId() ?>/"><?= $item->getTitle() ?></td>
 									<td><?= $item->getCategory() ?></td>
 									<td>
 										<?php if ($item->isBook()) { ?>
@@ -84,7 +84,7 @@
 							<?php foreach (\LIS\RentalItem\RentalItem::getAllCheckedOut($pdo) as $item) { ?>
 								<tr>
 									<td><?= \LIS\Utility::formatNumber($item->getId()) ?></td>
-									<td><?= $item->getTitle() ?></td>
+									<td><a href="/item/<?= $item->getId() ?>/"><?= $item->getTitle() ?></td>
 									<td><?= $item->getCategory() ?></td>
 									<td>
 										<?php if ($item->isBook()) { ?>
@@ -120,7 +120,7 @@
 							<?php foreach (\LIS\RentalItem\RentalItem::getAllLost($pdo) as $item) { ?>
 								<tr>
 									<td><?= \LIS\Utility::formatNumber($item->getId()) ?></td>
-									<td><?= $item->getTitle() ?></td>
+									<td><a href="/item/<?= $item->getId() ?>/"><?= $item->getTitle() ?></td>
 									<td><?= $item->getCategory() ?></td>
 									<td>
 										<?php if ($item->isBook()) { ?>
