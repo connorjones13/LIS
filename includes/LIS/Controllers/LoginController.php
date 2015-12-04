@@ -47,7 +47,6 @@
 				$this->setError(self::$ERROR_CREDENTIALS_INVALID);
 			}
 
-
 			if (!$this->hasError()) {
 				$_SESSION[self::$VALID_LOGIN] = $this->_session_user->getEmail();
 				$_SESSION[self::$LAST_ACTION] = time();

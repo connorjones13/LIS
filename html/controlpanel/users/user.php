@@ -78,9 +78,16 @@ $page_title = $user->getNameFull();
 
 					<!-- todo: add checks for employee / admin / demote -->
 					<div class="form-group">
-						<a href="#" class="btn btn-default btn-info">Make Employee</a>
-						<a href="#" class="btn btn-default btn-info">Make Admin</a>
-						<a href="#" class="btn btn-default btn-info">Deactivate</a>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
+							<a href="#" class="btn btn-default btn-info">Make Employee</a>
+						<?php } ?>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_ADMIN) { ?>
+							<a href="#" class="btn btn-default btn-info">Make Admin</a>
+						<?php } ?>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_USER) { ?>
+							<a href="#" class="btn btn-default btn-danger">Unemploy</a>
+						<?php } ?>
+						<a href="#" class="btn btn-default btn-danger">Deactivate</a>
 					</div>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
