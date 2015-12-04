@@ -8,7 +8,7 @@
 
 require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\RentalItemController($pdo); //todo: change to user controller
+$controller = new \LIS\Controllers\UserController($pdo);
 
 if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
 	header("Location: /");
@@ -76,11 +76,21 @@ $page_title = $user->getNameFull();
 						<small class="pull-right">User since: <?= $user->getDateSignedUp()->format("m-d-Y")?></small>
 					</h1>
 
-					<!-- todo: add checks for employee / admin / demote -->
 					<div class="form-group">
-						<a href="#" class="btn btn-default btn-info">Make Employee</a>
-						<a href="#" class="btn btn-default btn-info">Make Admin</a>
-						<a href="#" class="btn btn-default btn-info">Deactivate</a>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
+							<a href="#" class="btn btn-default btn-info">Make Employee</a>
+						<?php } ?>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_ADMIN) { ?>
+							<a href="#" class="btn btn-default btn-info">Make Admin</a>
+						<?php } ?>
+						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_USER) { ?>
+							<a href="#" class="btn btn-default btn-danger">Unemploy</a>
+						<?php } ?>
+						<!-- todo: if inactive / active -->
+						<a href="#" class="btn btn-default btn-danger">Deactivate</a>
+						<a href="#" class="btn btn-default btn-success">Activate</a>
+						<a href="#" class="btn btn-default btn-warning pull-right">Issue Lib Card</a>
+
 					</div>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>

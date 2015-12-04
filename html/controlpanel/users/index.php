@@ -8,7 +8,7 @@
 
 require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\CheckoutController($pdo); //todo: change to user controller
+$controller = new \LIS\Controllers\UserController($pdo);
 
 if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
 	header("Location: /");
