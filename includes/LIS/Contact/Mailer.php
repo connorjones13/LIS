@@ -31,9 +31,7 @@
 					. "<a href=\"localhost:8888/account/reset_password/?rt=" . $user->getResetToken() . "\">here</a> "
 					. "to reset your password.<br>If you did not request a password reset you may ignore this email.");
 
-			if (!$this->_mailer->send()) {
-				throw new \ErrorException;
-			}
+			$this->_mailer->send();
 		}
 
 
