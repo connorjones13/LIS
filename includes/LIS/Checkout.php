@@ -1,10 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: connorjones
- * Date: 11/18/15
- * Time: 9:35 PM
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: connorjones
+	 * Date: 11/18/15
+	 * Time: 9:35 PM
+	 */
 
 	namespace LIS;
 
@@ -18,8 +18,7 @@
 	class Checkout {
 
 
-		private $id, $checkout_employee, $checkin_employee, $user, $rental_item, $date_due,
-				$date_returned, $date_checked_out;
+		private $id, $checkout_employee, $checkin_employee, $user, $rental_item, $date_due, $date_returned, $date_checked_out;
 
 		/* @var PDO_MySQL $_pdo */
 		private $_pdo; //Since this is an internal dependency, I mark it with an _
@@ -27,7 +26,7 @@
 		/* @var User $_user */
 		private $_user;
 
-		/* @var RentalItem $_rental_item*/
+		/* @var RentalItem $_rental_item */
 		private $_rental_item;
 
 		/* @var Employee $_co_employee */
@@ -49,8 +48,7 @@
 				$this->parse($data_arr);
 		}
 
-		public function create(Employee $checkout_employee, User $user,
-		                                 RentalItem $rental_item) {
+		public function create(Employee $checkout_employee, User $user, RentalItem $rental_item) {
 
 			$this->date_due = new DateTime();
 			$this->date_due->add(new DateInterval('P07D'));
@@ -65,11 +63,10 @@
 
 			// save objects
 			$this->_user = $user;
-			$this->_co_employee= $checkout_employee;
+			$this->_co_employee = $checkout_employee;
 			$this->_rental_item = $rental_item;
 
-			$args = ["co_emp" => $checkout_employee->getId(),
-				"usr" => $user->getId(), "ri" => $rental_item->getId(), "dd" => $this->date_due, "dco" => $this->date_checked_out];
+			$args = ["co_emp" => $checkout_employee->getId(), "usr" => $user->getId(), "ri" => $rental_item->getId(), "dd" => $this->date_due, "dco" => $this->date_checked_out];
 
 			$query = "INSERT INTO checkout (checkout_employee, user, rental_item, date_due, date_checked_out)
 						VALUES (:co_emp, :usr, :ri, :dd, :dco)";
@@ -93,10 +90,9 @@
 			$query = "UPDATE checkout SET date_returned = :dr, checkin_employee = :ci_emp WHERE id = :id";
 
 			$this->_pdo->perform($query, $args);
-
 		}
 
-		public function isCheckedIn(){
+		public function isCheckedIn() {
 			return $this->date_returned == null;
 		}
 
@@ -146,9 +142,8 @@
 		/**
 		 * @return DateTime
 		 */
-		public function getDateCheckedOut()
-		{
-			return Utility::getDateTimeFromMySQLDate($this->date_checked_out);
+		public function getDateCheckedOut() {
+			return Utility::getDateTimeFromMySQLDateTime($this->date_checked_out);
 		}
 
 		/**
@@ -198,9 +193,7 @@
 		 * @return Checkout
 		 */
 		public static function findActiveCheckout(PDO_MySQL $_pdo, RentalItem $rentalItem) {
-			$row = $_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", [
-				"val" => $rentalItem->getId()
-			]);
+			$row = $_pdo->fetchOne("SELECT * FROM `checkout` WHERE rental_item = :val AND date_returned IS NULL ", ["val" => $rentalItem->getId()]);
 
 			return $row ? new Checkout($_pdo, $row) : null;
 		}
@@ -238,8 +231,7 @@
 		 * @return Checkout[]
 		 */
 		public static function getAllCheckoutsByItem(PDO_MySQL $_pdo, RentalItem $rentalItem) {
-			$rows = $_pdo->fetchAssoc("SELECT * FROM `checkout` WHERE `rental_item` = :itm",
-					["itm" => $rentalItem->getId()]);
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `checkout` WHERE `rental_item` = :itm", ["itm" => $rentalItem->getId()]);
 
 			/**
 			 * The function array_map is used to run a single function on each array
