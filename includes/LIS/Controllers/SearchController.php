@@ -24,7 +24,10 @@ class SearchController extends BaseController {
             $this->setError(self::$ERROR_INVALID_SEARCH);
         }
 
-        $ItemsMatched = RentalItem::search( $this->_pdo , $input);
+        $ItemsMatched = [];
+
+        if (!$input == "")
+            $ItemsMatched = RentalItem::search( $this->_pdo , $input);
 
         return $ItemsMatched;
     }
