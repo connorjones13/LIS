@@ -13,8 +13,7 @@
    use DateTime;
    use LIS\Utility;
 
-   class UserController extends BaseController
-   {
+   class UserController extends BaseController {
        private static $ERROR_NAME_FIRST = 0;
        private static $ERROR_NAME_LAST = 1;
        private static $ERROR_EMAIL = 2;
@@ -30,6 +29,9 @@
        public function updateUser(User $user, $name_first, $name_last, $email,
                                   $phone, $gender, $dob, $address_1, $address_2,
                                   $city, $state, $zip ) {
+
+           $dob = Utility::getDateTimeFromMySQLDate($dob);
+
            if(!$name_first)
                $this->setError(self::$ERROR_NAME_FIRST);
            elseif(!$name_last)
@@ -40,7 +42,7 @@
                $this->setError(self::$ERROR_PHONE);
            elseif(!$gender)
                $this->setError(self::$ERROR_GENDER);
-           else if (Utility::getDateTimeFromMySQLDate($dob) >= new DateTime())
+           else if ($dob >= new DateTime())
                $this->setError(self::$ERROR_DOB);
            elseif(!$address_1)
                $this->setError(self::$ERROR_ADDRESS_1);
@@ -53,18 +55,13 @@
            elseif(!$zip)
                $this->setError(self::$ERROR_ZIP);
 
-            $user->updateAddress($address_1, $address_2, $zip, $city,
-                $state);
-            $user->updatePhoneNumber($phone);
-            $user->updateEmail($email);
-            $user->updateDateOfBirth($dob);
-            $user->updateFirstName($name_first);
-            $user->updateLastName($name_last);
-            $user->updateGender($gender);
+           $user->updateUserInfo($name_first, $name_last, $email, $phone, $gender, $dob, $address_1,
+               $address_2, $city, $state, $zip);
 
 
-           $_SESSION["profile_update_success"] = "Successfully updated user profile!";
-           $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+           $_SESSION["profile_update"] = "Successfully updated user profile!";
+
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
 
         }
@@ -72,21 +69,21 @@
        public function changeToUserPrivilege(User $user) {
            User::setToPrivilegeLevel($user);
            $_SESSION["privilege_changed_to_User"] = $user->getNameFull() . "'s privilege changed to User" ;
-           $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
 
        public function changeToEmployeePrivilege(User $user) {
            Employee::setToPrivilegeLevel($user);
            $_SESSION["privilege_changed_to_Employee"] = $user->getNameFull() . "'s privilege changed to Employee" ;
-           $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
 
        public function changeToAdminPrivilege(User $user) {
            Admin::setToPrivilegeLevel($user);
            $_SESSION["privilege_changed_to_Admin"] = $user->getNameFull() . "'s privilege changed to Admin" ;
-           $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
 
@@ -95,7 +92,7 @@
            $user->setInactive();
 
            $_SESSION["user_deactivated"] = $user->getNameFull() . "'s account has been deactivated" ;
-           $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
            header($loc);
        }
 

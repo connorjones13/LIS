@@ -18,10 +18,9 @@ if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->get
 $user = \LIS\User\User::find($pdo, $_GET['id']);
 
 if (\LIS\Utility::requestHasPost()) {
-//$address_1, $address_2, $city, $state, $zip, $password ) {
-	$controller->updateUser($user, $_POST["name_first"], $_POST["name_last"], $_POST["email"],
+	$controller->updateUser($user, $_POST["name_first"], $_POST["name_last"], $_POST["username"],
 			$_POST["phone"], $_POST["gender"], $_POST["dob"], $_POST["address_line_1"],
-			$_POST["address_line_2"], $_POST["address_city"], $_POST["address_zip"];
+			$_POST["address_line_2"], $_POST["address_city"], $_POST["address_state"], $_POST["address_zip"]);
 }
 
 $_POST["name_first"] = $user->getNameFirst();
@@ -73,15 +72,16 @@ $page_title = $user->getNameFull();
 						<a href="#" class="btn btn-default btn-warning pull-right">Issue Lib Card</a>
 
 					</div>
+					<?php var_dump($_SESSION) ?>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
 								<?= $controller->getErrorMessage(); ?>
 							</p>
 						<?php } ?>
-						<?php if($_SESSION["profile_update_success"]) { ?>
-							<p class="alert alert-success"><?= $_SESSION["profile_update_success"] ?></p>
-							<?php unset($_SESSION["profile_update_success"]) ?>
+						<?php if($_SESSION["profile_update"]) { ?>
+							<p class="alert alert-success"><?= $_SESSION["profile_update"] ?></p>
+							<?php unset($_SESSION["profile_update"]) ?>
 						<?php } ?>
 						<div class="form-group">
 							<label for="name_first">First Name</label>
