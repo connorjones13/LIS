@@ -35,8 +35,9 @@ class LibraryCardController extends BaseController {
 
         $card->setStatus(LibraryCard::STATUS_ACTIVE);
 
-        $_SESSION["card_added"] = "Card with number: " . $card->getNumber(). " was successfully added to " . $user->getNameFull() . "'s account";
-        $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+        $_SESSION["card_added"] = "Card with number: " . $card->getNumber(). " was successfully added to "
+            . $user->getNameFull() . "'s account";
+        $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
         header($loc);
     }
 }
