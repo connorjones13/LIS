@@ -52,6 +52,8 @@
 			else {
 				$_SESSION[self::$REQUEST_URI] = $_SERVER[self::$REQUEST_URI];
 
+				$_SESSION[self::$LAST_ACTION] = time();
+
 				self::displayPage(self::$PAGE_LOGIN);
 			}
 		}
