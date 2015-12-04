@@ -76,7 +76,6 @@ $page_title = $user->getNameFull();
 						<small class="pull-right">User since: <?= $user->getDateSignedUp()->format("m-d-Y")?></small>
 					</h1>
 
-					<!-- todo: add checks for employee / admin / demote -->
 					<div class="form-group">
 						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_EMPLOYEE) { ?>
 							<a href="#" class="btn btn-default btn-info">Make Employee</a>
@@ -88,6 +87,7 @@ $page_title = $user->getNameFull();
 							<a href="#" class="btn btn-default btn-danger">Unemploy</a>
 						<?php } ?>
 						<a href="#" class="btn btn-default btn-danger">Deactivate</a>
+						<!-- todo: add activate -->
 					</div>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
