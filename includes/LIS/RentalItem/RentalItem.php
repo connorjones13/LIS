@@ -424,12 +424,11 @@
 		 * @return Book[]|DVD[]|Magazine[]
 		 */
 		public static function search(PDO_MySQL $_pdo, $search_terms) {
-			$search_terms = $_pdo->quote("+" . implode(" +", explode(" ", $search_terms)));
+			$query = "SELECT * FROM ri_all WHERE title LIKE :terms";
 
-			$query = "SELECT * FROM ri_all WHERE MATCH(title, summary, category, isbn10, isbn13, director, publication)
-					  AGAINST ($search_terms IN BOOLEAN MODE)";
-
-			$rows = $_pdo->fetchAssoc($query);
+			$rows = $_pdo->fetchAssoc($query, [
+				"terms" => "%" . $search_terms . "%"
+			]);
 
 			return array_map(function ($row) use ($_pdo) {
 				return self::getInstance($_pdo, $row);
