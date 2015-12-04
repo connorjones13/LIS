@@ -3,7 +3,7 @@
 		<li <?php if($page_title == 'Control Panel') echo 'class="active"'?>>
 			<a href="/controlpanel/">Overview</a></li>
 		<li <?php if($page_title == 'Reports') echo 'class="active"'?>>
-			<a href="#">Reports</a></li>
+			<a href="/controlpanel/reports/">Reports</a></li>
 		<li <?php if($page_title == 'Add Rental Item') echo 'class="active"'?>>
 			<a href="/controlpanel/add/">Add Rental Item</a></li>
 			<!--<ul class="nav nav-sidebar">
