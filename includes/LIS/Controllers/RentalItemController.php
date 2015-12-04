@@ -178,7 +178,7 @@
 			// todo: cancel any reservations and automatically check the item in
 			// todo: error in case there is any reason it could not be marked as lost
 			$_SESSION["lost_success"] = "Successfully marked " . $rentalItem->getTitle() . " as lost.";
-			header('Location: /item/' . $rentalItem->getId() . '/');
+			self::displayPage('/item/' . $rentalItem->getId() . '/');
 		}
 
 		public function markItemDamaged(RentalItem $rentalItem) {
@@ -186,13 +186,14 @@
 			// todo: cancel any reservations and automatically check the item in
 			// todo: error in case there is any reason it could not be marked as damaged
 			$_SESSION["damaged_success"] = "Successfully marked " . $rentalItem->getTitle() . " as damaged.";
-			header('Location: /item/' . $rentalItem->getId() . '/');
+			self::displayPage('/item/' . $rentalItem->getId() . '/');
+
 		}
 		public function markItemAvailable(RentalItem $rentalItem) {
 			$rentalItem->markAvailable();
 			// todo: cancel any reservations and automatically check the item in
 			// todo: error in case there is any reason it could not be marked as available
 			$_SESSION["damaged_success"] = "Successfully marked " . $rentalItem->getTitle() . " as available.";
-			header('Location: /item/' . $rentalItem->getId() . '/');
+			self::displayPage('/item/' . $rentalItem->getId() . '/');
 		}
 	}

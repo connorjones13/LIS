@@ -61,30 +61,30 @@
 
            $_SESSION["profile_update"] = "Successfully updated user profile!";
 
-           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-           header($loc);
+           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           self::displayPage($loc);
 
         }
 
        public function changeToUserPrivilege(User $user) {
            $user->setToPrivilegeLevelUser();
            $_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to User" ;
-           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-           header($loc);
+           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           self::displayPage($loc);
        }
 
        public function changeToEmployeePrivilege(User $user) {
            $user->setToPrivilegeLevelEmployee();
            $_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to Employee" ;
-           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-           header($loc);
+           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           self::displayPage($loc);
        }
 
        public function changeToAdminPrivilege(User $user) {
            $user->setToPrivilegeLevelAdmin();
            $_SESSION["profile_update"] = $user->getNameFull() . "'s privilege changed to Admin" ;
-           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-           header($loc);
+           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           self::displayPage($loc);
        }
 
        // Deactivate User
@@ -92,16 +92,16 @@
            $user->setInactive();
 
            $_SESSION["profile_update"] = $user->getNameFull() . "'s account has been deactivated" ;
-           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-           header($loc);
+           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           self::displayPage($loc);
        }
 
        public function activateUser(User $user) {
            $user->setActive();
 
            $_SESSION["profile_update"] = $user->getNameFull() . "'s account has been activated" ;
-           $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-           header($loc);
+           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           self::displayPage($loc);
        }
 
 

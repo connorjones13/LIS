@@ -37,7 +37,7 @@ class LibraryCardController extends BaseController {
 
         $_SESSION["profile_update"] = "Card with number: " . $card->getNumber() . " was successfully added to "
             . $user->getNameFull() . "'s account";
-        $loc = 'Location: /controlpanel/users/user/' . $user->getId() . '/';
-        header($loc);
+        $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+        self::displayPage($loc);
     }
 }
