@@ -110,7 +110,6 @@
 			}, $rows);
 		}
 
-		//TODO: Concretely define available in all contexts
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @return Book[]

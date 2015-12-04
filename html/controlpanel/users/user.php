@@ -67,7 +67,6 @@ $page_title = $user->getNameFull();
 						<?php if($user->getPrivilegeLevel() != \LIS\User\User::PRIVILEGE_USER) { ?>
 							<a href="/controlpanel/users/make_user/<?= $user->getId() ?>/" class="btn btn-default btn-danger">Unemploy</a>
 						<?php } ?>
-						<!-- todo: if inactive / active -->
 						<?php if(!$user->isActive()) { ?>
 							<a href="/controlpanel/users/make_active/<?= $user->getId() ?>/"
 							   class="btn btn-default btn-success">Activate</a>

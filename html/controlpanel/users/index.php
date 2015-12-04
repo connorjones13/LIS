@@ -54,7 +54,6 @@ $page_title = "Manage Users";
 								<td><?= $user->getEmail() ?></td>
 								<td><?= $user->getLibraryCard()->getNumber() ?></td>
 								<td><a href="#" class="btn btn-sm btn-danger">Deactivate</a></td>
-								<!-- todo: deactivate button -->
 							</tr>
 
 						<?php } ?>
