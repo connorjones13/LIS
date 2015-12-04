@@ -1,30 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: connorjones
- * Date: 11/24/15
- * Time: 7:25 PM
- */
+	/**
+	 * Created by PhpStorm.
+	 * User: connorjones
+	 * Date: 11/24/15
+	 * Time: 7:25 PM
+	 */
 
-require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\CheckoutController($pdo);
+	require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\CheckoutController($pdo);
 
-if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
-	header("Location: /");
-	exit();
-}
+	if (is_null($controller->getSessionUser())
+		|| $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+		header("Location: /");
+		exit();
+	}
 
-$rental_item = \LIS\RentalItem\RentalItem::find($pdo, $_GET['id']);
+	$rental_item = \LIS\RentalItem\RentalItem::find($pdo, $_GET['id']);
 
-if (\LIS\Utility::requestHasPost()) {
-	$library_card = $_POST["library_card"];
-	$ids = $_POST;
-	$controller->checkInRentalItem($_POST['id']);
-}
+	if (\LIS\Utility::requestHasPost()) {
+		$library_card = $_POST["library_card"];
+		$ids = $_POST;
+		$controller->checkInRentalItem($_POST['id']);
+	}
 
 
-$page_title = "Check In";
+	$page_title = "Check In";
 ?>
 <!doctype html>
 <html lang="en">
@@ -56,12 +57,13 @@ $page_title = "Check In";
 							<span class="input-group-addon" id="sizing-addon2">Item #</span>
 							<input type="text" class="form-control" name="id" placeholder="123" aria-describedby="sizing-addon2">
 						</div>
-						<br />
+						<br/>
 						<button type="submit" class="btn btn-default">Check In</button>
 					</form>
 				</div>
 			</div>
-		<?php } else { ?>
+		<?php }
+		else { ?>
 			<h4 class="alert bg-warning">
 				You do not have permission to view this page.
 			</h4>

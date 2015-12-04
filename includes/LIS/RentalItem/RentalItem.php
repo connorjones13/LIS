@@ -420,6 +420,25 @@
 
 		/**
 		 * @param PDO_MySQL $_pdo
+		 * @return Book[]|Magazine[]|DVD[]
+		 */
+		public static function getAllRDL(PDO_MySQL $_pdo) {
+			$query = "SELECT * FROM ri_all WHERE `status` IN (?, ?, ?)";
+			$args = [
+				self::STATUS_REMOVED,
+				self::STATUS_DAMAGED,
+				self::STATUS_LOST
+			];
+
+			$rows = $_pdo->fetchAssoc($query, $args);
+
+			return array_map(function ($row) use ($_pdo) {
+				return self::getInstance($_pdo, $row);
+			}, $rows);
+		}
+
+		/**
+		 * @param PDO_MySQL $_pdo
 		 * @param string $search_terms
 		 * @return Book[]|DVD[]|Magazine[]
 		 */

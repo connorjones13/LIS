@@ -51,12 +51,12 @@
 				$_SESSION[self::$VALID_LOGIN] = $this->_session_user->getEmail();
 				$_SESSION[self::$LAST_ACTION] = time();
 
-				if($this->_session_user->getPrivilegeLevel() > User::PRIVILEGE_USER) {
+				if ($this->_session_user->getPrivilegeLevel() > User::PRIVILEGE_USER) {
 					self::displayPage("/controlpanel/");
-				} else {
+				}
+				else {
 					self::displayPage($_SESSION[self::$REQUEST_URI]);
 				}
-
 			}
 		}
 

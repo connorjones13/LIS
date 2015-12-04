@@ -1,11 +1,10 @@
 <?php
-require_once(__DIR__ . "/../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\RentalItemController($pdo);
+	require_once(__DIR__ . "/../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\RentalItemController($pdo);
 
-$page_title = "Browse Rental Items";
+	$page_title = "Browse Rental Items";
 ?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -41,7 +40,8 @@ $page_title = "Browse Rental Items";
 				<?php $magazines = \LIS\RentalItem\Magazine::getAllAvailable($pdo); ?>
 				<?php foreach ($magazines as $magazine) { ?>
 					<div class="col-sm-6 col-md-3 list_items">
-						<h4><b><a href="/item/<?= $magazine->getId() ?>/"><?= $magazine->getTitle(); ?></a></b></h4>
+						<h4><b><a href="/item/<?= $magazine->getId() ?>/"><?= $magazine->getTitle(); ?></a></b>
+						</h4>
 
 						<p>Category: <?= $magazine->getCategory(); ?></p>
 

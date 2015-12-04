@@ -37,7 +37,7 @@
 
 		public static function setToPrivilegeLevel(User $user) {
 			$user->privilege_level = self::PRIVILEGE_EMPLOYEE;
-			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => self::PRIVILEGE_EMPLOYEE]);
+			$user->_pdo->perform("UPDATE user SET privilege_level = :pl", ["pl" => $user->privilege_level]);
 			return new Employee($user->_pdo, get_object_vars($user));
 		}
 	}

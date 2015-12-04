@@ -16,7 +16,6 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="/browse/">Browse</a></li>
-				<li><a href="/classes.php">Test Classes</a></li>
 				<?php if ($controller->isLoggedIn() && $controller->getSessionUser()->getPrivilegeLevel() > 0) { ?>
 					<li><a href="/controlpanel">Control Panel</a></li>
 				<?php } ?>
@@ -27,7 +26,7 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="#">Profile</a></li>
-							<li><a href="/controlpanel/users/user/<?= $controller->getSessionUser()->getId() ?>/">Settings</a></li>
+							<li><a href="/controlpanel/users/<?= $controller->getSessionUser()->getId() ?>/">Settings</a></li>
 							<li class="divider"></li>
 							<li>
 								<a href="/logout">Log out</a>

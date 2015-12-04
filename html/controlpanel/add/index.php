@@ -1,14 +1,15 @@
 <?php
-require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\RentalItemController($pdo);
+	require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\RentalItemController($pdo);
 
-if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
-	header("Location: /");
-	exit();
-}
+	if (is_null($controller->getSessionUser())
+		|| $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+		header("Location: /");
+		exit();
+	}
 
-$page_title = "Add Rental Item";
+	$page_title = "Add Rental Item";
 ?>
 <!doctype html>
 <html lang="en">
@@ -32,14 +33,14 @@ $page_title = "Add Rental Item";
 				<?php } ?>
 				<!-- todo: formatting is weird on tablet/mobile -->
 				<div class="row">
-						<div class="col-sm-6 col-md-4">
-							<div class="thumbnail">
-								<a href="magazine.php"><img src="/assets/images/magazine_stack.jpg" alt="Add Magazine"></a>
-								<div class="caption">
-									<a href="magazine.php" class="btn btn-primary center-block" role="button">Add Magazine</a>
-								</div>
+					<div class="col-sm-6 col-md-4">
+						<div class="thumbnail">
+							<a href="magazine.php"><img src="/assets/images/magazine_stack.jpg" alt="Add Magazine"></a>
+							<div class="caption">
+								<a href="magazine.php" class="btn btn-primary center-block" role="button">Add Magazine</a>
 							</div>
 						</div>
+					</div>
 					<div class="col-sm-6 col-md-4">
 						<div class="thumbnail">
 							<a href="book.php"><img src="/assets/images/book_shelf.jpg" alt="Add Book"></a>
@@ -58,14 +59,14 @@ $page_title = "Add Rental Item";
 					</div>
 				</div>
 			</div>
-			</div>
 		</div>
-	<?php } else { ?>
-		<h4 class="alert bg-warning">
-			You do not have permission to view this page.
-		</h4>
-	<?php } ?>
 	</div>
+	<?php }
+		else { ?>
+			<h4 class="alert bg-warning">
+				You do not have permission to view this page.
+			</h4>
+		<?php } ?>
 </div>
 <footer class="footer">
 	<?php require_once(__DIR__ . "/../../../includes/html_templates/footer.php"); ?>

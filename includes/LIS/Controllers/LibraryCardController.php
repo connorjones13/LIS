@@ -1,43 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Bethany
- * Date: 11/19/2015
- * Time: 5:49 PM
- */
+	namespace LIS\Controllers;
 
+	use LIS\User\User;
+	use LIS\LibraryCard;
 
-namespace LIS\Controllers;
+	class LibraryCardController extends BaseController {
 
-use LIS\User\User;
-use LIS\LibraryCard;
+		/**
+		 * @param User $user
+		 */
+		public function addNewLibraryCard(User $user) {
+			$card = $user->getLibraryCard();
 
-class LibraryCardController extends BaseController {
+			// Make old card or default card inactive
+			$card->setStatus(LibraryCard::STATUS_INACTIVE);
 
-    /*
-     * @param email
-     * @param data_array
-     */
-    public function addNewLibraryCard(User $user) {
+			// create new Library Card
+			$card = new LibraryCard($this->_pdo);
+			$card->create($user);
 
-        // get user from email
-        //$user = User::findByEmail($this->_pdo, $email);
+			$card->setStatus(LibraryCard::STATUS_ACTIVE);
 
-        // get old card or default card
-        $card = $user->getLibraryCard();
-
-        // Make old card or default card inactive
-        $card->setStatus(LibraryCard::STATUS_INACTIVE);
-
-        // create new Library Card
-        $card = new LibraryCard($this->_pdo);
-        $card->create($user);
-
-        $card->setStatus(LibraryCard::STATUS_ACTIVE);
-
-        $_SESSION["profile_update"] = "Card with number: " . $card->getNumber() . " was successfully added to "
-            . $user->getNameFull() . "'s account";
-        $loc = '/controlpanel/users/user/' . $user->getId() . '/';
-        self::displayPage($loc);
-    }
-}
+			$_SESSION["profile_update"] = "Card with number: " . $card->getNumber() . " was successfully added to "
+				. $user->getNameFull() . "'s account";
+			$loc = '/controlpanel/users/' . $user->getId() . '/';
+			self::displayPage($loc);
+		}
+	}

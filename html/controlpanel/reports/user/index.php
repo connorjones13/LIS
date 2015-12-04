@@ -1,36 +1,29 @@
 <?php
-/**
-* Created by PhpStorm.
-* User: connorjones
-* Date: 11/23/15
-* Time: 8:39 AM
-*/
+	require_once(__DIR__ . "/../../../../includes/LIS/autoload.php");
+	$pdo = new \LIS\Database\PDO_MySQL();
+	$controller = new \LIS\Controllers\ReportController($pdo);
 
-require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
-$pdo = new \LIS\Database\PDO_MySQL();
-$controller = new \LIS\Controllers\ReportController($pdo);
-if (\LIS\Utility::requestHasPost())
+	if (\LIS\Utility::requestHasPost())
+		$checkouts = $controller->generateUserReport($_POST["UserID"]);
 
-$checkouts = $controller->generateRentalItemReport($_POST["rentalItemID"]);
-
-$page_title = "Rentel Item Report";
+	$page_title = "User Report";
 ?>
 <!doctype html>
 <html lang="en">
 <head>
-	<?php require_once(__DIR__ . "/../../../includes/html_templates/head.php"); ?>
+	<?php require_once(__DIR__ . "/../../../../includes/html_templates/head.php"); ?>
 </head>
 <body>
 <header class="navbar navbar-fixed-top navbar-inverse">
-	<?php require_once(__DIR__ . "/../../../includes/html_templates/header.php"); ?>
+	<?php require_once(__DIR__ . "/../../../../includes/html_templates/header.php"); ?>
 </header>
 <div class="container">
 	<div class="container-fluid">
 		<?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isAdmin()) { ?>
 		<div class="row">
-			<?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
+			<?php require_once(__DIR__ . "/../../../../includes/html_templates/control_panel_nav.php"); ?>
 			<div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
-				<h1 class="page-header">Enter Rental Item ID</h1>
+				<h1 class="page-header">Enter User Library Card ID</h1>
 				<form action method="post">
 
 					<?php if ($controller->hasError()) { ?>
@@ -39,18 +32,18 @@ $page_title = "Rentel Item Report";
 						</p>
 					<?php } ?>
 					<div class="form-group">
-						<label for="title">Rental Item ID</label>
-						<input type="text" class="form-control" id="title" name="rentalItemID"
-						       placeholder="1234" value="<?= $_POST["rentalItemID"] ?>">
+						<label for="title">User Library Card ID</label>
+						<input type="text" class="form-control" id="title" name="UserID"
+						       placeholder="1234" value="<?= $_POST["UserID"] ?>">
 					</div>
 					<button type="submit" class="btn btn-default">Create</button>
 				</form>
-				<h2 class="sub-header">Rental Item Report</h2>
+				<h2 class="sub-header">User Checkout Report</h2>
 				<div class="table-responsive">
 					<table class="table table-striped" id="view_table">
 						<thead>
 							<tr>
-								<th>User</th>
+								<th>Rental Item Name</th>
 								<th>Checkout Date</th>
 								<th>Due Date</th>
 								<th>Checkin Date</th>
@@ -61,8 +54,8 @@ $page_title = "Rentel Item Report";
 								<?php foreach ($checkouts as $checkout) { ?>
 									<tr>
 										<td>
-											<a href="/controlpanel/users/user/<?= $checkout->getUserID() ?>/">
-												<?= $checkout->getUser()->getNameFull() ?>
+											<a href="/item/<?= $checkout->getRentalItemID() ?>/">
+												<?= $checkout->getRentalItem()->getTitle() ?>
 											</a>
 										</td>
 										<td><?= $checkout->getDateCheckedOut()->format("m-d-Y H:i:s") ?></td>
@@ -81,14 +74,15 @@ $page_title = "Rentel Item Report";
 			</div>
 		</div>
 	</div>
-	<?php } else { ?>
-		<h4 class="alert bg-warning">
-			You do not have permission to view this page.
-		</h4>
-	<?php } ?>
+	<?php }
+		else { ?>
+			<h4 class="alert bg-warning">
+				You do not have permission to view this page.
+			</h4>
+		<?php } ?>
 </div>
 <footer class="footer">
-	<?php require_once(__DIR__ . "/../../../includes/html_templates/footer.php"); ?>
+	<?php require_once(__DIR__ . "/../../../../includes/html_templates/footer.php"); ?>
 </footer>
 </body>
 </html>

@@ -1,45 +1,35 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: john
- * Date: 12/3/15
- * Time: 7:56 PM
- */
+	namespace LIS\Controllers;
 
+	use LIS\RentalItem\RentalItem;
 
-namespace LIS\Controllers;
+	class SearchController extends BaseController {
 
-use LIS\RentalItem\RentalItem;
+		private static $ERROR_INVALID_SEARCH = 1;
 
-class SearchController extends BaseController {
+		/**
+		 * @param $input
+		 * @return \LIS\RentalItem\Book[]|\LIS\RentalItem\DVD[]|\LIS\RentalItem\Magazine[]
+		 */
+		public function newSearch($input) {
+			if ($input == null) {
+				$this->setError(self::$ERROR_INVALID_SEARCH);
+			}
 
-    private static $ERROR_INVALID_SEARCH = 1;
-    /**
-     * @param $input
-     * @return \LIS\RentalItem\Book[]|\LIS\RentalItem\DVD[]|\LIS\RentalItem\Magazine[]
-     */
-    public function newSearch($input)
-    {
-        if ($input == null) {
-            $this->setError(self::$ERROR_INVALID_SEARCH);
-        }
+			$ItemsMatched = [];
 
-        $ItemsMatched = [];
+			if (!$input == "")
+				$ItemsMatched = RentalItem::search($this->_pdo, $input);
 
-        if (!$input == "")
-            $ItemsMatched = RentalItem::search( $this->_pdo , $input);
+			return $ItemsMatched;
+		}
 
-        return $ItemsMatched;
-    }
-
-
-    public function getErrorMessage() {
-        switch ($this->getError()) {
-            case self::$ERROR_INVALID_SEARCH:
-                return "The search field can not be empty, please enter a valid search.";
-            default:
-                return false;
-        }
-    }
-
-}
+		public function getErrorMessage() {
+			switch ($this->getError()) {
+				case self::$ERROR_INVALID_SEARCH:
+					return "The search field can not be empty, please enter a valid search.";
+				default:
+					return false;
+			}
+		}
+	}
