@@ -161,4 +161,8 @@
 		public static function formatNumber($number) {
 			return number_format($number);
 		}
+
+		public static function explodeForMySQLMatch($search_terms) {
+			return "+" . implode(" +", explode(" ", $search_terms));
+		}
 	}
