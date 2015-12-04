@@ -204,7 +204,32 @@
 			}
 		}
 
-		// todo: get all checkouts by user
+		public static function getAllCheckoutsByUser(PDO_MySQL $_pdo, User $user) {
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `checkout` WHERE `user` = :usr", ["usr" => $user->getId()]);
 
-		// todo: get all checkouts by item
+			/**
+			 * The function array_map is used to run a single function on each array
+			 * member without the need for creating temporary variables to mutate an
+			 * array of values. In this case each data row is being converted to the
+			 * User object type.
+			 */
+			return array_map(function ($row) use ($_pdo) {
+				return new User($_pdo, $row);
+			}, $rows);
+		}
+
+		public static function getAllCheckoutsByItem(PDO_MySQL $_pdo, RentalItem $rentalItem) {
+			$rows = $_pdo->fetchAssoc("SELECT * FROM `checkout` WHERE `rental_item` = :itm",
+					["itm" => $rentalItem->getId()]);
+
+			/**
+			 * The function array_map is used to run a single function on each array
+			 * member without the need for creating temporary variables to mutate an
+			 * array of values. In this case each data row is being converted to the
+			 * User object type.
+			 */
+			return array_map(function ($row) use ($_pdo) {
+				return new User($_pdo, $row);
+			}, $rows);
+		}
 	}

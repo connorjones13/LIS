@@ -350,8 +350,6 @@
 			$this->_pdo->perform("UPDATE user SET gender = :ph WHERE id = :id", $args);
 		}
 
-
-
 		/**
 		 * @param mixed $address_line_1
 		 * @param $address_line_2
