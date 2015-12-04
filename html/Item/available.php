@@ -7,9 +7,3 @@ $page_title = "Reservation";
 $rental_item = \LIS\RentalItem\RentalItem::find($pdo, $_GET['id']);
 
 $controller->markItemAvailable($rental_item);
-?>
-
-<!doctype html>
-<html>
-
-</html>

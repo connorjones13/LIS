@@ -378,26 +378,26 @@ LOCK TABLES `rental_item_magazine` WRITE;
 
 INSERT INTO `rental_item_magazine` (`id`, `publication`, `issue_number`)
 VALUES
-	(1,'Maxim',3),
-	(4,'Maxim',3),
-	(7,'Maxim',3),
-	(10,'Maxim',3),
-	(13,'Maxim',3),
-	(16,'Maxim',3),
-	(19,'Maxim',3),
-	(22,'Maxim',3),
-	(25,'Maxim',3),
-	(28,'Maxim',3),
-	(31,'Maxim',3),
-	(34,'Maxim',3),
-	(37,'Maxim',3),
-	(40,'Maxim',3),
-	(43,'Maxim',3),
-	(46,'Maxim',3),
-	(49,'Maxim',3),
-	(52,'Maxim',3),
-	(55,'Maxim',3),
-	(58,'Maxim',3);
+	(1,'National Geographic',3),
+	(4,'National Geographic',3),
+	(7,'National Geographic',3),
+	(10,'National Geographic',3),
+	(13,'National Geographic',3),
+	(16,'National Geographic',3),
+	(19,'National Geographic',3),
+	(22,'National Geographic',3),
+	(25,'National Geographic',3),
+	(28,'National Geographic',3),
+	(31,'National Geographic',3),
+	(34,'National Geographic',3),
+	(37,'National Geographic',3),
+	(40,'National Geographic',3),
+	(43,'National Geographic',3),
+	(46,'National Geographic',3),
+	(49,'National Geographic',3),
+	(52,'National Geographic',3),
+	(55,'National Geographic',3),
+	(58,'National Geographic',3);
 
 /*!40000 ALTER TABLE `rental_item_magazine` ENABLE KEYS */;
 UNLOCK TABLES;

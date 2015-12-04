@@ -10,6 +10,11 @@ require_once(__DIR__ . "/../../../includes/LIS/autoload.php");
 $pdo = new \LIS\Database\PDO_MySQL();
 $controller = new \LIS\Controllers\RentalItemController($pdo); //todo: change to user controller
 
+if (is_null($controller->getSessionUser()) || $controller->getSessionUser()->getPrivilegeLevel() < \LIS\User\User::PRIVILEGE_EMPLOYEE) {
+	header("Location: /");
+	exit();
+}
+
 $user = \LIS\User\User::find($pdo, $_GET['id']);
 
 //if (\LIS\Utility::requestHasPost()) {
@@ -71,12 +76,21 @@ $page_title = $user->getNameFull();
 						<small class="pull-right">User since: <?= $user->getDateSignedUp()->format("m-d-Y")?></small>
 					</h1>
 
-					<!-- todo: add buttons for make employee / admin / demote -->
+					<!-- todo: add checks for employee / admin / demote -->
+					<div class="form-group">
+						<a href="#" class="btn btn-default btn-info">Make Employee</a>
+						<a href="#" class="btn btn-default btn-info">Make Admin</a>
+						<a href="#" class="btn btn-default btn-info">Deactivate</a>
+					</div>
 					<form action method="post">
 						<?php if ($controller->hasError()) { ?>
 							<p class="alert bg-danger">
 								<?= $controller->getErrorMessage(); ?>
 							</p>
+						<?php } ?>
+						<?php if($_SESSION["profile_update_success"]) { ?>
+							<p class="alert alert-success"><?= $_SESSION["profile_update_success"] ?></p>
+							<?php unset($_SESSION["profile_update_success"]) ?>
 						<?php } ?>
 						<div class="form-group">
 							<label for="name_first">First Name</label>

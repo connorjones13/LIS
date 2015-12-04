@@ -28,7 +28,7 @@
 		private static $ERROR_PUBLICATION = 8;
 		private static $ERROR_ISSUE_NUMBER = 9;
 
-		public function getAllRentalItems() {
+		public function getAllRentalItems() { // todo: unused & unfinished
 
 			$book = new Book($this->_pdo);
 			$books = $book->getAllAvailable($this->_pdo);
