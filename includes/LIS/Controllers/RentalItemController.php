@@ -153,6 +153,7 @@
 		public function markItemLost(RentalItem $rentalItem) {
 			$rentalItem->markLost();
 			// todo: cancel any reservations and automatically check the item in
+
 			// todo: error in case there is any reason it could not be marked as lost
 			$_SESSION["lost_success"] = "Successfully marked " . $rentalItem->getTitle() . " as lost.";
 			self::displayPage('/item/' . $rentalItem->getId() . '/');
