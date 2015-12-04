@@ -28,30 +28,7 @@
 		private static $ERROR_PUBLICATION = 8;
 		private static $ERROR_ISSUE_NUMBER = 9;
 
-		public function getAllRentalItems() { // todo: unused & unfinished
 
-			$book = new Book($this->_pdo);
-			$books = $book->getAllAvailable($this->_pdo);
-
-			$dvd = new DVD($this->_pdo);
-			$dvds = $dvd->getAllAvailable($this->_pdo);
-
-			$magazine = new Magazine($this->_pdo);
-			$magazines = $magazine->getAllAvailable($this->_pdo);
-
-			foreach ($books as $book) {
-
-			}
-
-			foreach ($dvds as $dvd) {
-
-			}
-
-			foreach ($magazines as $magazine) {
-
-			}
-
-		}
 
 		public function updateBookInfo(Book $book, $summary, $title, $category, $date_published, $isbn10 = "",
 		                               $isbn13 = "", $authors) {
@@ -176,6 +153,7 @@
 		public function markItemLost(RentalItem $rentalItem) {
 			$rentalItem->markLost();
 			// todo: cancel any reservations and automatically check the item in
+
 			// todo: error in case there is any reason it could not be marked as lost
 			$_SESSION["lost_success"] = "Successfully marked " . $rentalItem->getTitle() . " as lost.";
 			self::displayPage('/item/' . $rentalItem->getId() . '/');

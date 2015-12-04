@@ -33,15 +33,20 @@ class ReportController extends BaseController{
     //Specific User/Employee and their related Rental Items/Checkouts/Checkins
     /**
      * @param $cardNum
-     * @return array
+     * @return Checkout[]
      */
     public function generateUserReport ($cardNum) {
 
         $card = LibraryCard::findByCardNumber($this->_pdo, $cardNum);
+        if($card == NULL) {
+            $this->setError(self::$USER_ERROR);
+            return;
+        }
         $user = $card->getUser();
 
         if($user == NULL) {
             $this->setError(self::$USER_ERROR);
+            return;
         }
 
         $allCheckouts = Checkout::getAllCheckoutsByUser($this->_pdo, $user);
@@ -50,6 +55,9 @@ class ReportController extends BaseController{
 
     }
     //all damaged/lost
+    /**
+     * @return RentalItem[]
+     */
     public function generateLibraryStatusReport () {
 
         $a = RentalItem::getAllLost($this->_pdo);

@@ -53,7 +53,8 @@ $page_title = "Checkout";
 						<?php } ?>
 						<div class="input-group">
 							<span class="input-group-addon" id="sizing-addon2">Library Card #</span>
-							<input type="text" class="form-control" name="library_card" placeholder="123456789" value="<?= $_POST["library_card"] ?>">
+							<input type="text" class="form-control" name="library_card" placeholder="GPQ5X5T32I1NHN7A"
+							       value="<?= $_POST["library_card"] ?>">
 						</div>
 						<br />
 						<div class="input-group">
