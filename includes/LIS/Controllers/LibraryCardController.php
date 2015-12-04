@@ -16,36 +16,27 @@ class LibraryCardController extends BaseController {
 
     /*
      * @param email
-     * @param data_array            // what data array (card number??)
+     * @param data_array
      */
-    public function addNewLibraryCard($email, $data_array) {
+    public function addNewLibraryCard(User $user) {
 
         // get user from email
-        $user = User::findByEmail($this->_pdo, $email);
-        if ($user == null) {
-            // TODO: no email found error
-        }
+        //$user = User::findByEmail($this->_pdo, $email);
 
-        // see if user has a card associated with it
+        // get old card or default card
         $card = $user->getLibraryCard();
 
-        if ($card != null) {
-            // set old card status to inactive
-            $card->setStatus(LibraryCard::STATUS_INACTIVE);
-        }
+        // Make old card or default card inactive
+        $card->setStatus(LibraryCard::STATUS_INACTIVE);
 
         // create new Library Card
-        $card = new LibraryCard($this->_pdo, $data_array);
+        $card = new LibraryCard($this->_pdo);
         $card->create($user);
 
-        // check to see if card was assigned to user
-        if ($card != LibraryCard::findByUser($this->_pdo, $user)) {
-            // TODO: error message card not issued to User
-        }
-        else {
-            $card->setStatus(LibraryCard::STATUS_ACTIVE);
-            // TODO: success message "card issued to User with email:" $email
-        }
+        $card->setStatus(LibraryCard::STATUS_ACTIVE);
 
+        $_SESSION["card_added"] = "Card with number: " . $card->getNumber(). " was successfully added to " . $user->getNameFull() . "'s account";
+        $loc = 'Location: /controlpanel/users/user' . $user->getId() . '/';
+        header($loc);
     }
 }
