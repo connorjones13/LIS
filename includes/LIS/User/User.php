@@ -361,19 +361,18 @@
 		 * @param $address_country_code
 		 */
 		public function updateAddress($address_line_1, $address_line_2, $address_zip, $address_city,
-		                              $address_state, $address_country_code) {
+		                              $address_state) {
 			$this->address_line_1 = $address_line_1;
 			$this->address_line_2 = $address_line_2;
 			$this->address_zip = $address_zip;
 			$this->address_city = $address_city;
 			$this->address_state = $address_state;
-			$this->address_country_code = $address_country_code;
 
 			$query = "UPDATE user SET address_line_1 = :al1, address_line_2 = :al2, address_zip = :az,
-					  address_city = :ac, address_state = :ast, address_country_code = :acc WHERE id = :id";
+					  address_city = :ac, address_state = :ast WHERE id = :id";
 			$args = [
 				"al1" => $address_line_1, "al2" => $address_line_2, "az" => $address_zip, "ac" => $address_city,
-				"ast" => $address_state, "acc" => $address_country_code, "id" => $this->id
+				"ast" => $address_state, "id" => $this->id
 			];
 			$this->_pdo->perform($query, $args);
 		}
