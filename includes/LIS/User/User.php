@@ -306,6 +306,34 @@
 			$this->_pdo->perform("UPDATE user SET active = 0 WHERE id = :id", ["id" => $this->id]);
 		}
 
+		public function updateUserInfo($name_first, $name_last, $email,
+		                           $phone, $gender, DateTime $dob, $address_1, $address_2,
+		                           $city, $state, $zip) {
+			$this->name_first = $name_first;
+			$this->name_last = $name_last;
+			$this->email = $email;
+			$this->phone = $phone;
+			$this->gender = $gender;
+			$this->date_of_birth = $dob;
+			$this->address_line_1 = $address_1;
+			$this->address_line_2 = $address_2;
+			$this->address_city = $city;
+			$this->address_state = $state;
+			$this->address_zip = $zip;
+
+			$args = [
+					"nf" => $this->name_first, "nl" => $this->name_last, "ema" => $this->email,
+					"ph" => Utility::cleanPhoneString($this->phone),
+					"ge" => $this->gender, "dob" => Utility::getDateTimeForMySQLDate($this->date_of_birth),
+					"al1" => $this->address_line_1, "al2" => $this->address_line_2, "az" => $this->address_zip,
+					"ac" => $this->address_city, "ast" => $this->address_state, "id" => $this->id
+			];
+
+			$this->_pdo->perform("UPDATE user SET name_first = :nf, name_last = :nl, email = :ema,
+				phone = :ph, gender = :ge, date_of_birth = :dob, address_line_1 = :al1, address_line_2 = :al2,
+				address_zip =  :az, address_city = :ac, address_state = :ast WHERE id = :id", $args);
+		}
+
 		/**
 		 * @param string $email
 		 */
@@ -331,7 +359,7 @@
 		 *  not 100% sure this function works
 		 */
 		public function updateDateOfBirth(DateTime $dateOfBirth) {
-			$args = ["ph" => Utility::getDateTimeForMySQLDate($this->$dateOfBirth), "id" => $this->id];
+			$args = ["ph" => Utility::getDateTimeForMySQLDateTime($dateOfBirth), "id" => $this->id];
 			$this->_pdo->perform("UPDATE user SET date_of_birth = :ph WHERE id = :id", $args);
 		}
 
