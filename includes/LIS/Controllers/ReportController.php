@@ -38,10 +38,15 @@ class ReportController extends BaseController{
     public function generateUserReport ($cardNum) {
 
         $card = LibraryCard::findByCardNumber($this->_pdo, $cardNum);
+        if($card == NULL) {
+            $this->setError(self::$USER_ERROR);
+            return;
+        }
         $user = $card->getUser();
 
         if($user == NULL) {
             $this->setError(self::$USER_ERROR);
+            return;
         }
 
         $allCheckouts = Checkout::getAllCheckoutsByUser($this->_pdo, $user);
