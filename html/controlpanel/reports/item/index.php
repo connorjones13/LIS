@@ -6,7 +6,7 @@
 	if (\LIS\Utility::requestHasPost())
 		$checkouts = $controller->generateRentalItemReport($_POST["rentalItemID"]);
 
-	$page_title = "Rentel Item Report";
+	$page_title = "Rental Item Report";
 ?>
 <!doctype html>
 <html lang="en">
@@ -36,7 +36,7 @@
 						<input type="text" class="form-control" id="title" name="rentalItemID"
 						       placeholder="1234" value="<?= $_POST["rentalItemID"] ?>">
 					</div>
-					<button type="submit" class="btn btn-default">Create</button>
+					<button type="submit" class="btn btn-default">Create Report</button>
 				</form>
 				<h2 class="sub-header">Rental Item Report</h2>
 				<div class="table-responsive">
