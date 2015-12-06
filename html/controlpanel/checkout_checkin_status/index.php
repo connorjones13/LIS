@@ -45,9 +45,16 @@ $page_title = "User Report";
                         <?php $checkOuts = \LIS\Checkout::getAllCheckoutsByUser($pdo,$user); ?>
                         <?php foreach ($checkOuts as $rentalItem) { ?>
                             <tr>
-                                <td><?= \LIS\Checkout::getItemCheckedOutCount($pdo, $user); ?></td>
-                                <td><?= $user->getDateAdded()->format('Y-m-d') ?></td>
-                                <td><?= $user->getDatePublished()->format('Y-m-d') ?></td>
+                                <?php $dateOne = $rentalItem->getDateCheckedOut();?>
+                                <?php $dateTwo = $rentalItem->getDateDue();?>
+                                <?php $fee = date_diff($dateOne,$dateTwo)->days * 1.5;?>
+                                <td><?= $rentalItem->getRentalItem()->getTitle(); ?></td>
+                                <td><?= $dateOne->format('Y-m-d'); ?></td>
+                                <td><?= $dateTwo->format('Y-m-d') ?></td>
+                                <?php if($fee > 0) {
+                                    $fee = 0;
+                                } ?>
+                                <td><?= "\$".$fee ?></td>
                             </tr>
                         <?php } ?>
                         </tbody>
@@ -68,6 +75,23 @@ $page_title = "User Report";
                         </tr>
                         </thead>
                         <tbody>
+                        <?php $user = $controller->getSessionUser() ?>
+                        <?php $checkOuts = \LIS\Checkout::getAllCheckoutsByUser($pdo,$user); ?>
+                        <?php foreach ($checkOuts as $rentalItem) { ?>
+                            <tr>
+                                <?php $dateOne = $rentalItem->getDateCheckedOut();?>
+                                <?php $dateTwo = $rentalItem->getDateDue();?>
+                                <?php $fee = date_diff($dateOne,$dateTwo)->days * 1.5;?>
+                                <td><?= $rentalItem->getRentalItem()->getTitle(); ?></td>
+                                <td><?= $dateOne->format('Y-m-d'); ?></td>
+                                <td><?= $dateTwo->format('Y-m-d') ?></td>
+                                <?php if($fee > 0) {
+                                    $fee = 0;
+                                } ?>
+                                <td><?= "\$".$fee ?></td>
+                            </tr>
+                        <?php } ?>
+
                         </tbody>
                     </table>
                 </div>

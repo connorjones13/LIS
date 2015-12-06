@@ -169,7 +169,6 @@
 		public function getRentalItem() {
 			if (!$this->_rental_item)
 				$this->_rental_item = RentalItem::find($this->_pdo, $this->rental_item);
-
 			return $this->_rental_item;
 		}
 
