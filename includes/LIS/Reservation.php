@@ -147,6 +147,21 @@ class Reservation {
 		return $row ? new Reservation($_pdo, $row) : null;
 	}
 
+	// added by Tyler
+	// not 100% sure if it works.
+	public static function getAllReservationsByUser(PDO_MySQL $_pdo, User $user) {
+		$rows = $_pdo->fetchAssoc("SELECT * FROM `reservation` WHERE `user` = :usr", ["usr" => $user->getId()]);
+
+		/**
+		 * The function array_map is used to run a single function on each array
+		 * member without the need for creating temporary variables to mutate an
+		 * array of values. In this case each data row is being converted to the
+		 * User object type.
+		 */
+		return array_map(function ($row) use ($_pdo) {
+			return new Reservation($_pdo, $row);
+		}, $rows);
+	}
 	/**
 	 * @param array $data_arr
 	 */

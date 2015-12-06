@@ -28,7 +28,7 @@ $page_title = "User Report";
                 <div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
                     <h1 class="page-header">User Report</h1>
 
-                    <p style="font-size:24px"><b>Reports</b></p>
+                    <p style="font-size:24px"><b>Currently Checked Out Items</b></p>
 
 
                     <table class="table table-striped" id="view_table">
@@ -61,14 +61,13 @@ $page_title = "User Report";
                     </table>
 
 
-                    <p style="font-size:24px"><b>Reservations</b></p>
+                    <p style="font-size:24px"><b>Your Reserved Items</b></p>
 
 
                     <table class="table table-striped" id="view_table">
                         <thead>
                         <tr>
                             <th>Item</th>
-                            <th>Author</th>
                             <th>Date Reserved</th>
                             <th>Item Status</th>
                             <th>Reservation Expiration Date</th>
@@ -76,19 +75,18 @@ $page_title = "User Report";
                         </thead>
                         <tbody>
                         <?php $user = $controller->getSessionUser() ?>
-                        <?php $checkOuts = \LIS\Checkout::getAllCheckoutsByUser($pdo,$user); ?>
-                        <?php foreach ($checkOuts as $rentalItem) { ?>
+                        <?php $reservations = \LIS\Reservation::getAllReservationsByUser($pdo,$user); ?>
+                        <?php foreach ($reservations as $reservedItem) { ?>
                             <tr>
-                                <?php $dateOne = $rentalItem->getDateCheckedOut();?>
-                                <?php $dateTwo = $rentalItem->getDateDue();?>
-                                <?php $fee = date_diff($dateOne,$dateTwo)->days * 1.5;?>
-                                <td><?= $rentalItem->getRentalItem()->getTitle(); ?></td>
-                                <td><?= $dateOne->format('Y-m-d'); ?></td>
-                                <td><?= $dateTwo->format('Y-m-d') ?></td>
-                                <?php if($fee > 0) {
-                                    $fee = 0;
+                                <?php $yesOrNo = "Checked Out"; ?>
+                                <?php $status = $reservedItem->getRentalItem()->getStatus(); ?>
+                                <?php if($status != 4) {
+                                    $yesOrNo = "Available for Pick up";
                                 } ?>
-                                <td><?= "\$".$fee ?></td>
+                                <td><?= $reservedItem->getRentalItem()->getTitle(); ?></td>
+                                <td><?= $reservedItem->getDateCreated();?></td>
+                                <td><?= $yesOrNo ?></td>
+                                <td><?= $reservedItem->isExpired()->format('Y-m-d')?>;</td>
                             </tr>
                         <?php } ?>
 
