@@ -83,7 +83,7 @@ $page_title = "User Report";
                                     $yesOrNo = "Available for Pick up";
                                 } ?>
                                 <td><?= $reservedItem->getRentalItem()->getTitle(); ?></td>
-                                <td><?= $reservedItem->getDateCreated();?></td>
+                                <td><?= $reservedItem->getDateCreated()->format('Y-m-d');?></td>
                                 <td><?= $yesOrNo ?></td>
                                 <td><?= $reservedItem->isExpired()->format('Y-m-d')?>;</td>
                             </tr>
