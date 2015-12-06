@@ -9,7 +9,7 @@ if (is_null($controller->getSessionUser())
     exit();
 }
 
-$page_title = "User Report";
+$page_title = "Status Report";
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,7 +25,7 @@ $page_title = "User Report";
         <?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isActive()) { ?>
             <div class="row">
                 <div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
-                    <h1 class="page-header">User Report</h1>
+                    <h1 class="page-header">Status Report</h1>
 
                     <p style="font-size:24px"><b>Currently Checked Out Items</b></p>
 
