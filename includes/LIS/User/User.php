@@ -533,6 +533,14 @@
 			}, $rows);
 		}
 
+		public static function getAllUsers(PDO_MySQL $_pdo) {
+			$rows = $_pdo->fetchAssoc("SELECT * FROM 'user_view'");
+
+			return array_map(function ($row) use ($_pdo) {
+				return new User($_pdo, $row);
+			}, $rows);
+		}
+
 		/**
 		 * @param PDO_MySQL $_pdo
 		 * @param array $data_arr

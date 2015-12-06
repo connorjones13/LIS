@@ -24,7 +24,6 @@ $page_title = "User Report";
     <div class="container-fluid">
         <?php if ($controller->getSessionUser()->isEmployee() || $controller->getSessionUser()->isActive()) { ?>
             <div class="row">
-                <?php require_once(__DIR__ . "/../../../includes/html_templates/control_panel_nav.php"); ?>
                 <div class="center col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">
                     <h1 class="page-header">User Report</h1>
 
