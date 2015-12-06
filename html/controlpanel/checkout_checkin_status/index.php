@@ -87,7 +87,7 @@ $page_title = "Status Report";
                                 <td><?= $yesOrNo ?></td>
 <!--                                --><?php //$expirationDate = $reservedItem->day + 1; ?>
                                 <td> <?php if($status) { ?>
-                                        1 day
+                                        < 24hrs
                                 <?php } else { ?>
                                     None.
                                 <?php } ?></td>

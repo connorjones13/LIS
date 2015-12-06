@@ -61,7 +61,7 @@
 
            $_SESSION["profile_update"] = "Successfully updated user profile!";
 
-           $loc = '/controlpanel/users/user/' . $user->getId() . '/';
+           $loc = '/controlpanel/users/' . $user->getId() . '/';
            self::displayPage($loc);
 
         }
