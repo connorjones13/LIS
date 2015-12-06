@@ -126,7 +126,7 @@ class Reservation {
 	}
 
 	public function isExpired() {
-		return $this->getDateCreated()->add(new DateInterval("1 day")) < new DateTime();
+		return $this->getDateCreated()->add(new DateInterval("P01D")) < new DateTime();
 	}
 
 	public function getDateCreated() {

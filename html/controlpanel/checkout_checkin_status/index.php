@@ -69,7 +69,7 @@ $page_title = "Status Report";
                             <th>Item</th>
                             <th>Date Reserved</th>
                             <th>Item Status</th>
-                            <th>Reservation Expiration Date</th>
+                            <th>Time Left on Reservation</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -85,7 +85,12 @@ $page_title = "Status Report";
                                 <td><?= $reservedItem->getRentalItem()->getTitle(); ?></td>
                                 <td><?= $reservedItem->getDateCreated()->format('Y-m-d');?></td>
                                 <td><?= $yesOrNo ?></td>
-                                <td><?= $reservedItem->isExpired()->format('Y-m-d')?>;</td>
+<!--                                --><?php //$expirationDate = $reservedItem->day + 1; ?>
+                                <td> <?php if($status) { ?>
+                                        1 day
+                                <?php } else { ?>
+                                    None.
+                                <?php } ?></td>
                             </tr>
                         <?php } ?>
 
